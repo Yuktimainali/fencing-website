@@ -61,8 +61,10 @@ module.exports = {
         '128': '32rem',
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.6s ease-out',
+        'fade-in': 'fadeIn 1s ease-out forwards',
+        'slide-up': 'slideUp 0.8s ease-out forwards',
+        'slide-right': 'slideRight 0.6s ease-out forwards',
+        'slide-left': 'slideLeft 0.6s ease-out forwards',
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
@@ -71,9 +73,63 @@ module.exports = {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        }
+          '0%': { 
+            opacity: '0', 
+            transform: 'translateY(30px)' 
+          },
+          '100%': { 
+            opacity: '1', 
+            transform: 'translateY(0px)' 
+          },
+        },
+        slideRight: {
+          '0%': { 
+            opacity: '0', 
+            transform: 'translateX(-20px)' 
+          },
+          '100%': { 
+            opacity: '1', 
+            transform: 'translateX(0px)' 
+          },
+        },
+        slideLeft: {
+          '0%': { 
+            opacity: '0', 
+            transform: 'translateX(20px)' 
+          },
+          '100%': { 
+            opacity: '1', 
+            transform: 'translateX(0px)' 
+          },
+        },
+      },
+      animationDelay: {
+        '0': '0ms',
+        '200': '200ms',
+        '400': '400ms',
+        '600': '600ms',
+        '800': '800ms',
+        '1000': '1000ms',
+        '1200': '1200ms',
+        '1400': '1400ms',
+        '1600': '1600ms',
+        '1800': '1800ms',
+        '2000': '2000ms',
+        '2200': '2200ms',
+        '2400': '2400ms',
+        '2600': '2600ms',
+        '2800': '2800ms',
+        '3000': '3000ms',
+        '3200': '3200ms',
+        '3400': '3400ms',
+        '3600': '3600ms',
+        '3800': '3800ms',
+        '4000': '4000ms',
+        '4200': '4200ms',
+        '4400': '4400ms',
+        '4600': '4600ms',
+        '4800': '4800ms',
+        '5000': '5000ms',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

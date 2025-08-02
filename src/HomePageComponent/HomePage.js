@@ -5,6 +5,10 @@ import HeroSection from '../Sections/HeroSection';
 import AboutSection from '../Sections/AboutSection';
 import GallerySection from '../Sections/GallerySection';
 import SocialMediaSection from '../Sections/SocialMediaSection';
+import FooterSection from '../Sections/FooterSection';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 // Elegant Info Banner with sword motif
 function InfoBanner() {
@@ -50,6 +54,7 @@ function InfoBanner() {
   );
 }
 
+
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -72,7 +77,6 @@ export default function Home() {
     },
   ];
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) =>
@@ -82,19 +86,89 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [galleryImages.length]);
 
+  // Animation variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 60 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
       <InfoBanner />
       <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <RegistrationSection />
-      <GallerySection 
-        galleryImages={galleryImages}
-        currentImageIndex={currentImageIndex}
-        setCurrentImageIndex={setCurrentImageIndex}
-      />
-      <SocialMediaSection />
+      
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInUp}
+      >
+        <HeroSection />
+      </motion.div>
+
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInUp}
+      >
+        <AboutSection />
+      </motion.div>
+
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInUp}
+      >
+        <RegistrationSection />
+      </motion.div>
+
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer}
+      >
+        <GallerySection 
+          galleryImages={galleryImages}
+          currentImageIndex={currentImageIndex}
+          setCurrentImageIndex={setCurrentImageIndex}
+        />
+      </motion.div>
+
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInUp}
+      >
+        <SocialMediaSection />
+      </motion.div>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={fadeInUp}
+      >
+        <FooterSection />
+      </motion.div>
     </div>
   );
 }
+
