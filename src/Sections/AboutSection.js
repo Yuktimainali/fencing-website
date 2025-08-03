@@ -1,19 +1,20 @@
 export default function AboutSection() {
   return (
     <section className="py-24 bg-gradient-to-b from-slate-50 relative overflow-hidden">
-      {/* Unified Background elements - now matching RegistrationSection */}
+      {/* Unified Background elements - matching GallerySection */}
       <div className="absolute inset-0">
-        {/* Animated gradient orbs - identical positioning and styling */}
+        {/* Gradient orbs - same positioning and styling as gallery */}
         <div className="absolute top-20 left-20 w-72 h-72 bg-amber-400/5 rounded-full"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-slate-900/5 rounded-full"></div>
         
-        {/* Subtle geometric patterns - unified with RegistrationSection */}
+        {/* Subtle geometric patterns inspired by fencing - unified with gallery */}
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
-          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-400 to-transparent"></div>
+          <div className="absolute top-1/4 left-1/4 w-px h-96 bg-gradient-to-b from-transparent via-amber-400 to-transparent transform rotate-12 animate-fade-in"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-px h-96 bg-gradient-to-b from-transparent via-slate-400 to-transparent transform -rotate-12 animate-fade-in delay-500"></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent animate-fade-in delay-300"></div>
         </div>
         
-        {/* Floating decorative elements - matching positions */}
+        {/* Floating decorative elements - matching gallery positions */}
         <div className="absolute top-32 right-32 w-4 h-4 border border-amber-200 rounded-full animate-pulse-slow delay-700"></div>
         <div className="absolute bottom-40 left-40 w-6 h-6 border border-slate-200 rounded-full animate-pulse-slow delay-1500"></div>
       </div>
@@ -33,7 +34,7 @@ export default function AboutSection() {
                 </div>
               </div>
               
-              <h2 className="text-5xl font-light text-slate-900 leading-tight animate-slide-up delay-200 tracking-tight">
+              <h2 className="text-display font-light text-slate-900 leading-tight animate-slide-up delay-200">
                 We Forge 
                 <span className="block font-semibold text-amber-600 hover:scale-105 transition-transform duration-300 inline-block">Champions</span>
               </h2>
@@ -120,6 +121,9 @@ export default function AboutSection() {
             <div className="relative group">
               <div className="relative bg-white rounded-2xl shadow-elegant overflow-hidden transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-slate-900/10">
                 <video
+                  autoPlay
+                  muted
+                  loop
                   controls
                   className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]"
                   poster="https://texasfencingacademy.org/wp-content/uploads/2024/03/IMG_4246-scaled.jpeg"

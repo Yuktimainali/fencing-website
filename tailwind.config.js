@@ -1,4 +1,3 @@
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -73,33 +72,33 @@ module.exports = {
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { 
-            opacity: '0', 
-            transform: 'translateY(30px)' 
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(30px)'
           },
-          '100%': { 
-            opacity: '1', 
-            transform: 'translateY(0px)' 
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0px)'
           },
         },
         slideRight: {
-          '0%': { 
-            opacity: '0', 
-            transform: 'translateX(-20px)' 
+          '0%': {
+            opacity: '0',
+            transform: 'translateX(-20px)'
           },
-          '100%': { 
-            opacity: '1', 
-            transform: 'translateX(0px)' 
+          '100%': {
+            opacity: '1',
+            transform: 'translateX(0px)'
           },
         },
         slideLeft: {
-          '0%': { 
-            opacity: '0', 
-            transform: 'translateX(20px)' 
+          '0%': {
+            opacity: '0',
+            transform: 'translateX(20px)'
           },
-          '100%': { 
-            opacity: '1', 
-            transform: 'translateX(0px)' 
+          '100%': {
+            opacity: '1',
+            transform: 'translateX(0px)'
           },
         },
       },
@@ -144,5 +143,30 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      const newUtilities = {
+        // will-change utilities for GPU acceleration
+        '.will-change-transform-opacity': {
+          'will-change': 'transform, opacity',
+        },
+        '.will-change-transform': {
+          'will-change': 'transform',
+        },
+        '.will-change-auto': {
+          'will-change': 'auto',
+        },
+        // no animations utility for disabling animations during resize
+        '.no-animations *': {
+          'animation': 'none !important',
+          'transition': 'none !important',
+        },
+        // containment utility to limit repaint scope
+        '.contain-layout-paint': {
+          'contain': 'layout paint',
+        },
+      };
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    }
+  ],
 }
