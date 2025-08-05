@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect } from 'react';
 import Home from './HomePageComponent/HomePage';
 import StoreSection from './StorePageComponent/StoreComponent';
+import SummerCampPage from './SummerCamp/SummerCamp';
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/store" element={<StoreSection />} />
+          <Route path="/summercamp" element={<SummerCampPage />} />
         </Routes>
       </div>
     </Router>

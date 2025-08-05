@@ -586,7 +586,7 @@ const Navbar = () => {
   const navItems = [
     {
       text: "Summer Camps 2025",
-      href: "#summer-camps",
+      href: "/summercamp",
       icon: FencingIcon6,
     },
     {
