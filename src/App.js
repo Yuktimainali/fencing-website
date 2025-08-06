@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Home from './HomePageComponent/HomePage';
 import StoreSection from './StorePageComponent/StoreComponent';
 import SummerCampPage from './SummerCamp/SummerCamp';
+import FounderPage from './HomeNavPages/FromFounderPage/FounderPage'; // Import the new founder page
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/store" element={<StoreSection />} />
           <Route path="/summercamp" element={<SummerCampPage />} />
+          <Route path="/founder" element={<FounderPage />} /> {/* Add founder route */}
         </Routes>
       </div>
     </Router>

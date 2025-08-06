@@ -469,6 +469,8 @@
 // }
 // public\FencingVideo.mp4
 import { useEffect, useState } from "react";
+import InfoBanner from "../HomePageComponent/InfoBanner";
+import Navbar from "../HomePageComponent/Navbar";
 // function HeroSummerCamp({ scrollToRegistration }) {
 //   return (
 //     <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-slate-200 overflow-hidden px-6">
@@ -1344,6 +1346,8 @@ export default function SummerCampPage() {
       }`}
     >
       {/* Hero Section */}
+      <InfoBanner/>
+      <Navbar/>
       <HeroSummerCamp scrollToRegistration={scrollToRegistration} />
 
 
