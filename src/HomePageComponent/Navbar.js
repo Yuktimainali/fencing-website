@@ -204,7 +204,7 @@ const Navbar = () => {
     },
     {
       text: "Programs",
-      href: "#programs",
+      href: "/program",
       icon: FencingIcon4,
       dropdown: [
         {
