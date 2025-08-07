@@ -4,17 +4,17 @@ import homepageLogo from "../assets/homepagelogo.PNG";
 
 // Fixed icon components with simplified active state styling
 const FencingIcon1 = ({ className = "w-5 h-5" }) => (
-  <img 
-    src="https://texasfencingacademy.org/wp-content/uploads/2019/02/silhouete6-36x25.jpg" 
-    alt="Fencing Icon" 
+  <img
+    src="https://texasfencingacademy.org/wp-content/uploads/2019/02/silhouete6-36x25.jpg"
+    alt="Fencing Icon"
     className={`${className} rounded-md object-contain`}
   />
 );
 
 const FencingIcon2 = ({ className = "w-5 h-5" }) => (
-  <img 
-    src="https://texasfencingacademy.org/wp-content/uploads/2019/02/silhouete2-36x28.jpg" 
-    alt="Fencing Icon" 
+  <img
+    src="https://texasfencingacademy.org/wp-content/uploads/2019/02/silhouete2-36x28.jpg"
+    alt="Fencing Icon"
     className={`${className} rounded-md object-contain`}
   />
 );
@@ -193,7 +193,12 @@ const Navbar = () => {
       href: "/",
       icon: FencingIcon2,
       dropdown: [
-        { text: "From Founder", href: "/founder", icon: FencingIcon1, isRoute: true },
+        {
+          text: "From Founder",
+          href: "/founder",
+          icon: FencingIcon1,
+          isRoute: true,
+        },
         { text: "Coaches", href: "#coaches", icon: FencingIcon2 },
         { text: "Our Philosophy", href: "#philosophy", icon: FencingIcon1 },
         { text: "Facilities", href: "#facilities", icon: FencingIcon2 },
@@ -203,29 +208,31 @@ const Navbar = () => {
       ],
     },
     {
-      text: "Programs",
+      text: "Discover Your Journey",
       href: "/program",
       icon: FencingIcon4,
       dropdown: [
         {
-          text: "Program Overview",
-          href: "#program-overview",
+          text: "Explore All Programs",
+          href: "/program",
           icon: FencingIcon4,
+          isRoute: true,
         },
         {
-          text: "Orientation/Beginner",
-          href: "#orientation",
-          icon: FencingIcon7,
+          text: "Youth & Team Programs",
+          href: "/program#club-programs",
+          icon: FencingIcon3,
+          isRoute: true,
         },
-        { text: "Minnows 6-9 Yrs", href: "#minnows", icon: FencingIcon3 },
-        { text: "Team Fencing", href: "#team-fencing", icon: FencingIcon6 },
         {
-          text: "Private Lessons",
-          href: "#private-lessons",
+          text: "One-on-One Training",
+          href: "/privateLessons",
           icon: FencingIcon1,
+          isRoute: true,
         },
       ],
     },
+
     {
       text: "Parents",
       href: "#parents",
