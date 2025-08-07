@@ -94,7 +94,7 @@ function HeroSection() {
 
           {/* Explore Programs Button */}
           <button
-            onClick={() => scrollToSection("fencing-programs")}
+            onClick={() => scrollToSection("club-programs")}
             className="group relative px-8 py-4 bg-transparent border-2 border-white/70 text-white font-semibold rounded-xl hover:border-amber-400 hover:bg-amber-400/10 hover:scale-105 hover:shadow-lg backdrop-blur-sm transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
           >
             {/* Button glow effect */}
@@ -501,7 +501,7 @@ function MinnowFencersSection() {
   return (
     <>
       <section
-        id="fencing-programs"
+        id="club-programs"
         className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
       >
         {/* Silver theme background patterns */}

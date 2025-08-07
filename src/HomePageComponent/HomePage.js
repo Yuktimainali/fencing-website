@@ -10,35 +10,155 @@ import FooterSection from '../Sections/FooterSection';
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
 
-function DelayedModal() {
+// function DelayedModal() {
+//   const [showModal, setShowModal] = useState(false);
+//   const modalRef = useRef(null);
+
+//   const rawOrientationDate = process.env.REACT_APP_FENCING_CLASS_ORIENTATION_DATE;
+
+//   // Format the date: "August 9th, 2025" → "Saturday August 9"
+//   let formattedDate = "";
+//   if (rawOrientationDate) {
+//     const parsedDate = new Date(rawOrientationDate);
+//     if (!isNaN(parsedDate.getTime())) {
+//       const options = { weekday: 'long', month: 'long', day: 'numeric' };
+//       formattedDate = parsedDate.toLocaleDateString('en-US', options); // → "Saturday, August 9"
+//       formattedDate = formattedDate.replace(",", ""); // → "Saturday August 9"
+//     } else {
+//       formattedDate = rawOrientationDate; // fallback in case of parse error
+//     }
+//   }
+
+//   useEffect(() => {
+//     const modalShown = localStorage.getItem('openHouseModalShown');
+//     if (!modalShown) {
+//       const timer = setTimeout(() => {
+//         setShowModal(true);
+//         localStorage.setItem('openHouseModalShown', 'true');
+//       }, 5000);
+//       return () => clearTimeout(timer);
+//     }
+//   }, []);
+
+//   const handleOverlayClick = (e) => {
+//     if (modalRef.current && !modalRef.current.contains(e.target)) {
+//       setShowModal(false);
+//     }
+//   };
+
+//   if (!showModal) return null;
+
+//   return (
+//     <div
+//       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 animate-fade-in"
+//       role="dialog"
+//       aria-modal="true"
+//       aria-labelledby="modal-title"
+//       onClick={handleOverlayClick}
+//     >
+//       <div
+//         ref={modalRef}
+//         className="bg-gradient-to-br from-primary-900/95 to-primary-800/95 text-white rounded-3xl p-8 max-w-lg mx-4 shadow-elegant shadow-glow relative border-4 border-accent-500/30 animate-slide-up duration-700 ring-2 ring-inset ring-accent-400/40"
+//         onClick={(e) => e.stopPropagation()}
+//       >
+//         <button
+//           onClick={() => setShowModal(false)}
+//           className="absolute top-3 right-3 text-primary-200 hover:text-accent-400 focus:outline-none transition-transform duration-200 transform hover:scale-125 text-2xl"
+//           aria-label="Close modal"
+//         >
+//           &times;
+//         </button>
+
+//         <h1
+//           id="modal-title"
+//           className="text-2xl md:text-3xl font-bold mb-2 tracking-tight text-accent-400 animate-slide-up delay-[150ms]"
+//         >
+//           Join us for our Open House<br />
+//           <span className="block font-normal text-primary-200 text-base mt-1 animate-fade-in delay-[400ms]">
+//             {formattedDate}
+//           </span>
+//         </h1>
+
+//         <div className="mt-2 mb-6 flex items-center justify-center">
+//           <span className="h-1 w-12 rounded-full bg-accent-400/60 animate-fade-in delay-[600ms]"></span>
+//         </div>
+
+//         <p className="mb-8 text-primary-100 leading-relaxed whitespace-pre-wrap animate-fade-in delay-[800ms]">
+//           Learn about fencing, see a demonstration, and try some of the moves yourself!
+//         </p>
+
+//         <a
+//           href="/open-house"
+//           target="_blank"
+//           rel="noopener noreferrer"
+//           className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-gradient-to-r from-accent-400 to-accent-600 text-primary-900 font-semibold text-lg transition-all duration-300 shadow-glow hover:scale-105 hover:brightness-110 hover:bg-accent-500/90 animate-pulse-slow delay-[1100ms] focus:outline-none focus:ring-4 focus:ring-accent-400/60"
+//         >
+//           Register Now!
+//           <svg
+//             className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"
+//             fill="none"
+//             stroke="currentColor"
+//             strokeWidth="2"
+//             viewBox="0 0 24 24"
+//           >
+//             <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+//           </svg>
+//         </a>
+//       </div>
+//     </div>
+//   );
+// }
+
+import sanityClient from "../Sanity/sanityClient"; // Adjust path as needed
+
+function FreeIntroClassModal() {
   const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const modalRef = useRef(null);
 
-  const rawOrientationDate = process.env.REACT_APP_FENCING_CLASS_ORIENTATION_DATE;
+  // Fetch modal data from Sanity
+  useEffect(() => {
+    sanityClient
+      .fetch(`*[_type == "freeIntroClass" && showModal == true][0]`)
+      .then((data) => {
+        console.log("Free intro class modal data:", data); // Debug log
+        setModalData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching free intro class modal data:", error);
+        setLoading(false);
+      });
+  }, []);
 
-  // Format the date: "August 9th, 2025" → "Saturday August 9"
-  let formattedDate = "";
-  if (rawOrientationDate) {
-    const parsedDate = new Date(rawOrientationDate);
+  // Format the date: "2025-08-09" → "Saturday August 9"
+  const getFormattedDate = (dateString) => {
+    if (!dateString) return "";
+    
+    const parsedDate = new Date(dateString);
     if (!isNaN(parsedDate.getTime())) {
       const options = { weekday: 'long', month: 'long', day: 'numeric' };
-      formattedDate = parsedDate.toLocaleDateString('en-US', options); // → "Saturday, August 9"
-      formattedDate = formattedDate.replace(",", ""); // → "Saturday August 9"
-    } else {
-      formattedDate = rawOrientationDate; // fallback in case of parse error
+      const formatted = parsedDate.toLocaleDateString('en-US', options);
+      return formatted.replace(",", ""); // Remove comma between day and date
     }
-  }
+    return dateString; // fallback
+  };
 
+  // Show modal with delay
   useEffect(() => {
-    const modalShown = localStorage.getItem('openHouseModalShown');
+    if (!modalData || !modalData.showModal) return;
+
+    const modalShown = localStorage.getItem('freeIntroClassModalShown');
     if (!modalShown) {
+      const delayMs = (modalData.delaySeconds || 5) * 1000;
       const timer = setTimeout(() => {
         setShowModal(true);
-        localStorage.setItem('openHouseModalShown', 'true');
-      }, 5000);
+        localStorage.setItem('freeIntroClassModalShown', 'true');
+      }, delayMs);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [modalData]);
 
   const handleOverlayClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -46,7 +166,10 @@ function DelayedModal() {
     }
   };
 
-  if (!showModal) return null;
+  // Don't render anything if loading, no data, or modal shouldn't show
+  if (loading || !modalData || !modalData.showModal || !showModal) return null;
+
+  const formattedDate = getFormattedDate(modalData.classDate);
 
   return (
     <div
@@ -73,7 +196,8 @@ function DelayedModal() {
           id="modal-title"
           className="text-2xl md:text-3xl font-bold mb-2 tracking-tight text-accent-400 animate-slide-up delay-[150ms]"
         >
-          Join us for our Open House<br />
+          {modalData.title}
+          <br />
           <span className="block font-normal text-primary-200 text-base mt-1 animate-fade-in delay-[400ms]">
             {formattedDate}
           </span>
@@ -84,16 +208,16 @@ function DelayedModal() {
         </div>
 
         <p className="mb-8 text-primary-100 leading-relaxed whitespace-pre-wrap animate-fade-in delay-[800ms]">
-          Learn about fencing, see a demonstration, and try some of the moves yourself!
+          {modalData.description}
         </p>
 
         <a
-          href="/open-house"
+          href={modalData.ctaLink}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-gradient-to-r from-accent-400 to-accent-600 text-primary-900 font-semibold text-lg transition-all duration-300 shadow-glow hover:scale-105 hover:brightness-110 hover:bg-accent-500/90 animate-pulse-slow delay-[1100ms] focus:outline-none focus:ring-4 focus:ring-accent-400/60"
         >
-          Register Now!
+          {modalData.ctaText}
           <svg
             className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"
             fill="none"
@@ -108,6 +232,7 @@ function DelayedModal() {
     </div>
   );
 }
+
 
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -165,7 +290,7 @@ export default function Home() {
     <div className="min-h-screen bg-slate-50">
       <InfoBanner />
       <Navbar />
-      <DelayedModal/>
+      <FreeIntroClassModal/>
       
       <motion.div
         initial="hidden"
