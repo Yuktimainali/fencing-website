@@ -194,14 +194,11 @@ const Navbar = () => {
       icon: FencingIcon2,
       dropdown: [
         {
-          text: "From Founder",
+          text: "About TFA",
           href: "/founder",
           icon: FencingIcon1,
           isRoute: true,
         },
-        { text: "Coaches", href: "#coaches", icon: FencingIcon2 },
-        { text: "Our Philosophy", href: "#philosophy", icon: FencingIcon1 },
-        { text: "Facilities", href: "#facilities", icon: FencingIcon2 },
         { text: "Calendar", href: "#calendar", icon: FencingIcon6 },
         { text: "Contact", href: "#contact", icon: FencingIcon7 },
         { text: "Registration", href: "#registration", icon: FencingIcon6 },
