@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import founderpageimg1 from "../../assets/founderpageimg1.jpg";
+import React from 'react';
+import { Link } from 'react-router-dom';
 import founderpageimg2 from "../../assets/founderpageimg2.jpg";
 import founderpagebg from "../../assets/founderpagebg.mp4";
 import Navbar from "../../HomePageComponent/Navbar";
@@ -630,8 +631,6 @@ function FacilitiesSection() {
     );
 }
 
-
-
 function InformationLinksSection() {
     return (
         <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
@@ -654,7 +653,6 @@ function InformationLinksSection() {
                     </div>
                     <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
                 </div>
-                {/* End of section header */}
 
                 <div className="overflow-hidden">
                     <h2 className="text-5xl font-light text-gray-800 mb-6 tracking-tight animate-slide-up delay-[1000ms]">
@@ -670,11 +668,9 @@ function InformationLinksSection() {
 
                 {/* Links grid matching summer camp button style */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Policies Card */}
-                    <a
-                        href="https://texasfencingacademy.org/?page_id=251"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    {/* Policies Card - Now redirects to React page */}
+                    <Link
+                        to="/policies"
                         className="bg-white/95 backdrop-blur-2xl rounded-2xl shadow-xl border border-gray-200 p-8 text-center transform hover:scale-105 transition-all duration-500 group"
                     >
                         <div className="mb-6">
@@ -690,7 +686,7 @@ function InformationLinksSection() {
                         <p className="text-gray-600 leading-relaxed">
                             Academy guidelines & procedures
                         </p>
-                    </a>
+                    </Link>
 
                     {/* Fencing Links Card */}
                     <a
@@ -737,10 +733,11 @@ function InformationLinksSection() {
                         </p>
                     </a>
                 </div>
-            </div>{/* Close of relative z-10 max-w-7xl mx-auto px-6 text-center */}
+            </div>
         </section>
     );
 }
+
 
 
 export default function FounderPage() {

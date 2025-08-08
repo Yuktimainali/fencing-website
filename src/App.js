@@ -7,6 +7,7 @@ import SummerCampPage from './SummerCamp/SummerCamp';
 import FounderPage from './HomeNavPages/FromFounderPage/FounderPage'; // Import the new founder page
 import ProgramOverviewPage from './ProgramNavPages/ProgramOverView';
 import PrivateFencingLessonsPage from './ProgramNavPages/PrivateTutoring';
+import PoliciesPage from './HomeNavPages/FromFounderPage/PolicyPage';
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -28,6 +29,7 @@ function App() {
         {/* Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/policies" element={<PoliciesPage />}/>
           <Route path="/store" element={<StoreSection />} />
           <Route path="/summercamp" element={<SummerCampPage />} />
           <Route path="/founder" element={<FounderPage />} /> {/* Add founder route */}
