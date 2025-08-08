@@ -8,6 +8,8 @@ import FounderPage from './HomeNavPages/FromFounderPage/FounderPage'; // Import 
 import ProgramOverviewPage from './ProgramNavPages/ProgramOverView';
 import PrivateFencingLessonsPage from './ProgramNavPages/PrivateTutoring';
 import PoliciesPage from './HomeNavPages/FromFounderPage/PolicyPage';
+import FencingLinksPage from './HomeNavPages/FromFounderPage/FencingLinksPage';
+import OptOutPage from './HomeNavPages/FromFounderPage/OptOutPage';
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -30,6 +32,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/policies" element={<PoliciesPage />}/>
+          <Route path="/fencinglinks" element={<FencingLinksPage />}/>
+          <Route path="/optout" element={<OptOutPage />}/>
           <Route path="/store" element={<StoreSection />} />
           <Route path="/summercamp" element={<SummerCampPage />} />
           <Route path="/founder" element={<FounderPage />} /> {/* Add founder route */}

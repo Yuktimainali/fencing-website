@@ -689,10 +689,8 @@ function InformationLinksSection() {
                     </Link>
 
                     {/* Fencing Links Card */}
-                    <a
-                        href="https://texasfencingacademy.org/?page_id=274"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
+                        to="/fencinglinks"
                         className="bg-white/95 backdrop-blur-2xl rounded-2xl shadow-xl border border-gray-200 p-8 text-center transform hover:scale-105 transition-all duration-500 group"
                     >
                         <div className="mb-6">
@@ -708,13 +706,11 @@ function InformationLinksSection() {
                         <p className="text-gray-600 leading-relaxed">
                             Useful fencing resources
                         </p>
-                    </a>
+                    </Link>
 
                     {/* Opt-out Preferences Card */}
-                    <a
-                        href="https://texasfencingacademy.org/?page_id=1197"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <Link
+                        to="/optout"
                         className="bg-white/95 backdrop-blur-2xl rounded-2xl shadow-xl border border-gray-200 p-8 text-center transform hover:scale-105 transition-all duration-500 group"
                     >
                         <div className="mb-6">
@@ -731,7 +727,7 @@ function InformationLinksSection() {
                         <p className="text-gray-600 leading-relaxed">
                             Communication preferences
                         </p>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </section>
