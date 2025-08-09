@@ -1,96 +1,31 @@
 import { useState, useEffect } from 'react'
 import Navbar from '../HomePageComponent/Navbar'
-import { Info } from 'lucide-react'
 import InfoBanner from '../HomePageComponent/InfoBanner'
 
-const adultFencingProducts = [
-    {
-      id: 1,
-      title: "Adult Open Fencing Only",
-      description: "Access to open fencing sessions for experienced adult fencers. Perfect for maintaining skills and competitive practice.",
-      price: "$95.00",
-      image: "adultFencing/OpenFencing.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
-      recurring: true,
-      schedule: [
-        { day: "Monday, Thursday", time: "7:00 pm to 9:00 pm", weapon: "Open" },
-        { day: "Saturday", time: "10:30 am to 12:30 pm", weapon: "Both" },
-        { day: "Sunday", time: "2:00 pm to 4:00 pm", weapon: "Open" }
-      ]
-    },
-    {
-      id: 2,
-      title: "Full Subscription",
-      description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program.",
-      price: "$195.00",
-      image: "adultFencing/FullSubscription.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
-      recurring: true,
-      badge: "Most Popular",
-      schedule: [
-        { day: "Monday - Thursday", time: "6:00 pm to 9:00 pm", weapon: "All" },
-        { day: "Saturday", time: "9:00 am to 12:30 pm", weapon: "Both" },
-        { day: "Private Lessons", time: "By Appointment", weapon: "Specialized" }
-      ]
-    },
-    {
-      id: 3,
-      title: "1st Month Introduction",
-      description: "Perfect introduction package for new adult fencers. Includes equipment rental and beginner-friendly instruction.",
-      price: "$85.00",
-      image: "adultFencing/FirstMonth.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
-      badge: "Beginner Friendly",
-      schedule: [
-        { day: "Wednesday", time: "7:00 pm to 8:00 pm", weapon: "Beginner" },
-        { day: "Saturday", time: "11:00 am to 12:00 pm", weapon: "Introduction" },
-        { day: "Equipment Included", time: "Full Month Access", weapon: "All" }
-      ]
-    },
-    {
-      id: 4,
-      title: "Adult Team Membership",
-      description: "Join our competitive adult fencing team. Includes training, team events, and tournament support.",
-      price: "Contact for Pricing",
-      image: "adultFencing/TeamMembership.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
-      schedule: [
-        { day: "Tuesday, Thursday", time: "6:30 pm to 8:30 pm", weapon: "Team" },
-        { day: "Saturday", time: "8:00 am to 10:00 am", weapon: "Competition" },
-        { day: "Tournament Events", time: "As Scheduled", weapon: "All" }
-      ]
-    },
-    {
-      id: 5,
-      title: "Fitness Class Annual",
-      description: "Year-long access to our fencing-inspired fitness classes. Build strength, agility, and endurance.",
-      price: "$295.00",
-      image: "adultFencing/FitnessClass.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
-      schedule: [
-        { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Fitness" },
-        { day: "Friday", time: "7:00 pm to 8:00 pm", weapon: "Conditioning" },
-        { day: "Annual Access", time: "Full Year", weapon: "Fitness" }
-      ]
-    },
-    {
-      id: 6,
-      title: "Private Lessons Package",
-      description: "One-on-one coaching sessions tailored to your specific goals and skill level. Flexible scheduling available.",
-      price: "Contact for Pricing",
-      image: "adultFencing/PrivateLessons.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
-      schedule: [
-        { day: "Flexible Scheduling", time: "By Appointment", weapon: "Personalized" },
-        { day: "Weekend Sessions", time: "Available", weapon: "All" },
-        { day: "Goal-Oriented", time: "Custom Duration", weapon: "Specialized" }
-      ]
-    }
-  ]
-
 function AdultFencingHeroSection() {
+  const [isResizing, setIsResizing] = useState(false);
+
+  useEffect(() => {
+    let resizeTimer;
+    function handleResize() {
+      setIsResizing(true);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setIsResizing(false);
+      }, 300);
+    }
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden px-6 ${
+      isResizing ? 'no-animations' : ''
+    }`}>
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -113,7 +48,7 @@ function AdultFencingHeroSection() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto text-center space-y-12">
-        {/* Main heading */}
+        {/* Main heading - ALL ORIGINAL FONT SIZES PRESERVED */}
         <div className="space-y-6">
           <div className="overflow-hidden">
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extralight tracking-tight leading-none animate-slide-up delay-[800ms] will-change-transform-opacity text-white drop-shadow-lg">
@@ -139,14 +74,14 @@ function AdultFencingHeroSection() {
           </div>
         </div>
 
-        {/* Excellence tagline */}
+        {/* Excellence tagline - ALL ORIGINAL FONT SIZES PRESERVED */}
         <div className="overflow-hidden">
           <h2 className="text-2xl lg:text-3xl font-light text-white tracking-[0.15em] drop-shadow-md opacity-0 animate-[fadeInUp_0.8s_ease-out_2s_forwards]">
             PRECISION, STRATEGY & EXCELLENCE
           </h2>
         </div>
 
-        {/* Description */}
+        {/* Description - ALL ORIGINAL FONT SIZES PRESERVED */}
         <div className="overflow-hidden">
           <p className="text-lg lg:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto drop-shadow-sm opacity-0 animate-[fadeIn_0.8s_ease-out_2.5s_forwards]">
             Master the art of modern fencing with our comprehensive adult programs. 
@@ -155,11 +90,11 @@ function AdultFencingHeroSection() {
           </p>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons - ALL ORIGINAL SIZES PRESERVED */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0 animate-[fadeInUp_0.8s_ease-out_3s_forwards]">
           {/* Join Program Button */}
           <a
-            href="https://texasfencingacademy.org/?page_id=881"
+            href="https://texasfencingacademy.glide.page"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
@@ -181,7 +116,7 @@ function AdultFencingHeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function AdultFencingInfoSection() {
@@ -258,7 +193,7 @@ function AdultFencingInfoSection() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="https://texasfencingacademy.org/?page_id=881"
+                href="https://texasfencingacademy.glide.page"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-500 text-center overflow-hidden"
@@ -319,7 +254,7 @@ function AdultProgramsSection() {
       description: "Includes access to all our Epee and Saber classes for you to discover the joy of fencing.",
       price: "$85.00", // Assuming this is the adult equivalent
       image: "adultFencing/FirstMonth.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
+      href: "https://texasfencingacademy.glide.page",
       badge: "Beginner Friendly",
       schedule: [
         { day: "Access to all classes", time: "Various times", weapon: "Both" }
@@ -331,7 +266,7 @@ function AdultProgramsSection() {
       description: "For adults and competitive TFA fencers to fence at our salle. Contact the coach or staff to determine which nights you'd like to attend.",
       price: "$95.00",
       image: "adultFencing/OpenFencing.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
+      href: "https://texasfencingacademy.glide.page",
       recurring: true,
       schedule: [
         { day: "Monday, Tuesday, Wednesday, Thursday", time: "7:00 pm to 9:00 pm", weapon: "Both" },
@@ -344,7 +279,7 @@ function AdultProgramsSection() {
       description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program including Team Fencer schedules.",
       price: "$195.00",
       image: "adultFencing/FullSubscription.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
+      href: "https://texasfencingacademy.glide.page",
       recurring: true,
       badge: "Most Popular",
       schedule: [
@@ -360,7 +295,7 @@ function AdultProgramsSection() {
       description: "For adults who make more of a time commitment and have narrowed their focus to a specific weapon and plan on competing in tournaments.",
       price: "Contact for Pricing",
       image: "adultFencing/TeamMembership.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
+      href: "https://texasfencingacademy.glide.page",
       schedule: [
         { day: "Monday, Tuesday, Wednesday, Thursday", time: "5:00 pm to 6:00 pm", weapon: "All" },
         { day: "Open Fencing Access", time: "7:00 pm to 9:00 pm", weapon: "Both" },
@@ -373,7 +308,7 @@ function AdultProgramsSection() {
       description: "Recreational adult fencers that may have already narrowed their focus to a specific weapon and have not yet decided if they'd like to pursue tournaments.",
       price: "$150.00", // Estimated based on schedule complexity
       image: "adultFencing/FitnessClass.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
+      href: "https://texasfencingacademy.glide.page",
       recurring: true,
       schedule: [
         { day: "Tuesday, Thursday", time: "6:00 pm to 7:00 pm", weapon: "Epee" },
@@ -387,7 +322,7 @@ function AdultProgramsSection() {
       description: "One-on-one coaching sessions tailored to your specific goals and skill level. Available for all adult programs and skill levels.",
       price: "Contact for Pricing",
       image: "adultFencing/PrivateLessons.jpg",
-      href: "https://texasfencingacademy.org/?page_id=881",
+      href: "https://texasfencingacademy.glide.page",
       schedule: [
         { day: "Flexible Scheduling", time: "By Appointment", weapon: "Personalized" },
         { day: "Weekend Sessions", time: "Available", weapon: "All" },
@@ -398,7 +333,7 @@ function AdultProgramsSection() {
 
   // Function to handle card click
   const handleCardClick = () => {
-    window.open("https://texasfencingacademy.org/?page_id=881", "_blank");
+    window.open("https://texasfencingacademy.glide.page", "_blank");
   };
 
   return (
@@ -602,7 +537,7 @@ function AdultProgramsSection() {
               We foster a sense of team and family, so all of our fencers must list TFA as your primary club.
             </p>
             <a
-              href="https://texasfencingacademy.org/?page_id=881"
+              href="https://texasfencingacademy.glide.page"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-amber-700 hover:scale-105 transition-all duration-500 shadow-lg"

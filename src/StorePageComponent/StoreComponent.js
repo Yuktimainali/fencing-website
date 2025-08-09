@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import EquipmentStore from "./Equipment";
 import RepairsPage from "./Repair";
 import CheckoutPage from "./CheckoutPage";
@@ -35,10 +35,6 @@ export default function StoreContainer() {
     urlSection && storeSections.find((sec) => sec.id === urlSection)
       ? urlSection
       : "equipment"
-  );
-
-  const currentSection = storeSections.find(
-    (sec) => sec.id === selectedSection
   );
 
   // Handle home navigation

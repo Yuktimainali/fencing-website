@@ -8,7 +8,7 @@ const youthFencingProducts = [
     title: "Monthly Subscription",
     description: "Perfect for youth fencers who want consistent training with flexible scheduling. Includes access to age-appropriate classes and equipment.",
     price: "$95.00",
-    image: "youthFencing/MonthlySubscription.jpg",
+    image: "/youthFencing/MonthlySubscription.jpg",
     href: "https://texasfencingacademy.org/?page_id=881",
     schedule: [
       { day: "Monday, Wednesday", time: "4:00 pm to 5:00 pm", weapon: "Epee" },
@@ -21,7 +21,7 @@ const youthFencingProducts = [
     title: "Full Subscription (Monthly Recurring)",
     description: "Comprehensive program for serious youth fencers. Includes all classes, private lessons, and competition preparation.",
     price: "$195.00",
-    image: "youthFencing/YearlySubscription.jpg",
+    image: "/youthFencing/YearlySubscription.jpg",
     href: "https://texasfencingacademy.org/?page_id=881",
     badge: "Most Popular",
     schedule: [
@@ -35,7 +35,7 @@ const youthFencingProducts = [
     title: "Competition Team",
     description: "Elite training program for youth competitors. Team membership, tournament preparation, and advanced coaching included.",
     price: "$0.00",
-    image: "youthFencing/YouthTeam.jpg",
+    image: "/youthFencing/YouthTeam.jpg",
     href: "https://texasfencingacademy.org/?page_id=881",
     badge: "Team Member",
     schedule: [
@@ -47,12 +47,33 @@ const youthFencingProducts = [
 ]
 
 function YouthFencingHeroSection() {
+  const [isResizing, setIsResizing] = useState(false);
+
+  useEffect(() => {
+    let resizeTimer;
+    function handleResize() {
+      setIsResizing(true);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setIsResizing(false);
+      }, 300);
+    }
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden px-6 ${
+      isResizing ? 'no-animations' : ''
+    }`}>
       {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="/youthFencing/YouthFencingBg1.jpg"
+          src="/youthFencing/YouthFencingBg2.jpg"
           alt="Youth Fencing at Texas Fencing Academy"
           className="w-full h-full object-cover object-bottom animate-fade-in will-change-transform-opacity"
           fetchPriority="high"
@@ -117,7 +138,7 @@ function YouthFencingHeroSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0 animate-[fadeInUp_0.8s_ease-out_3s_forwards]">
           {/* Join Program Button */}
           <a
-            href="https://texasfencingacademy.org/?page_id=881"
+            href="https://texasfencingacademy.glide.page"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
@@ -139,9 +160,8 @@ function YouthFencingHeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
 function YouthFencingInfoSection() {
   return (
     <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
@@ -212,7 +232,7 @@ function YouthFencingInfoSection() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="https://texasfencingacademy.org/?page_id=881"
+                href="https://texasfencingacademy.glide.page"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-500 text-center overflow-hidden"
@@ -234,7 +254,7 @@ function YouthFencingInfoSection() {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
               <img
-                src="youthFencing/YouthFencers.jpg"
+                src="/youthFencing/YouthFencers.jpg"
                 alt="Youth fencers in action"
                 className="w-full h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
@@ -466,7 +486,7 @@ function YouthProgramsSection() {
               character building, and lifelong friendships.
             </p>
             <a
-              href="https://texasfencingacademy.org/?page_id=881"
+              href="https://texasfencingacademy.glide.page"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-amber-700 hover:scale-105 transition-all duration-500 shadow-lg"

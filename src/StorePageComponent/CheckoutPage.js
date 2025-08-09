@@ -1,7 +1,6 @@
 // Checkout.js
 import { useState, useEffect } from "react";
 import { useCart } from "./Cart/CartContex";
-import { useNavigate } from "react-router-dom";
 
 function EmptyCartComponent({ onNavigateToSection }) {
   const [currentTip, setCurrentTip] = useState(0);
@@ -316,11 +315,6 @@ export default function CheckoutPage({ onNavigateToSection }) {
       setIsProcessing(false);
       // Redirect to success page or reset form
     }, 2000);
-  };
-
-  const formatPrice = (price) => {
-    const numPrice = parseFloat(price.replace("$", ""));
-    return `$${numPrice.toFixed(2)}`;
   };
 
   const subtotal = getCartTotal();
