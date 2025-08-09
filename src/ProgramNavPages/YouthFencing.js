@@ -52,7 +52,7 @@ function YouthFencingHeroSection() {
       {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="youthFencing/YouthFencingBg1.jpg"
+          src="/youthFencing/YouthFencingBg1.jpg"
           alt="Youth Fencing at Texas Fencing Academy"
           className="w-full h-full object-cover object-bottom animate-fade-in will-change-transform-opacity"
           fetchPriority="high"

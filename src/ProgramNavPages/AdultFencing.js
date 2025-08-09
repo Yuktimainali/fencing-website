@@ -4,57 +4,89 @@ import { Info } from 'lucide-react'
 import InfoBanner from '../HomePageComponent/InfoBanner'
 
 const adultFencingProducts = [
-  {
-    id: 1,
-    title: "Adult Open Fencing Only (Monthly)",
-    description: "Access to open fencing sessions for experienced adult fencers. Perfect for maintaining skills and competitive practice.",
-    price: "$95.00",
-    image: "adultFencing/OpenFencing.jpg",
-    href: "https://texasfencingacademy.org/?page_id=881",
-    recurring: true
-  },
-  {
-    id: 2,
-    title: "Full Subscription (Monthly)",
-    description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program.",
-    price: "$195.00",
-    image: "adultFencing/FullSubscription.jpg",
-    href: "https://texasfencingacademy.org/?page_id=881",
-    recurring: true
-  },
-  {
-    id: 3,
-    title: "1st Month Introduction",
-    description: "Perfect introduction package for new adult fencers. Includes equipment rental and beginner-friendly instruction.",
-    price: "$85.00",
-    image: "adultFencing/FirstMonth.jpg",
-    href: "https://texasfencingacademy.org/?page_id=881"
-  },
-  {
-    id: 4,
-    title: "Adult Team Membership",
-    description: "Join our competitive adult fencing team. Includes training, team events, and tournament support.",
-    price: "Contact for Pricing",
-    image: "adultFencing/TeamMembership.jpg",
-    href: "https://texasfencingacademy.org/?page_id=881"
-  },
-  {
-    id: 5,
-    title: "Fitness Class Annual Membership",
-    description: "Year-long access to our fencing-inspired fitness classes. Build strength, agility, and endurance.",
-    price: "$295.00",
-    image: "adultFencing/FitnessClass.jpg",
-    href: "https://texasfencingacademy.org/?page_id=881"
-  },
-  {
-    id: 6,
-    title: "Private Lessons Package",
-    description: "One-on-one coaching sessions tailored to your specific goals and skill level. Flexible scheduling available.",
-    price: "Contact for Pricing",
-    image: "adultFencing/PrivateLessons.jpg",
-    href: "https://texasfencingacademy.org/?page_id=881"
-  }
-]
+    {
+      id: 1,
+      title: "Adult Open Fencing Only",
+      description: "Access to open fencing sessions for experienced adult fencers. Perfect for maintaining skills and competitive practice.",
+      price: "$95.00",
+      image: "adultFencing/OpenFencing.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      recurring: true,
+      schedule: [
+        { day: "Monday, Thursday", time: "7:00 pm to 9:00 pm", weapon: "Open" },
+        { day: "Saturday", time: "10:30 am to 12:30 pm", weapon: "Both" },
+        { day: "Sunday", time: "2:00 pm to 4:00 pm", weapon: "Open" }
+      ]
+    },
+    {
+      id: 2,
+      title: "Full Subscription",
+      description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program.",
+      price: "$195.00",
+      image: "adultFencing/FullSubscription.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      recurring: true,
+      badge: "Most Popular",
+      schedule: [
+        { day: "Monday - Thursday", time: "6:00 pm to 9:00 pm", weapon: "All" },
+        { day: "Saturday", time: "9:00 am to 12:30 pm", weapon: "Both" },
+        { day: "Private Lessons", time: "By Appointment", weapon: "Specialized" }
+      ]
+    },
+    {
+      id: 3,
+      title: "1st Month Introduction",
+      description: "Perfect introduction package for new adult fencers. Includes equipment rental and beginner-friendly instruction.",
+      price: "$85.00",
+      image: "adultFencing/FirstMonth.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      badge: "Beginner Friendly",
+      schedule: [
+        { day: "Wednesday", time: "7:00 pm to 8:00 pm", weapon: "Beginner" },
+        { day: "Saturday", time: "11:00 am to 12:00 pm", weapon: "Introduction" },
+        { day: "Equipment Included", time: "Full Month Access", weapon: "All" }
+      ]
+    },
+    {
+      id: 4,
+      title: "Adult Team Membership",
+      description: "Join our competitive adult fencing team. Includes training, team events, and tournament support.",
+      price: "Contact for Pricing",
+      image: "adultFencing/TeamMembership.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      schedule: [
+        { day: "Tuesday, Thursday", time: "6:30 pm to 8:30 pm", weapon: "Team" },
+        { day: "Saturday", time: "8:00 am to 10:00 am", weapon: "Competition" },
+        { day: "Tournament Events", time: "As Scheduled", weapon: "All" }
+      ]
+    },
+    {
+      id: 5,
+      title: "Fitness Class Annual",
+      description: "Year-long access to our fencing-inspired fitness classes. Build strength, agility, and endurance.",
+      price: "$295.00",
+      image: "adultFencing/FitnessClass.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      schedule: [
+        { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Fitness" },
+        { day: "Friday", time: "7:00 pm to 8:00 pm", weapon: "Conditioning" },
+        { day: "Annual Access", time: "Full Year", weapon: "Fitness" }
+      ]
+    },
+    {
+      id: 6,
+      title: "Private Lessons Package",
+      description: "One-on-one coaching sessions tailored to your specific goals and skill level. Flexible scheduling available.",
+      price: "Contact for Pricing",
+      image: "adultFencing/PrivateLessons.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      schedule: [
+        { day: "Flexible Scheduling", time: "By Appointment", weapon: "Personalized" },
+        { day: "Weekend Sessions", time: "Available", weapon: "All" },
+        { day: "Goal-Oriented", time: "Custom Duration", weapon: "Specialized" }
+      ]
+    }
+  ]
 
 function AdultFencingHeroSection() {
   return (
@@ -62,7 +94,7 @@ function AdultFencingHeroSection() {
       {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="adultFencing/AdultFencingBg.jpg"
+          src="/adultFencing/AdultFencingBg.jpg"
           alt="Adult Fencing at Texas Fencing Academy"
           className="w-full h-full object-cover object-center animate-fade-in will-change-transform-opacity"
           fetchPriority="high"
@@ -269,13 +301,105 @@ function AdultFencingInfoSection() {
     </section>
   )
 }
-
 function AdultProgramsSection() {
   const [loaded, setLoaded] = useState(false)
   
   useEffect(() => { 
-    setLoaded(true) 
+    const timer = setTimeout(() => {
+      setLoaded(true)
+    }, 200) // Matching youth section timing
+    return () => clearTimeout(timer)
   }, [])
+
+  // Corrected adult products with accurate schedule data from ProgramsAndScheduleSection
+  const adultFencingProducts = [
+    {
+      id: 1,
+      title: "Fencing Introduction 1st Month",
+      description: "Includes access to all our Epee and Saber classes for you to discover the joy of fencing.",
+      price: "$85.00", // Assuming this is the adult equivalent
+      image: "adultFencing/FirstMonth.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      badge: "Beginner Friendly",
+      schedule: [
+        { day: "Access to all classes", time: "Various times", weapon: "Both" }
+      ]
+    },
+    {
+      id: 2,
+      title: "Adult Open Fencing",
+      description: "For adults and competitive TFA fencers to fence at our salle. Contact the coach or staff to determine which nights you'd like to attend.",
+      price: "$95.00",
+      image: "adultFencing/OpenFencing.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      recurring: true,
+      schedule: [
+        { day: "Monday, Tuesday, Wednesday, Thursday", time: "7:00 pm to 9:00 pm", weapon: "Both" },
+        { day: "Saturday", time: "10:30 am to 12:30 pm", weapon: "Both" }
+      ]
+    },
+    {
+      id: 3,
+      title: "Full Adult Subscription",
+      description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program including Team Fencer schedules.",
+      price: "$195.00",
+      image: "adultFencing/FullSubscription.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      recurring: true,
+      badge: "Most Popular",
+      schedule: [
+        { day: "Tuesday, Thursday", time: "6:00 pm to 7:00 pm", weapon: "Epee" },
+        { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Saber" },
+        { day: "Saturday", time: "10:30 am to 11:30 am", weapon: "Both" },
+        { day: "Open Fencing", time: "7:00 pm to 9:00 pm", weapon: "Both" }
+      ]
+    },
+    {
+      id: 4,
+      title: "Competitive Adult Program",
+      description: "For adults who make more of a time commitment and have narrowed their focus to a specific weapon and plan on competing in tournaments.",
+      price: "Contact for Pricing",
+      image: "adultFencing/TeamMembership.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      schedule: [
+        { day: "Monday, Tuesday, Wednesday, Thursday", time: "5:00 pm to 6:00 pm", weapon: "All" },
+        { day: "Open Fencing Access", time: "7:00 pm to 9:00 pm", weapon: "Both" },
+        { day: "Saturday Training", time: "10:30 am to 12:30 pm", weapon: "Competition" }
+      ]
+    },
+    {
+      id: 5,
+      title: "Adult Team Fencers",
+      description: "Recreational adult fencers that may have already narrowed their focus to a specific weapon and have not yet decided if they'd like to pursue tournaments.",
+      price: "$150.00", // Estimated based on schedule complexity
+      image: "adultFencing/FitnessClass.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      recurring: true,
+      schedule: [
+        { day: "Tuesday, Thursday", time: "6:00 pm to 7:00 pm", weapon: "Epee" },
+        { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Saber" },
+        { day: "Saturday", time: "10:30 am to 11:30 am", weapon: "Both" }
+      ]
+    },
+    {
+      id: 6,
+      title: "Private Lessons Package",
+      description: "One-on-one coaching sessions tailored to your specific goals and skill level. Available for all adult programs and skill levels.",
+      price: "Contact for Pricing",
+      image: "adultFencing/PrivateLessons.jpg",
+      href: "https://texasfencingacademy.org/?page_id=881",
+      schedule: [
+        { day: "Flexible Scheduling", time: "By Appointment", weapon: "Personalized" },
+        { day: "Weekend Sessions", time: "Available", weapon: "All" },
+        { day: "Goal-Oriented Training", time: "Custom Duration", weapon: "Specialized" }
+      ]
+    }
+  ]
+
+  // Function to handle card click
+  const handleCardClick = () => {
+    window.open("https://texasfencingacademy.org/?page_id=881", "_blank");
+  };
 
   return (
     <section id="adult-programs" className="relative py-24 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-50 overflow-hidden">
@@ -293,11 +417,11 @@ function AdultProgramsSection() {
         {/* Section header */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center space-x-4 mb-8 group">
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-white/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+            <div className="w-16 h-px bg-amber-500 transition-colors duration-1000 group-hover:bg-amber-600"></div>
+            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-white/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-1000">
               <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-16 h-px bg-amber-500 transition-colors duration-1000 group-hover:bg-amber-600"></div>
           </div>
 
           <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
@@ -307,93 +431,162 @@ function AdultProgramsSection() {
             Flexible membership and training options designed for adult schedules and goals
           </p>
           
-          <div className="max-w-3xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-4">
-            <p className="text-gray-700 text-base">
-              <strong>New to fencing?</strong> Start with our 1st Month Introduction package, 
-              then choose the membership that fits your goals and schedule.
+          <div className="max-w-3xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-4 mb-8">
+            <p className="text-gray-700 text-base mb-2">
+              <strong>Prior to coming to the club</strong> you must register through the TFA Pro V2 and attend a scheduled complementary orientation class on Saturday.
+            </p>
+            <p className="text-gray-600 text-sm">
+              Hover over each program to see detailed schedules and pricing information.
             </p>
           </div>
         </div>
 
-        {/* Programs grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {adultFencingProducts.map((program, index) => (
-            <a
-              key={program.id}
-              href={program.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`
-                group bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden 
-                hover:shadow-2xl hover:scale-105 hover:border-amber-200 transition-all duration-700 
-                flex flex-col opacity-0 translate-y-8
-                ${loaded ? "opacity-100 translate-y-0" : ""}
-              `}
-              style={{
-                animationFillMode: "forwards",
-                animationDuration: "700ms",
-                animationDelay: `${index * 200}ms`
-              }}
-            >
-              {/* Image section */}
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={program.image} 
-                  alt={program.title} 
-                  className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700" 
-                />
-                
+        {/* Programs with hover schedule - matching YouthProgramsSection style */}
+        <div className="mb-16">
+          <h3 className="text-3xl font-light text-gray-800 mb-4 text-center">
+            Choose Your{" "}
+            <span className="font-semibold text-amber-600">Adult Path</span>
+          </h3>
+          <p className="text-center text-gray-600 mb-2 text-lg">
+            Hover over a program you're interested in to see the schedule
+          </p>
+          <p className="text-center text-amber-600 mb-12 text-base font-medium">
+            Click any card to register through our portal
+          </p>
+
+          {/* Programs grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {adultFencingProducts.map((program, index) => (
+              <div
+                key={program.id}
+                onClick={handleCardClick}
+                className={`group relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-1000 ease-out min-h-[400px] cursor-pointer overflow-hidden ${
+                  loaded 
+                    ? 'opacity-100 translate-y-0' 
+                    : 'opacity-0 translate-y-8'
+                }`}
+                style={{ 
+                  transitionDelay: loaded ? `${index * 150}ms` : '0ms',
+                  animation: loaded ? `fadeInUp 1.5s ease-out forwards ${index * 150}ms` : 'none'
+                }}
+              >
+                {/* Subtle top accent with animation */}
+                <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-1000 group-hover:animate-pulse"></div>
+
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-1000 rounded-xl"></div>
+
+                {/* Badge */}
+                {program.badge && (
+                  <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+                    {program.badge}
+                  </div>
+                )}
+
                 {/* Recurring badge */}
-                {program.recurring && (
-                  <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                {program.recurring && !program.badge && (
+                  <div className="absolute top-3 left-3 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
                     Monthly
                   </div>
                 )}
-                
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-amber-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                {/* External link icon */}
-                <div className="absolute top-3 right-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <svg 
-                    className="w-4 h-4 text-amber-600"
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </div>
-              </div>
 
-              {/* Content section */}
-              <div className="flex-1 flex flex-col p-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-amber-700 transition-colors duration-300">
-                  {program.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed flex-grow mb-4">
-                  {program.description}
-                </p>
-                
-                {/* Price and CTA */}
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold text-amber-600">
-                    {program.price}
-                  </span>
-                  <div className="flex items-center space-x-2 text-amber-600 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                    <span className="text-sm font-medium">Learn More</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                {/* Click indicator with bounce animation */}
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-1000 group-hover:animate-bounce">
+                  <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-500">
+                    <svg
+                      className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
                     </svg>
                   </div>
                 </div>
-              </div>
 
-              {/* Bottom accent */}
-              <div className="h-1 bg-gradient-to-r from-amber-400 to-amber-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-            </a>
-          ))}
+                {/* Program info with fade and scale animations */}
+                <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-1000 ease-out">
+                  {/* Image section */}
+                  <div className="relative h-48 overflow-hidden rounded-lg mb-4">
+                    <img 
+                      src={program.image} 
+                      alt={program.title} 
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-1200" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                  </div>
+
+                  <div className="text-center mb-4">
+                    <h4 className="text-amber-700 font-semibold text-lg mb-3 tracking-wide group-hover:text-amber-800 transition-colors duration-500">
+                      {program.title}
+                    </h4>
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-500 mb-4">
+                    {program.description}
+                  </p>
+                  
+                  {/* Price display */}
+                  <div className="text-center">
+                    <span className="text-2xl font-bold text-amber-600">
+                      {program.price}
+                    </span>
+                    {program.recurring && program.price !== "Contact for Pricing" && (
+                      <span className="text-sm text-gray-500 block">per month</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Schedule overlay - matching YouthProgramsSection */}
+                <div className="absolute inset-6 opacity-0 group-hover:opacity-100 transition-all duration-1000 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
+                  <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
+                    SCHEDULE & PRICING
+                  </h5>
+                  
+                  {/* Price display in overlay */}
+                  <div className="text-center mb-4">
+                    <span className="text-2xl font-bold text-amber-600">
+                      {program.price}
+                    </span>
+                    {program.recurring && program.price !== "Contact for Pricing" && (
+                      <span className="text-sm text-gray-500 block">monthly recurring</span>
+                    )}
+                  </div>
+
+                  <div className="space-y-1">
+                    {program.schedule.map((schedule, scheduleIndex) => (
+                      <div
+                        key={scheduleIndex}
+                        className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-800 ease-out hover:bg-amber-100 hover:scale-102"
+                        style={{ transitionDelay: `${scheduleIndex * 150}ms` }}
+                      >
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="font-medium text-gray-800 text-xs">
+                            {schedule.day}
+                          </span>
+                          <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-500">
+                            {schedule.weapon}
+                          </span>
+                        </div>
+                        <p className="text-gray-600 text-xs font-medium">
+                          {schedule.time}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-3 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-800 delay-500">
+                    <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
+                      Click to Register →
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom CTA */}
@@ -405,15 +598,14 @@ function AdultProgramsSection() {
           </div>
           <div className="max-w-2xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
             <p className="text-gray-700 font-medium text-base mb-4">
-              <span className="text-amber-700 font-semibold">Ready to begin your fencing journey?</span>{" "}
-              Join our welcoming adult fencing community and discover the perfect blend of 
-              mental strategy and physical precision.
+              <span className="text-amber-700 font-semibold">Our Philosophy:</span>{" "}
+              We foster a sense of team and family, so all of our fencers must list TFA as your primary club.
             </p>
             <a
               href="https://texasfencingacademy.org/?page_id=881"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-amber-700 hover:scale-105 transition-all duration-300 shadow-lg"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-amber-700 hover:scale-105 transition-all duration-500 shadow-lg"
             >
               <span>Get Started Today</span>
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -426,6 +618,8 @@ function AdultProgramsSection() {
     </section>
   )
 }
+
+
 
 export default function AdultFencingPage() {
   return (

@@ -12,6 +12,7 @@ import FencingLinksPage from './HomeNavPages/FromFounderPage/FencingLinksPage';
 import OptOutPage from './HomeNavPages/FromFounderPage/OptOutPage';
 import YouthFencingPage from './ProgramNavPages/YouthFencing';
 import AdultFencingPage from './ProgramNavPages/AdultFencing';
+import { CartProvider } from './StorePageComponent/Cart/CartContex';
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -26,27 +27,30 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <ScrollToTop /> {/* This ensures pages load from top when navigating */}
-        
-        {/* Routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/policies" element={<PoliciesPage />}/>
-          <Route path="/fencinglinks" element={<FencingLinksPage />}/>
-          <Route path="/optout" element={<OptOutPage />}/>
-          <Route path="/store" element={<StoreSection />} />
-          <Route path="/summercamp" element={<SummerCampPage />} />
-          <Route path="/founder" element={<FounderPage />} /> {/* Add founder route */}
-          <Route path="/program" element={<ProgramOverviewPage />} /> {/* Assuming program is also part of the store section */}
-          <Route path= "/privateLessons" element={<PrivateFencingLessonsPage />} /> {/* Assuming private lessons are also part of the store section */}
-          <Route path="/youthFencing" element={ <YouthFencingPage/>} /> {/* Policies page under store section */}
-          <Route path="/adultFencing" element={ <AdultFencingPage/>} />
-        </Routes>
-      </div>
-    </Router>
+    <CartProvider> {/* Wrap the entire app with CartProvider */}
+      <Router>
+        <div className="App">
+          <ScrollToTop /> {/* This ensures pages load from top when navigating */}
+          
+          {/* Routes */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/policies" element={<PoliciesPage />}/>
+            <Route path="/fencinglinks" element={<FencingLinksPage />}/>
+            <Route path="/optout" element={<OptOutPage />}/>
+            <Route path="/store" element={<StoreSection />} /> {/* Updated to use StoreContainer */}
+            <Route path="/summercamp" element={<SummerCampPage />} />
+            <Route path="/founder" element={<FounderPage />} />
+            <Route path="/program" element={<ProgramOverviewPage />} />
+            <Route path="/privateLessons" element={<PrivateFencingLessonsPage />} />
+            <Route path="/youthFencing" element={<YouthFencingPage />} />
+            <Route path="/adultFencing" element={<AdultFencingPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </CartProvider>
   );
 }
+
 
 export default App;

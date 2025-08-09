@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useCart } from './Cart/CartContex'
 
 const repairData = [
   {
@@ -82,7 +83,7 @@ function RepairsHeroSection() {
       {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="store/FencingRepairBg.jpg"
+          src="/store/FencingRepairBg.jpg"
           alt="Fencing Equipment Repairs"
           className="w-full h-full object-cover object-center animate-fade-in will-change-transform-opacity"
           fetchPriority="high"
@@ -198,21 +199,28 @@ function RepairsFilters({ selectedCategory, onCategoryChange, sortBy, onSortChan
   )
 }
 
-function RepairCard({ item, index, loaded, onRequestService, onViewDetails }) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [isRequested, setIsRequested] = useState(false)
+function RepairCard({ item, index, loaded, onViewDetails }) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const { addToCart, cartItems } = useCart();
 
-  const handleRequestService = (e) => {
-    e.stopPropagation()
-    setIsRequested(true)
-    setTimeout(() => setIsRequested(false), 3000)
-    onRequestService && onRequestService(item)
-  }
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    // Only add if not already in cart (repair services are limited to 1)
+    if (getItemQuantity() === 0) {
+      addToCart(item);
+    }
+  };
+
+  // Add this function to get the current quantity of this item in cart
+  const getItemQuantity = () => {
+    const cartItem = cartItems.find(cartItem => cartItem.id === item.id);
+    return cartItem ? cartItem.quantity : 0;
+  };
 
   const handleViewDetails = (e) => {
-    e.stopPropagation()
-    onViewDetails && onViewDetails(item)
-  }
+    e.stopPropagation();
+    onViewDetails && onViewDetails(item);
+  };
 
   return (
     <div
@@ -310,19 +318,20 @@ function RepairCard({ item, index, loaded, onRequestService, onViewDetails }) {
             
             {/* Minimal action buttons */}
             <div className="flex items-center space-x-2">
+              {/* Request Service button */}
               <button 
-                onClick={handleRequestService}
+                onClick={handleAddToCart}
                 className={`
                   group/btn relative overflow-hidden px-3 py-1.5 rounded-lg font-medium text-sm transition-all duration-300
-                  ${isRequested 
+                  ${getItemQuantity() > 0
                     ? 'bg-green-500 text-white' 
                     : 'bg-slate-100 text-slate-700 hover:bg-amber-500 hover:text-white'
                   }
                 `}
-                disabled={isRequested}
+                disabled={getItemQuantity() > 0}
               >
                 <span className="flex items-center space-x-1.5">
-                  {isRequested ? (
+                  {getItemQuantity() > 0 ? (
                     <>
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
@@ -340,6 +349,7 @@ function RepairCard({ item, index, loaded, onRequestService, onViewDetails }) {
                 </span>
               </button>
 
+              {/* Details button */}
               <button 
                 onClick={handleViewDetails}
                 className="px-3 py-1.5 text-sm text-slate-600 hover:text-amber-600 transition-colors duration-300"
