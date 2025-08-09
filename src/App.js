@@ -10,6 +10,8 @@ import PrivateFencingLessonsPage from './ProgramNavPages/PrivateTutoring';
 import PoliciesPage from './HomeNavPages/FromFounderPage/PolicyPage';
 import FencingLinksPage from './HomeNavPages/FromFounderPage/FencingLinksPage';
 import OptOutPage from './HomeNavPages/FromFounderPage/OptOutPage';
+import YouthFencingPage from './ProgramNavPages/YouthFencing';
+import AdultFencingPage from './ProgramNavPages/AdultFencing';
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -39,6 +41,8 @@ function App() {
           <Route path="/founder" element={<FounderPage />} /> {/* Add founder route */}
           <Route path="/program" element={<ProgramOverviewPage />} /> {/* Assuming program is also part of the store section */}
           <Route path= "/privateLessons" element={<PrivateFencingLessonsPage />} /> {/* Assuming private lessons are also part of the store section */}
+          <Route path="/youthFencing" element={ <YouthFencingPage/>} /> {/* Policies page under store section */}
+          <Route path="/adultFencing" element={ <AdultFencingPage/>} />
         </Routes>
       </div>
     </Router>

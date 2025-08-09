@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import sanityClient from "../Sanity/sanityClient";
+import {sanityClient} from "../Sanity/sanityClient";
 
 function InfoBanner() {
   const [bannerData, setBannerData] = useState(null);

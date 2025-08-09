@@ -217,7 +217,13 @@ const Navbar = () => {
         },
         {
           text: "Youth & Team Programs",
-          href: "/program#club-programs",
+          href: "/youthFencing",
+          icon: FencingIcon3,
+          isRoute: true,
+        },
+        {
+          text: "Adult Fencing",
+          href: "/adultFencing",
           icon: FencingIcon3,
           isRoute: true,
         },
@@ -249,35 +255,27 @@ const Navbar = () => {
         },
       ],
     },
+{
+  text: "Store",
+  href: "/store",
+  icon: FencingIcon4,
+  isRoute: true,
+  dropdown: [
     {
-      text: "Store",
-      href: "/store",
+      text: "Equipment",
+      href: "/store?section=equipment",
       icon: FencingIcon4,
       isRoute: true,
-      dropdown: [
-        {
-          text: "Youth Fencing",
-          href: "/store#youth-fencing",
-          icon: FencingIcon1,
-          isRoute: true,
-        },
-        { text: "Adult Fencing", href: "#adult-fencing", icon: FencingIcon2 },
-        {
-          text: "Lessons – Calendar",
-          href: "#lessons-calendar",
-          icon: FencingIcon6,
-        },
-        { text: "Equipment", href: "#equipment", icon: FencingIcon4 },
-        { text: "Repairs", href: "#repairs", icon: FencingIcon7 },
-        {
-          text: "Tournament Fees",
-          href: "#tournament-fees",
-          icon: FencingIcon6,
-        },
-        { text: "Special Events", href: "#special-events", icon: FencingIcon3 },
-        { text: "Donations", href: "#donations", icon: FencingIcon5 },
-      ],
     },
+    {
+      text: "Repairs",
+      href: "/store?section=repairs",
+      icon: FencingIcon7,
+      isRoute: true,
+    },
+  ],
+},
+
     {
       text: "Summer Camps 2025",
       href: "/summercamp",

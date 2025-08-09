@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 import { useRef } from 'react';
 
 
-import sanityClient from "../Sanity/sanityClient"; // Adjust path as needed
+import {sanityClient} from "../Sanity/sanityClient"; // Adjust path as needed
 
 function FreeIntroClassModal() {
   const [showModal, setShowModal] = useState(false);
