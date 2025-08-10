@@ -1,5 +1,6 @@
 import InfoBanner from "../HomePageComponent/InfoBanner";
 import Navbar from "../HomePageComponent/Navbar";
+import FooterSection from "../Sections/FooterSection";
 
 function PrivateLessonsHeroSection() {
   const scrollToSection = (sectionId) => {
@@ -84,7 +85,7 @@ function PrivateLessonsHeroSection() {
           <button
             onClick={() =>
               window.open(
-                "https://texasfencingacademy.glide.page/dl/17171d",
+                "https://texasfencingacademy.glide.page",
                 "_blank"
               )
             }
@@ -112,7 +113,7 @@ function PrivateLessonsHeroSection() {
 
 function PrivateLessonInformationSection() {
   const handleBookingClick = () => {
-    window.open("https://texasfencingacademy.glide.page/dl/17171d", "_blank");
+    window.open("https://texasfencingacademy.glide.page", "_blank");
   };
 
   const benefits = [
@@ -473,6 +474,7 @@ function PrivateFencingLessonsPage() {
       <PrivateLessonsHeroSection />
       {/* Private Lessons Information Section */}
       <PrivateLessonInformationSection />
+      <FooterSection />
     </>
   );
 }

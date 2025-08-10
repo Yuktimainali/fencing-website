@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Navbar from '../HomePageComponent/Navbar'
 import InfoBanner from '../HomePageComponent/InfoBanner'
+import FooterSection from '../Sections/FooterSection'
 
 function AdultFencingHeroSection() {
   const [isResizing, setIsResizing] = useState(false);
@@ -564,6 +565,7 @@ export default function AdultFencingPage() {
       <AdultFencingHeroSection />
       <AdultFencingInfoSection />
       <AdultProgramsSection />
+    <FooterSection/>
     </div>
   )
 }

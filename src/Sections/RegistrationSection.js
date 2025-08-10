@@ -154,7 +154,7 @@ export default function RegistrationSection() {
                 
                 {/* Portal Button with animation - Mobile optimized */}
                 <a
-                  href="https://texasfencingacademy.glide.page/dl/17171d"
+                  href="https://texasfencingacademy.glide.page"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-all duration-300 hover:shadow-xl hover:scale-105 hover:shadow-amber-500/25 flex items-center justify-center text-sm sm:text-base"

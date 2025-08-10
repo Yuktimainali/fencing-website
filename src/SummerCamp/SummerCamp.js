@@ -356,7 +356,7 @@
 //           <div className="flex flex-col sm:flex-row gap-6 justify-center">
 //             <div className="animate-slide-up delay-[1800ms] will-change-transform-opacity">
 //               <button
-//                 onClick={() => window.open('https://texasfencingacademy.glide.page/dl/17171d', '_blank')}
+//                 onClick={() => window.open('https://texasfencingacademy.glide.page', '_blank')}
 //                 className="
 //                   group relative inline-block px-12 py-4
 //                   bg-gradient-to-r from-accent-500 to-accent-600
@@ -377,7 +377,7 @@
 
 //             <div className="animate-slide-up delay-[2000ms] will-change-transform-opacity">
 //               <button
-//                 onClick={() => window.open('https://texasfencingacademy.glide.page/dl/17171d', '_blank')}
+//                 onClick={() => window.open('https://texasfencingacademy.glide.page', '_blank')}
 //                 className="
 //                   group relative inline-block px-12 py-4
 //                   bg-gradient-to-r from-accent-500 to-accent-600
@@ -398,7 +398,7 @@
 
 //             <div className="animate-slide-up delay-[2200ms] will-change-transform-opacity">
 //               <button
-//                 onClick={() => window.open('https://texasfencingacademy.glide.page/dl/17171d', '_blank')}
+//                 onClick={() => window.open('https://texasfencingacademy.glide.page', '_blank')}
 //                 className="
 //                   group px-12 py-4 border-2 border-white/30
 //                   text-white font-semibold text-lg
@@ -1046,7 +1046,7 @@ function RegistrationSection(){
                         <button
                             onClick={() =>
                                 window.open(
-                                    "https://texasfencingacademy.glide.page/dl/17171d",
+                                    "https://texasfencingacademy.glide.page",
                                     "_blank"
                                 )
                             }
@@ -1077,7 +1077,7 @@ function RegistrationSection(){
                         <button
                             onClick={() =>
                                 window.open(
-                                    "https://texasfencingacademy.glide.page/dl/17171d",
+                                    "https://texasfencingacademy.glide.page",
                                     "_blank"
                                 )
                             }
@@ -1108,7 +1108,7 @@ function RegistrationSection(){
                         <button
                             onClick={() =>
                                 window.open(
-                                    "https://texasfencingacademy.glide.page/dl/17171d",
+                                    "https://texasfencingacademy.glide.page",
                                     "_blank"
                                 )
                             }

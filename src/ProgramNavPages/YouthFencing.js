@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Navbar from '../HomePageComponent/Navbar'
 import InfoBanner from '../HomePageComponent/InfoBanner'
+import FooterSection from '../Sections/FooterSection';
 
 const youthFencingProducts = [
   {
@@ -511,6 +512,7 @@ export default function YouthFencingPage() {
       <YouthFencingHeroSection />
       <YouthFencingInfoSection />
       <YouthProgramsSection />
+      <FooterSection />
     </div>
   )
 }

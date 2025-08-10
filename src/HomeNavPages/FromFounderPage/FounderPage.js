@@ -5,6 +5,7 @@ import founderpageimg2 from "../../assets/founderpageimg2.jpg";
 import founderpagebg from "../../assets/founderpagebg.mp4";
 import Navbar from "../../HomePageComponent/Navbar";
 import InfoBanner from "../../HomePageComponent/InfoBanner";
+import FooterSection from "../../Sections/FooterSection";
 
 function HeroFounderSection() {
     return (
@@ -770,6 +771,7 @@ export default function FounderPage() {
             <FacilitiesSection />
             <OurPhilosophySection />
             <InformationLinksSection />
+            <FooterSection />
         </div>
     );
 }

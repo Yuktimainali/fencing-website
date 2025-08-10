@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../HomePageComponent/Navbar";
 import InfoBanner from "../HomePageComponent/InfoBanner";
+import FooterSection from "../Sections/FooterSection";
 
 function HeroSection() {
   const scrollToSection = (sectionId) => {
@@ -178,7 +179,7 @@ function ProgramsAndScheduleSection() {
 
   // Function to handle card click
   const handleCardClick = () => {
-    window.open("https://texasfencingacademy.glide.page/dl/17171d", "_blank");
+    window.open("https://texasfencingacademy.glide.page", "_blank");
   };
 
   return (
@@ -749,7 +750,7 @@ function MinnowFencersSection() {
                   <button
                     onClick={() =>
                       window.open(
-                        "https://texasfencingacademy.glide.page/dl/17171d",
+                        "https://texasfencingacademy.glide.page",
                         "_blank"
                       )
                     }
@@ -1013,7 +1014,7 @@ function TeamFencersSection() {
                   <button
                     onClick={() =>
                       window.open(
-                        "https://texasfencingacademy.glide.page/dl/17171d",
+                        "https://texasfencingacademy.glide.page",
                         "_blank"
                       )
                     }
@@ -1213,6 +1214,7 @@ export default function ProgramOverviewPage() {
         <ProgramsAndScheduleSection />
         <MinnowFencersSection />
         <TeamFencersSection />
+        <FooterSection />
       </div>
     </>
   );
