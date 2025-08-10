@@ -13,6 +13,7 @@ import OptOutPage from './HomeNavPages/FromFounderPage/OptOutPage';
 import YouthFencingPage from './ProgramNavPages/YouthFencing';
 import AdultFencingPage from './ProgramNavPages/AdultFencing';
 import { CartProvider } from './StorePageComponent/Cart/CartContex';
+import ContactPage from './HomeNavPages/ContactPage'; // Import the contact page
 
 // Component to handle scroll to top on route change
 function ScrollToTop() {
@@ -45,6 +46,7 @@ function App() {
             <Route path="/privateLessons" element={<PrivateFencingLessonsPage />} />
             <Route path="/youthFencing" element={<YouthFencingPage />} />
             <Route path="/adultFencing" element={<AdultFencingPage />} />
+            <Route path="/contact" element={<ContactPage />} /> {/* Added contact page route */}
           </Routes>
         </div>
       </Router>

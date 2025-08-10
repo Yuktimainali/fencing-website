@@ -58,7 +58,7 @@ const Navbar = () => {
           href: "#calendar",
           scrollTarget: "calendar-section",
         },
-        { text: "Contact", href: "#contact", scrollTarget: "footer" },
+        { text: "Contact", href: "/contact"},
         {
           text: "Registration",
           href: "#registration",
