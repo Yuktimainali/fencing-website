@@ -77,17 +77,16 @@ const Navbar = () => {
         { text: "Private Lessons", href: "/privateLessons" },
       ],
     },
-    {
-      text: "Parents",
-      href: "#parents",
-      icon: "https://texasfencingacademy.org/wp-content/uploads/2019/03/silhouete7-36x19.jpg",
-      dropdown: [
-        { text: "Safety", href: "#safety" },
-        { text: "Parents Role", href: "#parents-role" },
-        { text: "College Advantage", href: "#college-advantage" },
-        { text: "Kids About Fencing", href: "#kids-fencing" },
-      ],
-    },
+{
+  text: "Parents",
+  href: "/safety",
+  icon: "https://texasfencingacademy.org/wp-content/uploads/2019/03/silhouete7-36x19.jpg",
+  dropdown: [
+    { text: "Safety & Parents Role", href: "/safety" },
+    { text: "College Advantage", href: "#college-advantage" },
+    { text: "Kids About Fencing", href: "#kids-fencing" },
+  ],
+},
     {
       text: "Store",
       href: "/store",
@@ -163,11 +162,6 @@ const Navbar = () => {
 
   const handleDropdownToggle = (index) => {
     setOpenDropdown(openDropdown === index ? null : index);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-    setOpenDropdown(null);
   };
 
   // Check if current page matches the nav item
