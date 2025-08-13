@@ -145,7 +145,7 @@ export default function FooterSection() {
             {/* Social */}
             <div>
               <h3 className="font-medium text-white mb-3 sm:mb-4 text-sm sm:text-base">Connect With Us</h3>
-              <div className="flex justify-start space-x-3 sm:space-x-4">
+              <div className="flex justify-center space-x-3 sm:space-x-4">
                 <a
                   href="https://www.instagram.com/texasfencingacademy/"
                   target="_blank"

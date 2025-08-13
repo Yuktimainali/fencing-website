@@ -45,20 +45,15 @@ const Navbar = () => {
     {
       text: "Summer Camps 2025",
       href: "/summercamp",
-      icon: "https://texasfencingacademy.org/wp-content/uploads/2020/06/FencingSilhouette9-36x27.jpg",
+      icon: "/navbarIcons/summercamp.png",
     },
     {
       text: "About Us",
       href: "/",
-      icon: "https://texasfencingacademy.org/wp-content/uploads/2019/02/silhouete2-36x28.jpg",
+      icon: "/navbarIcons/aboutus.png",
       dropdown: [
         { text: "About TFA", href: "/founder" },
-        {
-          text: "Calendar",
-          href: "#calendar",
-          scrollTarget: "calendar-section",
-        },
-        { text: "Contact", href: "/contact"},
+        { text: "Contact", href: "/contact" },
         {
           text: "Registration",
           href: "#registration",
@@ -69,7 +64,7 @@ const Navbar = () => {
     {
       text: "Programs",
       href: "/program",
-      icon: "https://texasfencingacademy.org/wp-content/uploads/2020/06/FencingSilhouette8-36x16.jpg",
+      icon: "/navbarIcons/program.png",
       dropdown: [
         { text: "All Programs", href: "/program" },
         { text: "Youth Programs", href: "/youthFencing" },
@@ -77,20 +72,20 @@ const Navbar = () => {
         { text: "Private Lessons", href: "/privateLessons" },
       ],
     },
-{
-  text: "Parents",
-  href: "/safety",
-  icon: "https://texasfencingacademy.org/wp-content/uploads/2019/03/silhouete7-36x19.jpg",
-  dropdown: [
-    { text: "Safety & Parents Role", href: "/safety" },
-    { text: "College Advantage", href: "#college-advantage" },
-    { text: "Kids About Fencing", href: "#kids-fencing" },
-  ],
-},
+    {
+      text: "Parents",
+      href: "/safety",
+      icon: "/navbarIcons/family.png",
+      dropdown: [
+        { text: "Safety & Parents Role", href: "/safety" },
+        { text: "College Advantage", href: "#college-advantage" },
+        { text: "Kids About Fencing", href: "#kids-fencing" },
+      ],
+    },
     {
       text: "Store",
       href: "/store",
-      icon: "https://texasfencingacademy.org/wp-content/uploads/2020/06/FencingSilhouette8-36x16.jpg",
+      icon: "/navbarIcons/store.png",
       dropdown: [
         { text: "Equipment", href: "/store?section=equipment" },
         { text: "Repairs", href: "/store?section=repairs" },
