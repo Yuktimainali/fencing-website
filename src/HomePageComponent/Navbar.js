@@ -418,131 +418,131 @@ const Navbar = () => {
             </div>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile Menu - Updated to match your reference design */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-amber-200 bg-white shadow-lg">
-            <div className="px-2 pt-2 pb-3 space-y-1 max-h-96 overflow-y-auto">
-              {navItems.map((item, index) => (
-                <div key={item.text} className="w-full">
-                  <div className="flex items-stretch">
+      {/* Mobile Menu - OVERLAY ONLY */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed top-16 left-0 right-0 bg-white shadow-2xl z-50 border-t border-amber-200 animate-in slide-in-from-top-2 duration-300">
+          <div className="px-2 pt-2 pb-3 space-y-1 max-h-96 overflow-y-auto">
+            {navItems.map((item, index) => (
+              <div key={item.text} className="w-full">
+                <div className="flex items-stretch">
+                  <button
+                    onClick={() => handleNavigation(item.href)}
+                    className={`
+                      flex-1 flex items-center gap-4 px-4 py-3 text-base font-medium transition-all duration-200
+                      ${!item.dropdown ? "rounded-lg" : "rounded-l-lg"}
+                      ${
+                        isActive(item.href) || isDropdownActive(item)
+                          ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 shadow-lg"
+                          : "text-gray-700 hover:bg-amber-50 hover:text-amber-600"
+                      }
+                    `}
+                    aria-label={`Navigate to ${item.text}`}
+                  >
+                    <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                      <div className="flex items-center justify-center rounded transition-all duration-300 p-0.5">
+                        <img
+                          alt="Fencing Icon"
+                          className="w-5 h-5 object-contain transition-all duration-300"
+                          src={item.icon}
+                          style={{ filter: "none", opacity: 1 }}
+                        />
+                      </div>
+                    </div>
+                    <span className="flex-1 text-left">{item.text}</span>
+                  </button>
+
+                  {item.dropdown && (
                     <button
-                      onClick={() => handleNavigation(item.href)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDropdownToggle(index);
+                      }}
                       className={`
-                        flex-1 flex items-center gap-4 px-4 py-3 text-base font-medium transition-all duration-200
-                        ${!item.dropdown ? "rounded-lg" : "rounded-l-lg"}
+                        px-4 py-3 rounded-r-lg transition-all duration-200 border-l border-opacity-20
                         ${
                           isActive(item.href) || isDropdownActive(item)
-                            ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 shadow-lg"
-                            : "text-gray-700 hover:bg-amber-50 hover:text-amber-600"
+                            ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 shadow-lg border-slate-700"
+                            : "text-gray-700 hover:bg-amber-50 hover:text-amber-600 border-gray-300"
                         }
                       `}
-                      aria-label={`Navigate to ${item.text}`}
+                      aria-label={`Toggle ${item.text} dropdown menu`}
+                      aria-expanded={openDropdown === index}
+                      aria-haspopup="true"
                     >
-                      <div className="w-6 h-6 flex items-center justify-center flex-shrink-0">
-                        <div className="flex items-center justify-center rounded transition-all duration-300 p-0.5">
-                          <img
-                            alt="Fencing Icon"
-                            className="w-5 h-5 object-contain transition-all duration-300"
-                            src={item.icon}
-                            style={{ filter: "none", opacity: 1 }}
-                          />
-                        </div>
-                      </div>
-                      <span className="flex-1 text-left">{item.text}</span>
-                    </button>
-
-                    {item.dropdown && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDropdownToggle(index);
-                        }}
-                        className={`
-                          px-4 py-3 rounded-r-lg transition-all duration-200 border-l border-opacity-20
-                          ${
-                            isActive(item.href) || isDropdownActive(item)
-                              ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 shadow-lg border-slate-700"
-                              : "text-gray-700 hover:bg-amber-50 hover:text-amber-600 border-gray-300"
-                          }
-                        `}
-                        aria-label={`Toggle ${item.text} dropdown menu`}
-                        aria-expanded={openDropdown === index}
-                        aria-haspopup="true"
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          openDropdown === index ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
                       >
-                        <svg
-                          className={`w-4 h-4 transition-transform duration-200 ${
-                            openDropdown === index ? "rotate-180" : ""
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 9l-7 7-7-7"
-                          ></path>
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Mobile Dropdown */}
-                  {item.dropdown && openDropdown === index && (
-                    <div className="mt-1 ml-4 space-y-1">
-                      {item.dropdown.map((dropdownItem, dropdownIndex) => (
-                        <button
-                          key={`${dropdownItem.text}-${dropdownIndex}`}
-                          onClick={() => handleNavigation(dropdownItem.href)}
-                          className={`
-                            w-full text-left px-6 py-3 text-sm font-medium transition-all duration-300 flex items-center rounded-lg
-                            ${
-                              isActive(dropdownItem.href)
-                                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white"
-                                : "text-gray-600 hover:bg-amber-50 hover:text-amber-600"
-                            }
-                          `}
-                        >
-                          <span className="w-1.5 h-1.5 bg-current rounded-full mr-3 opacity-60"></span>
-                          {dropdownItem.text}
-                        </button>
-                      ))}
-                    </div>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        ></path>
+                      </svg>
+                    </button>
                   )}
                 </div>
-              ))}
 
-              {/* Mobile Search Button */}
-              <div className="px-4 py-3 border-t border-amber-200 mt-4">
-                <button
-                  className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-amber-50 hover:text-amber-600 rounded-lg transition-all duration-200"
-                  aria-label="Open search"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-                    <circle
-                      cx="11"
-                      cy="11"
-                      r="7"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    ></circle>
-                    <path
-                      d="M21 21l-4.3-4.3"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    ></path>
-                  </svg>
-                  <span>Search</span>
-                </button>
+                {/* Mobile Dropdown */}
+                {item.dropdown && openDropdown === index && (
+                  <div className="mt-1 ml-4 space-y-1">
+                    {item.dropdown.map((dropdownItem, dropdownIndex) => (
+                      <button
+                        key={`${dropdownItem.text}-${dropdownIndex}`}
+                        onClick={() => handleNavigation(dropdownItem.href)}
+                        className={`
+                          w-full text-left px-6 py-3 text-sm font-medium transition-all duration-300 flex items-center rounded-lg
+                          ${
+                            isActive(dropdownItem.href)
+                              ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white"
+                              : "text-gray-600 hover:bg-amber-50 hover:text-amber-600"
+                          }
+                        `}
+                      >
+                        <span className="w-1.5 h-1.5 bg-current rounded-full mr-3 opacity-60"></span>
+                        {dropdownItem.text}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
+            ))}
+
+            {/* Mobile Search Button */}
+            <div className="px-4 py-3 border-t border-amber-200 mt-4">
+              <button
+                className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-amber-50 hover:text-amber-600 rounded-lg transition-all duration-200"
+                aria-label="Open search"
+              >
+                <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="7"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  ></circle>
+                  <path
+                    d="M21 21l-4.3-4.3"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  ></path>
+                </svg>
+                <span>Search</span>
+              </button>
             </div>
           </div>
-        )}
-      </nav>
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes slide-in-from-top-2 {

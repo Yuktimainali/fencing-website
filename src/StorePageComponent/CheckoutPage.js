@@ -5,19 +5,19 @@ import { useCart } from "./Cart/CartContex";
 function EmptyCartComponent({ onNavigateToSection }) {
   const [currentTip, setCurrentTip] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
 
   const fencingTips = [
-  "Every fencing champion started with their first blade",
-  "Great gear makes great fencers",
-  "Your next touch begins with the right weapon",
-  "Elite fencers trust professional equipment",
-];
-
+    "Every fencing champion started with their first blade",
+    "Great gear makes great fencers",
+    "Your next touch begins with the right weapon",
+    "Elite fencers trust professional equipment",
+  ];
 
   const featuredCategories = [
     {
       name: "Protective Gear",
-      icon: "/store/icons/knight.png", // Example icon path
+      icon: "/store/icons/knight.png",
       description: "Stay safe while you train",
       items: ["Masks", "Jackets", "Gloves"],
       section: "equipment",
@@ -37,6 +37,24 @@ function EmptyCartComponent({ onNavigateToSection }) {
       section: "equipment",
     },
   ];
+
+  // Handle resize events for performance
+  useEffect(() => {
+    let resizeTimer;
+    function handleResize() {
+      setIsResizing(true);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setIsResizing(false);
+      }, 300);
+    }
+    
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
 
   useEffect(() => {
     setIsVisible(true);
@@ -63,22 +81,24 @@ function EmptyCartComponent({ onNavigateToSection }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 relative">
+    <div className={`min-h-screen bg-slate-50 text-slate-800 relative contain-layout-paint ${
+      isResizing ? 'no-animations' : ''
+    }`}>
       {/* Clean background */}
       <div className="absolute inset-0 bg-gradient-to-br from-white via-slate-50 to-slate-100"></div>
       
       <div
-        className={`container mx-auto px-4 py-16 relative z-10 transition-all duration-1000 ${
+        className={`container mx-auto px-4 md:px-6 py-8 md:py-16 relative z-10 transition-all duration-1000 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
+        } ${isResizing ? 'transition-none' : ''}`}
       >
-        {/* Main Empty Cart Section */}
-        <div className="text-center mb-16">
-          {/* Clean Cart Icon */}
-          <div className="relative mx-auto w-32 h-32 mb-8">
+        {/* Main Empty Cart Section - mobile responsive */}
+        <div className="text-center mb-12 md:mb-16">
+          {/* Clean Cart Icon - mobile responsive */}
+          <div className="relative mx-auto w-24 h-24 md:w-32 md:h-32 mb-6 md:mb-8">
             <div className="relative z-10 w-full h-full bg-white rounded-full flex items-center justify-center border border-slate-200 shadow-lg">
               <svg
-                className="w-16 h-16 text-amber-500"
+                className="w-12 h-12 md:w-16 md:h-16 text-amber-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -95,20 +115,20 @@ function EmptyCartComponent({ onNavigateToSection }) {
             </div>
           </div>
 
-          <h1 className="text-5xl font-bold mb-4 text-slate-800">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 text-slate-800 px-4">
             Your Cart is Empty
           </h1>
           
-          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-xl text-slate-600 mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-4">
             Every great fencer needs the right equipment. Start building your arsenal with quality gear that makes the difference.
           </p>
 
-          {/* Clean Rotating Tips */}
-          <div className="bg-white rounded-xl p-6 mb-8 max-w-lg mx-auto border border-slate-200 shadow-sm">
-            <div className="flex items-center justify-center mb-3">
-              <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center mr-3">
+          {/* Clean Rotating Tips - mobile responsive */}
+          <div className="bg-white rounded-lg md:rounded-xl p-4 md:p-6 mb-6 md:mb-8 max-w-lg mx-auto border border-slate-200 shadow-sm mx-4 md:mx-auto">
+            <div className="flex items-center justify-center mb-2 md:mb-3">
+              <div className="w-6 h-6 md:w-8 md:h-8 bg-amber-500 rounded-full flex items-center justify-center mr-2 md:mr-3">
                 <svg
-                  className="w-4 h-4 text-white"
+                  className="w-3 h-3 md:w-4 md:h-4 text-white"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -119,51 +139,53 @@ function EmptyCartComponent({ onNavigateToSection }) {
                   />
                 </svg>
               </div>
-              <span className="text-amber-600 font-semibold text-sm uppercase tracking-wider">
+              <span className="text-amber-600 font-semibold text-xs md:text-sm uppercase tracking-wider">
                 Pro Tip
               </span>
             </div>
-            <p className="text-slate-700 italic transition-all duration-500 text-lg">
+            <p className="text-slate-700 italic transition-all duration-500 text-base md:text-lg">
               "{fencingTips[currentTip]}"
             </p>
           </div>
         </div>
 
-        {/* Clean Categories Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        {/* Clean Categories Grid - mobile responsive */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12 px-4 md:px-0">
           {featuredCategories.map((category, index) => (
             <div
               key={category.name}
-              className="group relative bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg hover:-translate-y-1 hover:scale-[1.01] transition-all duration-700 ease-out cursor-pointer"
+              className={`group relative bg-white rounded-lg md:rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-lg hover:-translate-y-1 hover:scale-[1.01] transition-all duration-700 ease-out cursor-pointer ${
+                isResizing ? 'transition-none' : ''
+              }`}
               style={{ animationDelay: `${index * 200}ms` }}
               onClick={() => handleCategoryClick(category)}
             >
               {/* Subtle top accent */}
-              <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+              <div className="absolute top-0 left-4 right-4 md:left-6 md:right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
               {/* Minimal hover glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-slate-50/0 group-hover:from-amber-50/20 group-hover:to-slate-50/10 transition-all duration-700 rounded-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-slate-50/0 group-hover:from-amber-50/20 group-hover:to-slate-50/10 transition-all duration-700 rounded-lg md:rounded-xl"></div>
 
-              <div className="relative p-8">
+              <div className="relative p-4 md:p-8">
                 <div className="text-center">
-                  <div className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-4xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
                     <img
-                        src={category.icon}
-                        alt={category.name}
-                        className="w-12 h-12 mx-auto"
+                      src={category.icon}
+                      alt={category.name}
+                      className="w-10 h-10 md:w-12 md:h-12 mx-auto"
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-800 mb-3 group-hover:text-amber-700 transition-colors">
+                  <h3 className="text-lg md:text-xl font-semibold text-slate-800 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
                     {category.name}
                   </h3>
-                  <p className="text-slate-600 mb-6 text-sm leading-relaxed">
+                  <p className="text-slate-600 mb-4 md:mb-6 text-sm leading-relaxed">
                     {category.description}
                   </p>
-                  <div className="flex flex-wrap justify-center gap-2">
+                  <div className="flex flex-wrap justify-center gap-1 md:gap-2">
                     {category.items.map((item) => (
                       <span
                         key={item}
-                        className="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-medium border border-slate-200"
+                        className="bg-slate-100 text-slate-600 px-2 md:px-3 py-1 rounded-full text-xs font-medium border border-slate-200"
                       >
                         {item}
                       </span>
@@ -178,24 +200,24 @@ function EmptyCartComponent({ onNavigateToSection }) {
           ))}
         </div>
 
-        {/* Clean Call to Action Section */}
-        <div className="text-center">
-          <div className="bg-white rounded-2xl p-10 border border-slate-200 shadow-sm max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6 text-slate-800">
+        {/* Clean Call to Action Section - mobile responsive */}
+        <div className="text-center px-4 md:px-0">
+          <div className="bg-white rounded-xl md:rounded-2xl p-6 md:p-10 border border-slate-200 shadow-sm max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-slate-800">
               Ready to Start Shopping?
             </h2>
-            <p className="text-slate-600 mb-8 text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="text-slate-600 mb-6 md:mb-8 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
               From beginner-friendly gear to professional competition equipment, we have everything you need to excel in your fencing journey.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
               <button
                 onClick={handleNavigateToEquipment}
-                className="bg-amber-500 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-amber-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group"
+                className="bg-amber-500 text-white px-6 md:px-10 py-3 md:py-4 rounded-lg md:rounded-xl font-bold text-base md:text-lg hover:bg-amber-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group"
               >
                 <span className="flex items-center justify-center">
                   <svg
-                    className="w-5 h-5 mr-3 group-hover:translate-x-1 transition-transform"
+                    className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 group-hover:translate-x-1 transition-transform"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -213,19 +235,19 @@ function EmptyCartComponent({ onNavigateToSection }) {
               
               <button
                 onClick={handleNavigateToRepairs}
-                className="bg-slate-100 text-slate-700 px-10 py-4 rounded-xl font-bold text-lg hover:bg-amber-500 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="bg-slate-100 text-slate-700 px-6 md:px-10 py-3 md:py-4 rounded-lg md:rounded-xl font-bold text-base md:text-lg hover:bg-amber-500 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
               >
                 Professional Repairs
               </button>
             </div>
           </div>
 
-          {/* Clean Benefits Banner */}
-          <div className="mt-8 bg-gradient-to-r from-amber-50 to-slate-50 rounded-xl p-6 border border-slate-200">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          {/* Clean Benefits Banner - mobile responsive */}
+          <div className="mt-6 md:mt-8 bg-gradient-to-r from-amber-50 to-slate-50 rounded-lg md:rounded-xl p-4 md:p-6 border border-slate-200">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
               <div className="flex items-center">
                 <svg
-                  className="w-6 h-6 text-amber-500 mr-2"
+                  className="w-5 h-5 md:w-6 md:h-6 text-amber-500 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -244,7 +266,7 @@ function EmptyCartComponent({ onNavigateToSection }) {
               <div className="hidden sm:block w-px h-6 bg-slate-300"></div>
               <div className="flex items-center">
                 <svg
-                  className="w-6 h-6 text-amber-500 mr-2"
+                  className="w-5 h-5 md:w-6 md:h-6 text-amber-500 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -264,9 +286,19 @@ function EmptyCartComponent({ onNavigateToSection }) {
           </div>
         </div>
       </div>
+
+      {/* CSS for no-animations */}
+      <style jsx>{`
+        .no-animations * {
+          animation-duration: 0s !important;
+          animation-delay: 0s !important;
+          transition-duration: 0s !important;
+        }
+      `}</style>
     </div>
   );
 }
+
 export default function CheckoutPage({ onNavigateToSection }) {
   const { cartItems, updateQuantity, removeFromCart, getCartTotal, clearCart } =
     useCart();
@@ -289,6 +321,25 @@ export default function CheckoutPage({ onNavigateToSection }) {
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+
+  // Handle resize events for performance
+  useEffect(() => {
+    let resizeTimer;
+    function handleResize() {
+      setIsResizing(true);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setIsResizing(false);
+      }, 300);
+    }
+    
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
 
   const handleCustomerInfoChange = (e) => {
     setCustomerInfo({
@@ -327,50 +378,52 @@ export default function CheckoutPage({ onNavigateToSection }) {
   }
 
   return (
-    <div className="min-h-screen bg-primary-900 text-white">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-accent-400 mb-2">Checkout</h1>
-          <p className="text-primary-200">
+    <div className={`min-h-screen bg-primary-900 text-white contain-layout-paint ${
+      isResizing ? 'no-animations' : ''
+    }`}>
+      <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-accent-400 mb-2">Checkout</h1>
+          <p className="text-primary-200 text-sm md:text-base">
             Review your order and complete your purchase
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-6 md:gap-8">
           {/* Order Summary */}
           <div className="order-2 lg:order-1">
-            <div className="bg-primary-800 rounded-xl p-6 shadow-xl">
-              <h2 className="text-2xl font-bold mb-6 text-accent-400">
+            <div className="bg-primary-800 rounded-lg md:rounded-xl p-4 md:p-6 shadow-xl">
+              <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-accent-400">
                 Order Summary
               </h2>
 
-              <div className="space-y-4 mb-6">
+              <div className="space-y-3 md:space-y-4 mb-4 md:mb-6 max-h-96 overflow-y-auto">
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center space-x-4 p-4 bg-primary-700 rounded-lg"
+                    className="flex items-center space-x-3 md:space-x-4 p-3 md:p-4 bg-primary-700 rounded-lg"
                   >
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-16 h-16 object-cover rounded-lg"
+                      className="w-12 h-12 md:w-16 md:h-16 object-cover rounded-lg flex-shrink-0"
                     />
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-white">{item.title}</h3>
-                      <p className="text-primary-200 text-sm">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-white text-sm md:text-base line-clamp-2">{item.title}</h3>
+                      <p className="text-primary-200 text-xs md:text-sm">
                         {item.category}
                       </p>
-                      <p className="text-accent-400 font-bold">{item.price}</p>
+                      <p className="text-accent-400 font-bold text-sm md:text-base">{item.price}</p>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1 md:space-x-2 flex-shrink-0">
                       <button
                         onClick={() =>
                           updateQuantity(item.id, item.quantity - 1)
                         }
-                        className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
+                        className="w-7 h-7 md:w-8 md:h-8 bg-primary-600 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors touch-manipulation"
                       >
                         <svg
-                          className="w-4 h-4"
+                          className="w-3 h-3 md:w-4 md:h-4"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -383,17 +436,17 @@ export default function CheckoutPage({ onNavigateToSection }) {
                           />
                         </svg>
                       </button>
-                      <span className="w-8 text-center font-semibold">
+                      <span className="w-6 md:w-8 text-center font-semibold text-sm md:text-base">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() =>
                           updateQuantity(item.id, item.quantity + 1)
                         }
-                        className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors"
+                        className="w-7 h-7 md:w-8 md:h-8 bg-primary-600 rounded-full flex items-center justify-center hover:bg-primary-500 transition-colors touch-manipulation"
                       >
                         <svg
-                          className="w-4 h-4"
+                          className="w-3 h-3 md:w-4 md:h-4"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -408,10 +461,10 @@ export default function CheckoutPage({ onNavigateToSection }) {
                       </button>
                       <button
                         onClick={() => removeFromCart(item)}
-                        className="ml-4 text-red-400 hover:text-red-300 transition-colors"
+                        className="ml-2 text-red-400 hover:text-red-300 transition-colors touch-manipulation"
                       >
                         <svg
-                          className="w-5 h-5"
+                          className="w-4 h-4 md:w-5 md:h-5"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -430,22 +483,22 @@ export default function CheckoutPage({ onNavigateToSection }) {
               </div>
 
               {/* Order Totals */}
-              <div className="border-t border-primary-600 pt-4 space-y-2">
-                <div className="flex justify-between text-primary-200">
+              <div className="border-t border-primary-600 pt-3 md:pt-4 space-y-2">
+                <div className="flex justify-between text-primary-200 text-sm md:text-base">
                   <span>Subtotal:</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-primary-200">
+                <div className="flex justify-between text-primary-200 text-sm md:text-base">
                   <span>Shipping:</span>
                   <span>
                     {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
                   </span>
                 </div>
-                <div className="flex justify-between text-primary-200">
+                <div className="flex justify-between text-primary-200 text-sm md:text-base">
                   <span>Tax:</span>
                   <span>${tax.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-xl font-bold text-accent-400 pt-2 border-t border-primary-600">
+                <div className="flex justify-between text-lg md:text-xl font-bold text-accent-400 pt-2 border-t border-primary-600">
                   <span>Total:</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
@@ -455,14 +508,14 @@ export default function CheckoutPage({ onNavigateToSection }) {
 
           {/* Checkout Form */}
           <div className="order-1 lg:order-2">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               {/* Customer Information */}
-              <div className="bg-primary-800 rounded-xl p-6 shadow-xl">
-                <h2 className="text-2xl font-bold mb-6 text-accent-400">
+              <div className="bg-primary-800 rounded-lg md:rounded-xl p-4 md:p-6 shadow-xl">
+                <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-accent-400">
                   Customer Information
                 </h2>
 
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4">
                   <input
                     type="text"
                     name="firstName"
@@ -470,7 +523,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={customerInfo.firstName}
                     onChange={handleCustomerInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                   <input
                     type="text"
@@ -479,11 +532,11 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={customerInfo.lastName}
                     onChange={handleCustomerInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-3 md:mb-4">
                   <input
                     type="email"
                     name="email"
@@ -491,7 +544,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={customerInfo.email}
                     onChange={handleCustomerInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                   <input
                     type="tel"
@@ -499,7 +552,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     placeholder="Phone Number"
                     value={customerInfo.phone}
                     onChange={handleCustomerInfoChange}
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                 </div>
 
@@ -510,10 +563,10 @@ export default function CheckoutPage({ onNavigateToSection }) {
                   value={customerInfo.address}
                   onChange={handleCustomerInfoChange}
                   required
-                  className="w-full p-3 mb-4 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                  className="w-full p-3 mb-3 md:mb-4 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                 />
 
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                   <input
                     type="text"
                     name="city"
@@ -521,7 +574,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={customerInfo.city}
                     onChange={handleCustomerInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                   <input
                     type="text"
@@ -530,7 +583,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={customerInfo.postalCode}
                     onChange={handleCustomerInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                   <input
                     type="text"
@@ -539,14 +592,14 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={customerInfo.country}
                     onChange={handleCustomerInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base col-span-1 sm:col-span-2 lg:col-span-1"
                   />
                 </div>
               </div>
 
               {/* Payment Information */}
-              <div className="bg-primary-800 rounded-xl p-6 shadow-xl">
-                <h2 className="text-2xl font-bold mb-6 text-accent-400">
+              <div className="bg-primary-800 rounded-lg md:rounded-xl p-4 md:p-6 shadow-xl">
+                <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-accent-400">
                   Payment Information
                 </h2>
 
@@ -557,7 +610,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                   value={paymentInfo.nameOnCard}
                   onChange={handlePaymentInfoChange}
                   required
-                  className="w-full p-3 mb-4 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                  className="w-full p-3 mb-3 md:mb-4 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                 />
 
                 <input
@@ -567,10 +620,10 @@ export default function CheckoutPage({ onNavigateToSection }) {
                   value={paymentInfo.cardNumber}
                   onChange={handlePaymentInfoChange}
                   required
-                  className="w-full p-3 mb-4 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                  className="w-full p-3 mb-3 md:mb-4 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                 />
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
                   <input
                     type="text"
                     name="expiryDate"
@@ -578,7 +631,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={paymentInfo.expiryDate}
                     onChange={handlePaymentInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                   <input
                     type="text"
@@ -587,7 +640,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                     value={paymentInfo.cvv}
                     onChange={handlePaymentInfoChange}
                     required
-                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors"
+                    className="w-full p-3 bg-primary-700 border border-primary-600 rounded-lg text-white placeholder-primary-300 focus:outline-none focus:border-accent-400 transition-colors text-sm md:text-base"
                   />
                 </div>
               </div>
@@ -596,7 +649,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
               <button
                 type="submit"
                 disabled={isProcessing}
-                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
+                className={`w-full py-3 md:py-4 rounded-lg md:rounded-xl font-bold text-base md:text-lg transition-all duration-300 touch-manipulation ${
                   isProcessing
                     ? "bg-primary-600 text-primary-300 cursor-not-allowed"
                     : "bg-accent-400 text-primary-900 hover:bg-accent-500 transform hover:scale-105"
@@ -605,7 +658,7 @@ export default function CheckoutPage({ onNavigateToSection }) {
                 {isProcessing ? (
                   <span className="flex items-center justify-center">
                     <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-primary-300"
+                      className="animate-spin -ml-1 mr-3 h-4 w-4 md:h-5 md:w-5 text-primary-300"
                       fill="none"
                       viewBox="0 0 24 24"
                     >
@@ -633,6 +686,22 @@ export default function CheckoutPage({ onNavigateToSection }) {
           </div>
         </div>
       </div>
+
+      {/* CSS for no-animations */}
+      <style jsx>{`
+        .no-animations * {
+          animation-duration: 0s !important;
+          animation-delay: 0s !important;
+          transition-duration: 0s !important;
+        }
+        
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
     </div>
   );
 }

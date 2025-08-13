@@ -78,8 +78,32 @@ const sortOptions = [
 ]
 
 function RepairsHeroSection() {
+  const [isResizing, setIsResizing] = useState(false);
+
+  // Handle resize events for performance
+  useEffect(() => {
+    let resizeTimer;
+    function handleResize() {
+      setIsResizing(true);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        setIsResizing(false);
+      }, 300);
+    }
+    
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimer);
+    };
+  }, []);
+
   return (
-    <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden px-6">
+    <section 
+      className={`relative min-h-[50vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden px-4 md:px-6 contain-layout-paint ${
+        isResizing ? 'no-animations' : ''
+      }`}
+    >
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -88,38 +112,53 @@ function RepairsHeroSection() {
           className="w-full h-full object-cover object-center animate-fade-in will-change-transform-opacity"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/75 via-slate-800/65 to-slate-900/75"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/70 to-slate-900/80 md:from-slate-900/75 md:via-slate-800/65 md:to-slate-900/75"></div>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-10">
+      {/* Decorative elements - hidden on mobile */}
+      <div className="absolute inset-0 opacity-10 hidden md:block">
         <div className="absolute top-20 left-1/4 w-px h-32 bg-gradient-to-b from-amber-500 to-transparent transform rotate-12 animate-pulse"></div>
         <div className="absolute bottom-20 right-1/4 w-px h-32 bg-gradient-to-b from-amber-500 to-transparent transform -rotate-12 animate-pulse"></div>
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center space-y-8">
-        <div className="space-y-4">
-          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extralight tracking-tight leading-none text-white drop-shadow-lg animate-slide-up">
+      <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
+        <div className="space-y-3 md:space-y-4">
+          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight leading-none text-white drop-shadow-lg ${
+            isResizing ? 'transition-none' : 'animate-slide-up'
+          }`}>
             <span className="block">PROFESSIONAL</span>
             <span className="block text-amber-400 font-normal drop-shadow-lg">REPAIRS</span>
             <span className="block">& RESTORATION</span>
           </h1>
 
-          {/* Decorative divider */}
-          <div className="flex items-center justify-center space-x-4 opacity-0 animate-[fadeIn_0.8s_ease-out_1s_forwards]">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent to-amber-400"></div>
-            <div className="w-8 h-8 border-2 border-white/70 rotate-45 flex items-center justify-center bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm">
-              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
+          {/* Decorative divider - mobile responsive */}
+          <div className={`flex items-center justify-center space-x-3 md:space-x-4 ${
+            isResizing ? 'opacity-100 transition-none' : 'opacity-0 animate-[fadeIn_0.8s_ease-out_1s_forwards]'
+          }`}>
+            <div className="w-12 md:w-16 h-px bg-gradient-to-r from-transparent to-amber-400"></div>
+            <div className="w-6 h-6 md:w-8 md:h-8 border-2 border-white/70 rotate-45 flex items-center justify-center bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm">
+              <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-amber-400 rounded-full animate-pulse"></div>
             </div>
-            <div className="w-16 h-px bg-gradient-to-l from-transparent to-amber-400"></div>
+            <div className="w-12 md:w-16 h-px bg-gradient-to-l from-transparent to-amber-400"></div>
           </div>
         </div>
 
-        <p className="text-lg lg:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto drop-shadow-sm opacity-0 animate-[fadeIn_0.8s_ease-out_1.5s_forwards]">
+        <p className={`text-base sm:text-lg lg:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto drop-shadow-sm px-4 md:px-0 ${
+          isResizing ? 'opacity-100 transition-none' : 'opacity-0 animate-[fadeIn_0.8s_ease-out_1.5s_forwards]'
+        }`}>
           Expert repair services with guaranteed quality. From basic maintenance 
           to complete restoration, we restore your equipment to championship performance.
         </p>
       </div>
+
+      {/* CSS for no-animations */}
+      <style jsx>{`
+        .no-animations * {
+          animation-duration: 0s !important;
+          animation-delay: 0s !important;
+          transition-duration: 0s !important;
+        }
+      `}</style>
     </section>
   )
 }
@@ -129,69 +168,86 @@ function RepairsFilters({ selectedCategory, onCategoryChange, sortBy, onSortChan
 
   return (
     <div className="bg-slate-50 border-b border-slate-200 sticky top-0 z-40 backdrop-blur-sm bg-slate-50/95">
-      <div className="max-w-7xl mx-auto px-6 py-6">
-        <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-          {/* Enhanced Search */}
-          <div className="relative flex-1 max-w-md">
-            <div className={`relative transition-all duration-300 ${searchFocused ? 'scale-105' : ''}`}>
-              <input
-                type="text"
-                placeholder="Search repair services, categories..."
-                value={searchTerm}
-                onChange={(e) => onSearchChange(e.target.value)}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                className="w-full pl-12 pr-4 py-3 border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all duration-300 shadow-sm hover:shadow-md text-slate-700 placeholder:text-slate-400"
-              />
-              <svg className={`absolute left-4 top-3.5 w-5 h-5 transition-colors duration-300 ${searchFocused ? 'text-amber-500' : 'text-slate-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              {searchTerm && (
-                <button
-                  onClick={() => onSearchChange('')}
-                  className="absolute right-3 top-3.5 w-5 h-5 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
+        <div className="flex flex-col gap-4 md:gap-6">
+          {/* Search and Sort Row */}
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+            {/* Enhanced Search */}
+            <div className="flex-1 max-w-full sm:max-w-md">
+              <div className={`relative transition-all duration-300 ${searchFocused ? 'scale-105' : ''}`}>
+                <input
+                  type="text"
+                  placeholder="Search repair services..."
+                  value={searchTerm}
+                  onChange={(e) => onSearchChange(e.target.value)}
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  className="w-full pl-10 md:pl-12 pr-4 py-2.5 md:py-3 border border-slate-300 rounded-lg md:rounded-xl bg-white focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all duration-300 shadow-sm hover:shadow-md text-slate-700 placeholder:text-slate-400 text-sm md:text-base"
+                />
+                <svg 
+                  className={`absolute left-3 md:left-4 top-2.5 md:top-3.5 w-4 h-4 md:w-5 md:h-5 transition-colors duration-300 ${
+                    searchFocused ? 'text-amber-500' : 'text-slate-400'
+                  }`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
                 >
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                {searchTerm && (
+                  <button
+                    onClick={() => onSearchChange('')}
+                    className="absolute right-3 top-2.5 md:top-3.5 w-4 h-4 md:w-5 md:h-5 text-slate-400 hover:text-slate-600 transition-colors duration-200"
+                  >
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Enhanced Sort */}
+            <div className="relative min-w-0 sm:min-w-[200px]">
+              <select
+                value={sortBy}
+                onChange={(e) => onSortChange(e.target.value)}
+                className="appearance-none bg-white border border-slate-300 rounded-lg md:rounded-xl px-3 md:px-4 py-2.5 md:py-3 pr-8 md:pr-10 focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all duration-300 shadow-sm hover:shadow-md text-slate-700 cursor-pointer w-full text-sm md:text-base"
+              >
+                {sortOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <svg 
+                className="absolute right-2.5 md:right-3 top-3 md:top-3.5 w-4 h-4 md:w-5 md:h-5 text-slate-400 pointer-events-none" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
           </div>
 
-          {/* Category Filter */}
-          <div className="flex flex-wrap gap-2 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => onCategoryChange(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105 ${
-                  selectedCategory === category
-                    ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/25'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 shadow-sm border border-slate-200'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-
-          {/* Enhanced Sort */}
-          <div className="relative">
-            <select
-              value={sortBy}
-              onChange={(e) => onSortChange(e.target.value)}
-              className="appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3 pr-10 focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all duration-300 shadow-sm hover:shadow-md text-slate-700 cursor-pointer"
-            >
-              {sortOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
+          {/* Category Filter - Mobile Scrollable */}
+          <div className="overflow-x-auto pb-2">
+            <div className="flex gap-2 min-w-max">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => onCategoryChange(category)}
+                  className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 hover:scale-105 whitespace-nowrap ${
+                    selectedCategory === category
+                      ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/25'
+                      : 'bg-white text-slate-600 hover:bg-slate-100 shadow-sm border border-slate-200'
+                  }`}
+                >
+                  {category}
+                </button>
               ))}
-            </select>
-            <svg className="absolute right-3 top-3.5 w-5 h-5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
+            </div>
           </div>
         </div>
       </div>
@@ -205,13 +261,11 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    // Only add if not already in cart (repair services are limited to 1)
     if (getItemQuantity() === 0) {
       addToCart(item);
     }
   };
 
-  // Add this function to get the current quantity of this item in cart
   const getItemQuantity = () => {
     const cartItem = cartItems.find(cartItem => cartItem.id === item.id);
     return cartItem ? cartItem.quantity : 0;
@@ -225,9 +279,9 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
   return (
     <div
       className={`
-        group relative bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden 
+        group relative bg-white rounded-lg md:rounded-xl shadow-sm border border-slate-200 overflow-hidden 
         hover:shadow-lg hover:-translate-y-1 hover:scale-[1.01] transition-all duration-700 ease-out
-        flex flex-col min-h-[400px] cursor-pointer
+        flex flex-col min-h-[350px] md:min-h-[400px] cursor-pointer
         ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
       `}
       style={{
@@ -238,13 +292,13 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
       onClick={handleViewDetails}
     >
       {/* Subtle top accent */}
-      <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+      <div className="absolute top-0 left-4 right-4 md:left-6 md:right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
       {/* Minimal hover glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-slate-50/0 group-hover:from-amber-50/20 group-hover:to-slate-50/10 transition-all duration-700 rounded-xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 to-slate-50/0 group-hover:from-amber-50/20 group-hover:to-slate-50/10 transition-all duration-700 rounded-lg md:rounded-xl"></div>
 
-      {/* Image section */}
-      <div className="relative h-52 overflow-hidden bg-slate-50">
+      {/* Image section - mobile responsive */}
+      <div className="relative h-40 sm:h-48 md:h-52 overflow-hidden bg-slate-50">
         {!imageLoaded && (
           <div className="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200 animate-pulse"></div>
         )}
@@ -257,18 +311,18 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
         
         {/* Badge */}
         {item.badge && (
-          <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-medium px-2 py-1 rounded-md">
+          <div className="absolute top-2 md:top-3 left-2 md:left-3 bg-amber-500 text-white text-xs font-medium px-2 py-1 rounded-md">
             {item.badge}
           </div>
         )}
 
         {/* Turnaround time on hover */}
-        <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm text-slate-500 text-xs font-medium px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="absolute top-2 md:top-3 right-2 md:right-3 bg-white/80 backdrop-blur-sm text-slate-500 text-xs font-medium px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-300">
           {item.turnaround}
         </div>
 
         {/* Service indicator */}
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 hidden md:block">
           <div className="w-5 h-5 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
             <svg className="w-3 h-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -277,15 +331,15 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
         </div>
       </div>
 
-      {/* Clean content section */}
-      <div className="flex-1 flex flex-col p-5">
+      {/* Clean content section - mobile responsive */}
+      <div className="flex-1 flex flex-col p-3 md:p-5">
         {/* Title and price header */}
-        <div className="flex items-start justify-between mb-3">
-          <h3 className="text-base font-semibold text-slate-800 group-hover:text-amber-700 transition-colors duration-300 line-clamp-2 leading-snug flex-1 pr-2">
+        <div className="flex items-start justify-between mb-2 md:mb-3">
+          <h3 className="text-sm md:text-base font-semibold text-slate-800 group-hover:text-amber-700 transition-colors duration-300 line-clamp-2 leading-snug flex-1 pr-2">
             {item.title}
           </h3>
           <div className="text-right flex-shrink-0">
-            <span className="text-lg font-bold text-amber-600 block">
+            <span className="text-base md:text-lg font-bold text-amber-600 block">
               {item.price}
             </span>
             <span className="text-xs text-slate-400 block">
@@ -295,12 +349,12 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
         </div>
         
         {/* Description */}
-        <p className="text-slate-600 text-sm leading-relaxed flex-grow mb-4 line-clamp-3">
+        <p className="text-slate-600 text-xs md:text-sm leading-relaxed flex-grow mb-3 md:mb-4 line-clamp-3">
           {item.description}
         </p>
 
         {/* Service category */}
-        <div className="mb-4">
+        <div className="mb-3 md:mb-4">
           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-slate-100 text-slate-600">
             <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.99 1.99 0 013 12V7a4 4 0 014-4z" />
@@ -309,20 +363,20 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
           </span>
         </div>
 
-        {/* Minimal action section */}
-        <div className="mt-auto pt-3 border-t border-slate-100">
+        {/* Action section - mobile responsive */}
+        <div className="mt-auto pt-2 md:pt-3 border-t border-slate-100">
           <div className="flex items-center justify-between">
             <span className="text-xs text-slate-400">
               Quality guaranteed
             </span>
             
-            {/* Minimal action buttons */}
+            {/* Action buttons */}
             <div className="flex items-center space-x-2">
               {/* Request Service button */}
               <button 
                 onClick={handleAddToCart}
                 className={`
-                  group/btn relative overflow-hidden px-3 py-1.5 rounded-lg font-medium text-sm transition-all duration-300
+                  group/btn relative overflow-hidden px-2.5 md:px-3 py-1.5 rounded-lg font-medium text-xs md:text-sm transition-all duration-300
                   ${getItemQuantity() > 0
                     ? 'bg-green-500 text-white' 
                     : 'bg-slate-100 text-slate-700 hover:bg-amber-500 hover:text-white'
@@ -330,17 +384,18 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
                 `}
                 disabled={getItemQuantity() > 0}
               >
-                <span className="flex items-center space-x-1.5">
+                <span className="flex items-center space-x-1 md:space-x-1.5">
                   {getItemQuantity() > 0 ? (
                     <>
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                       </svg>
-                      <span>Requested</span>
+                      <span className="hidden sm:inline">Requested</span>
+                      <span className="sm:hidden">✓</span>
                     </>
                   ) : (
                     <>
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3 md:w-3.5 md:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                       </svg>
                       <span>Request</span>
@@ -352,7 +407,7 @@ function RepairCard({ item, index, loaded, onViewDetails }) {
               {/* Details button */}
               <button 
                 onClick={handleViewDetails}
-                className="px-3 py-1.5 text-sm text-slate-600 hover:text-amber-600 transition-colors duration-300"
+                className="px-2.5 md:px-3 py-1.5 text-xs md:text-sm text-slate-600 hover:text-amber-600 transition-colors duration-300"
               >
                 Details
               </button>
@@ -382,12 +437,10 @@ export default function RepairsPage() {
 
   const handleRequestService = (item) => {
     console.log('Service requested for:', item)
-    // Handle service request logic
   }
 
   const handleViewDetails = (item) => {
     console.log('View details for:', item)
-    // Handle view details modal or navigation
   }
 
   // Enhanced filter and sort logic
@@ -412,7 +465,6 @@ export default function RepairsPage() {
         case "newest":
           return b.id - a.id
         case "turnaround":
-          // Sort by turnaround time (extract number of days)
           const getDays = (turnaround) => {
             const match = turnaround.match(/(\d+)-?(\d+)?\s*days?/i)
             return match ? parseInt(match[1]) : 999
@@ -420,7 +472,6 @@ export default function RepairsPage() {
           return getDays(a.turnaround) - getDays(b.turnaround)
         case "recommended":
         default:
-          // Featured services first, then by category priority
           const getRecommendScore = (item) => {
             if (item.badge) return 4
             if (item.category === "Premium Repairs") return 3
@@ -445,29 +496,29 @@ export default function RepairsPage() {
         onSearchChange={setSearchTerm}
       />
 
-      {/* Enhanced Info Banner */}
+      {/* Enhanced Info Banner - mobile responsive */}
       <section className="bg-gradient-to-r from-amber-50 to-amber-100 border-b border-amber-200">
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
           <div className="text-center">
-            <h2 className="text-xl font-semibold text-amber-800 mb-2">Professional Equipment Repair Services</h2>
-            <p className="text-amber-700">
+            <h2 className="text-lg md:text-xl font-semibold text-amber-800 mb-1 md:mb-2">Professional Equipment Repair Services</h2>
+            <p className="text-amber-700 text-sm md:text-base">
               Expert repairs with quality guarantee. Drop off your equipment or contact us to schedule pickup.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="relative py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Enhanced results header */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between mb-4">
+      {/* Services Section - mobile responsive */}
+      <section className="relative py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          {/* Enhanced results header - mobile responsive */}
+          <div className="mb-6 md:mb-10">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 md:mb-4 gap-2">
               <div>
-                <h2 className="text-3xl font-light text-slate-800 mb-2">
+                <h2 className="text-2xl md:text-3xl font-light text-slate-800 mb-1 md:mb-2">
                   {selectedCategory === "All Repairs" ? "All Repair Services" : selectedCategory}
                 </h2>
-                <p className="text-slate-600 flex items-center space-x-2">
+                <p className="text-slate-600 flex items-center flex-wrap gap-2 text-sm md:text-base">
                   <span>
                     {filteredAndSortedItems.length} {filteredAndSortedItems.length === 1 ? 'service' : 'services'} 
                     {searchTerm && ` matching "${searchTerm}"`}
@@ -482,8 +533,8 @@ export default function RepairsPage() {
                   )}
                 </p>
               </div>
-              <div className="text-right">
-                <p className="text-sm text-slate-500">
+              <div className="text-left sm:text-right">
+                <p className="text-xs md:text-sm text-slate-500">
                   Sorted by: <span className="font-medium text-amber-600">
                     {sortOptions.find(opt => opt.value === sortBy)?.label}
                   </span>
@@ -492,9 +543,9 @@ export default function RepairsPage() {
             </div>
           </div>
 
-          {/* Services grid */}
+          {/* Services grid - mobile responsive */}
           {filteredAndSortedItems.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {filteredAndSortedItems.map((item, index) => (
                 <RepairCard
                   key={item.id}
@@ -507,14 +558,14 @@ export default function RepairsPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20">
-              <div className="w-24 h-24 mx-auto mb-6 bg-slate-200 rounded-full flex items-center justify-center">
-                <svg className="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center py-12 md:py-20 px-4">
+              <div className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 bg-slate-200 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 md:w-12 md:h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-semibold text-slate-800 mb-3">No repair services found</h3>
-              <p className="text-slate-600 mb-6 max-w-md mx-auto">
+              <h3 className="text-xl md:text-2xl font-semibold text-slate-800 mb-2 md:mb-3">No repair services found</h3>
+              <p className="text-slate-600 mb-4 md:mb-6 max-w-md mx-auto text-sm md:text-base">
                 We couldn't find any services matching your search criteria. Try adjusting your filters or search terms.
               </p>
               <button
@@ -522,7 +573,7 @@ export default function RepairsPage() {
                   setSelectedCategory("All Repairs")
                   setSearchTerm("")
                 }}
-                className="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+                className="bg-amber-500 hover:bg-amber-600 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-lg md:rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg text-sm md:text-base"
               >
                 Clear All Filters
               </button>
@@ -531,72 +582,72 @@ export default function RepairsPage() {
         </div>
       </section>
 
-      {/* Process Info Section */}
-      <section className="bg-white py-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-light text-slate-800 text-center mb-12">
+      {/* Process Info Section - mobile responsive */}
+      <section className="bg-white py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <h2 className="text-2xl md:text-3xl font-light text-slate-800 text-center mb-8 md:mb-12">
             Our <span className="font-semibold text-amber-600">Repair Process</span>
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <svg className="w-6 h-6 md:w-8 md:h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">1. Assessment</h3>
-              <p className="text-slate-600">We thoroughly inspect your equipment and provide a detailed repair estimate.</p>
+              <h3 className="text-lg md:text-xl font-semibold text-slate-800 mb-2">1. Assessment</h3>
+              <p className="text-slate-600 text-sm md:text-base">We thoroughly inspect your equipment and provide a detailed repair estimate.</p>
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <svg className="w-6 h-6 md:w-8 md:h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">2. Expert Repair</h3>
-              <p className="text-slate-600">Our certified technicians perform professional repairs using quality parts.</p>
+              <h3 className="text-lg md:text-xl font-semibold text-slate-800 mb-2">2. Expert Repair</h3>
+              <p className="text-slate-600 text-sm md:text-base">Our certified technicians perform professional repairs using quality parts.</p>
             </div>
             
             <div className="text-center">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <svg className="w-6 h-6 md:w-8 md:h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-slate-800 mb-2">3. Quality Check</h3>
-              <p className="text-slate-600">Every repair is tested and guaranteed to meet professional standards.</p>
+              <h3 className="text-lg md:text-xl font-semibold text-slate-800 mb-2">3. Quality Check</h3>
+              <p className="text-slate-600 text-sm md:text-base">Every repair is tested and guaranteed to meet professional standards.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Enhanced Bottom CTA */}
-      <section className="bg-gradient-to-r from-slate-800 to-slate-900 py-20">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-4xl font-light text-white mb-6">
+      {/* Enhanced Bottom CTA - mobile responsive */}
+      <section className="bg-gradient-to-r from-slate-800 to-slate-900 py-12 md:py-20">
+        <div className="max-w-4xl mx-auto text-center px-4 md:px-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-4 md:mb-6">
             Need Expert <span className="text-amber-400 font-semibold">Repair Service?</span>
           </h2>
-          <p className="text-slate-300 text-xl mb-10 leading-relaxed">
+          <p className="text-slate-300 text-base sm:text-lg md:text-xl mb-6 md:mb-10 leading-relaxed">
             Our repair specialists are ready to restore your equipment to championship performance. 
             Contact us today for a consultation.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
             <a
               href="mailto:repairs@texasfencingacademy.org"
-              className="bg-amber-500 hover:bg-amber-600 text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-amber-500/25 flex items-center justify-center space-x-2"
+              className="bg-amber-500 hover:bg-amber-600 text-white px-6 md:px-10 py-3 md:py-4 rounded-lg md:rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-amber-500/25 flex items-center justify-center space-x-2 text-sm md:text-base"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <span>Email for Quote</span>
             </a>
             <a
               href="tel:+1234567890"
-              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-10 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-2"
+              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-slate-900 px-6 md:px-10 py-3 md:py-4 rounded-lg md:rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-2 text-sm md:text-base"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
               <span>Call for Service</span>
