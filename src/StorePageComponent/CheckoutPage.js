@@ -1,7 +1,6 @@
 // Checkout.js
 import { useState, useEffect } from "react";
 import { useCart } from "./Cart/CartContex";
-import React from "react";
 const equipmentData = [
   {
     id: 102126284,
