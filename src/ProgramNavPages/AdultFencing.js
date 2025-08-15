@@ -216,7 +216,7 @@ function AdultFencingInfoSection() {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
               <img
-                src="adultFencing/AdultFencers.jpg"
+                src="/adultFencing/AdultFencing1.jpg"
                 alt="Adult fencers in training"
                 className="w-full h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
@@ -254,7 +254,7 @@ function AdultProgramsSection() {
       title: "Fencing Introduction 1st Month",
       description: "Includes access to all our Epee and Saber classes for you to discover the joy of fencing.",
       price: "$85.00", // Assuming this is the adult equivalent
-      image: "adultFencing/FirstMonth.jpg",
+      image: "/adultFencing/AdultFencing1.jpg",
       href: "https://texasfencingacademy.glide.page",
       badge: "Beginner Friendly",
       schedule: [
@@ -266,7 +266,7 @@ function AdultProgramsSection() {
       title: "Adult Open Fencing",
       description: "For adults and competitive TFA fencers to fence at our salle. Contact the coach or staff to determine which nights you'd like to attend.",
       price: "$95.00",
-      image: "adultFencing/OpenFencing.jpg",
+      image: "/adultFencing/AdultFencing2.jpg",
       href: "https://texasfencingacademy.glide.page",
       recurring: true,
       schedule: [
@@ -279,7 +279,7 @@ function AdultProgramsSection() {
       title: "Full Adult Subscription",
       description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program including Team Fencer schedules.",
       price: "$195.00",
-      image: "adultFencing/FullSubscription.jpg",
+      image: "/adultFencing/AdultFencing3.jpg",
       href: "https://texasfencingacademy.glide.page",
       recurring: true,
       badge: "Most Popular",
@@ -295,7 +295,7 @@ function AdultProgramsSection() {
       title: "Competitive Adult Program",
       description: "For adults who make more of a time commitment and have narrowed their focus to a specific weapon and plan on competing in tournaments.",
       price: "Contact for Pricing",
-      image: "adultFencing/TeamMembership.jpg",
+      image: "/adultFencing/AdultFencing4.jpg",
       href: "https://texasfencingacademy.glide.page",
       schedule: [
         { day: "Monday, Tuesday, Wednesday, Thursday", time: "5:00 pm to 6:00 pm", weapon: "All" },
@@ -308,7 +308,7 @@ function AdultProgramsSection() {
       title: "Adult Team Fencers",
       description: "Recreational adult fencers that may have already narrowed their focus to a specific weapon and have not yet decided if they'd like to pursue tournaments.",
       price: "$150.00", // Estimated based on schedule complexity
-      image: "adultFencing/FitnessClass.jpg",
+      image: "/adultFencing/AdultFencing5.jpg",
       href: "https://texasfencingacademy.glide.page",
       recurring: true,
       schedule: [
@@ -322,7 +322,7 @@ function AdultProgramsSection() {
       title: "Private Lessons Package",
       description: "One-on-one coaching sessions tailored to your specific goals and skill level. Available for all adult programs and skill levels.",
       price: "Contact for Pricing",
-      image: "adultFencing/PrivateLessons.jpg",
+      image: "/adultFencing/AdultFencing6.jpg",
       href: "https://texasfencingacademy.glide.page",
       schedule: [
         { day: "Flexible Scheduling", time: "By Appointment", weapon: "Personalized" },

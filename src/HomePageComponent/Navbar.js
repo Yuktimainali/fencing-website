@@ -54,11 +54,6 @@ const Navbar = () => {
       dropdown: [
         { text: "About TFA", href: "/founder" },
         { text: "Contact", href: "/contact" },
-        {
-          text: "Registration",
-          href: "#registration",
-          scrollTarget: "registration-section",
-        },
       ],
     },
     {
@@ -78,8 +73,7 @@ const Navbar = () => {
       icon: "/navbarIcons/family.png",
       dropdown: [
         { text: "Safety & Parents Role", href: "/safety" },
-        { text: "College Advantage", href: "#college-advantage" },
-        { text: "Kids About Fencing", href: "#kids-fencing" },
+        { text: "College Advantage", href: "/safety" },
       ],
     },
     {
