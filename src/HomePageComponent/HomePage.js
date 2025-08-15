@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import InfoBanner from './InfoBanner'; // Import the separated InfoBanner
 import RegistrationSection from '../Sections/RegistrationSection';
@@ -11,7 +12,7 @@ import { motion } from 'framer-motion';
 import { useRef } from 'react';
 
 
-import sanityClient from "../Sanity/sanityClient"; // Adjust path as needed
+import {sanityClient} from "../Sanity/sanityClient"; // Adjust path as needed
 
 function FreeIntroClassModal() {
   const [showModal, setShowModal] = useState(false);
@@ -138,6 +139,77 @@ function FreeIntroClassModal() {
 
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isScrolling, setIsScrolling] = useState(false); // NEW: Track scrolling state
+
+  // Get section from URL params
+  const urlSection = searchParams.get("section");
+
+  // Check for mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // UPDATED: Handle scrolling to sections without jumping to top
+  useEffect(() => {
+    if (urlSection && !isScrolling) {
+      setIsScrolling(true); // Prevent multiple scroll attempts
+      
+      // Use requestAnimationFrame for smooth scrolling
+      requestAnimationFrame(() => {
+        let targetElement = null;
+        
+        switch (urlSection) {
+          case "contact":
+            targetElement = document.querySelector('footer') || document.getElementById('footer-section');
+            break;
+          case "registration":
+            targetElement = document.getElementById('registration-section');
+            break;
+          case "calendar":
+            targetElement = document.getElementById('calendar-section');
+            break;
+          case "about":
+            targetElement = document.getElementById('about-section');
+            break;
+          case "gallery":
+            targetElement = document.querySelector('[data-section="gallery"]');
+            break;
+          default:
+            targetElement = document.getElementById(`${urlSection}-section`);
+        }
+
+        if (targetElement) {
+          targetElement.scrollIntoView({ 
+            behavior: "smooth", 
+            block: "start" 
+          });
+          
+          // Clear the URL parameter after scrolling to prevent re-triggering
+          setTimeout(() => {
+            setSearchParams({}, { replace: true });
+            setIsScrolling(false);
+          }, 1000); // Wait for scroll animation to complete
+        } else {
+          setIsScrolling(false);
+        }
+      });
+    }
+  }, [urlSection, isScrolling, setSearchParams]);
+
+  // UPDATED: Clear scrolling state if no section parameter
+  useEffect(() => {
+    if (!urlSection && isScrolling) {
+      setIsScrolling(false);
+    }
+  }, [urlSection, isScrolling]);
 
   const galleryImages = [
     {
@@ -167,13 +239,28 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [galleryImages.length]);
 
-  // Animation variants
+  // Mobile-optimized animation variants
   const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
+    hidden: { opacity: 0, y: isMobile ? 30 : 60 },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
+      transition: { 
+        duration: isMobile ? 0.6 : 0.8, 
+        ease: "easeOut" 
+      }
+    }
+  };
+
+  const fadeInUpFast = {
+    hidden: { opacity: 0, y: isMobile ? 20 : 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: isMobile ? 0.4 : 0.6, 
+        ease: "easeOut" 
+      }
     }
   };
 
@@ -182,10 +269,23 @@ export default function Home() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
+        staggerChildren: isMobile ? 0.1 : 0.2,
+        delayChildren: isMobile ? 0.05 : 0.1
       }
     }
+  };
+
+  // Mobile-optimized viewport settings
+  const mobileViewportSettings = {
+    once: true,
+    amount: isMobile ? 0.1 : 0.3,
+    margin: isMobile ? "0px 0px -100px 0px" : "0px 0px -200px 0px"
+  };
+
+  const mobileViewportSettingsEarly = {
+    once: true,
+    amount: isMobile ? 0.05 : 0.2,
+    margin: isMobile ? "0px 0px -50px 0px" : "0px 0px -100px 0px"
   };
 
   return (
@@ -194,38 +294,43 @@ export default function Home() {
       <Navbar />
       <FreeIntroClassModal/>
       
+      {/* Hero Section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={fadeInUp}
+        viewport={mobileViewportSettingsEarly}
+        variants={fadeInUpFast}
       >
         <HeroSection />
       </motion.div>
 
+      {/* About Section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={mobileViewportSettingsEarly}
         variants={fadeInUp}
       >
         <AboutSection />
       </motion.div>
 
+      {/* Registration Section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={mobileViewportSettings}
         variants={fadeInUp}
       >
         <RegistrationSection />
       </motion.div>
 
+      {/* Gallery Section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={mobileViewportSettings}
         variants={staggerContainer}
+        data-section="gallery"
       >
         <GallerySection 
           galleryImages={galleryImages}
@@ -234,20 +339,22 @@ export default function Home() {
         />
       </motion.div>
 
+      {/* Social Media Section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={mobileViewportSettings}
         variants={fadeInUp}
       >
         <SocialMediaSection />
       </motion.div>
       
+      {/* Footer Section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={fadeInUp}
+        viewport={mobileViewportSettings}
+        variants={fadeInUpFast}
       >
         <FooterSection />
       </motion.div>

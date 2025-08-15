@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../HomePageComponent/Navbar";
 import InfoBanner from "../HomePageComponent/InfoBanner";
+import FooterSection from "../Sections/FooterSection";
 
 function HeroSection() {
   const scrollToSection = (sectionId) => {
@@ -178,7 +179,7 @@ function ProgramsAndScheduleSection() {
 
   // Function to handle card click
   const handleCardClick = () => {
-    window.open("https://texasfencingacademy.glide.page/dl/17171d", "_blank");
+    window.open("https://texasfencingacademy.glide.page", "_blank");
   };
 
   return (
@@ -444,6 +445,321 @@ function ProgramsAndScheduleSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function TeamFencersSection() {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const slideShowImages = [
+    {
+      src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_asst_coaches_w_teen_boys-1280x960.jpg",
+      alt: "Team Fencers - Competitive Training",
+      caption: "Competitive fencers training for national tournaments",
+    },
+    {
+      src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_teen_fencers-1280x960.jpg",
+      alt: "Teen Fencers in Action",
+      caption: "Teen fencers competing at national level",
+    },
+  ];
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  // Slideshow auto-advance effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex(
+        (prevIndex) => (prevIndex + 1) % slideShowImages.length
+      );
+    }, 4000); // Change image every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [slideShowImages.length]);
+
+  const practiceSchedule = [
+    { day: "Monday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
+    { day: "Tuesday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
+    { day: "Wednesday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
+    { day: "Thursday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
+    { day: "Saturday", time: "10:30 am – 12:00 pm", weapon: "Epee/Saber" },
+  ];
+
+  const programHighlights = [
+    "Team fencers over 10 years old commit to fence at least once a week",
+    "Full access to fencing classes 5 days a week",
+    "Expected participation in Summer Nationals and Junior Olympics",
+    "Creates national-level competitors in epee and saber",
+  ];
+
+  const equipmentRequirements = [
+    "Complete personal fencing gear required",
+    "Must wear whites during practice",
+    "TFA jacket required for national competitions",
+    "Weapon-specific equipment (epee or saber)",
+  ];
+
+  return (
+    <>
+      <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
+        {/* Background patterns */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+            <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+          </div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          {/* Section header */}
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center space-x-4 mb-8 group">
+              <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+              <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+                <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+              </div>
+              <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            </div>
+            <h1 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
+              Competitive Fencing Program:{" "}
+              <span className="font-semibold text-amber-600">Team Fencers</span>
+            </h1>
+          </div>
+
+          {/* Main content: Two-column layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* LEFT COLUMN - Registration & Equipment */}
+            <div className="flex flex-col items-center justify-start">
+              <div
+                className={`bg-white/95 backdrop-blur-2xl rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md w-full ${
+                  isLoaded
+                    ? "opacity-100 animate-[fadeInUp_0.8s_ease-out_forwards]"
+                    : "opacity-0"
+                }`}
+                style={{ animationDelay: "0.2s" }}
+              >
+                {/* Slideshow Image */}
+                <div className="relative overflow-hidden rounded-xl mb-8">
+                  <div className="relative w-full h-56">
+                    {slideShowImages.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image.src}
+                        alt={image.alt}
+                        className={`absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-1000 ease-in-out ${
+                          index === currentImageIndex
+                            ? "opacity-100"
+                            : "opacity-0"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl"></div>
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <p className="text-sm font-medium drop-shadow-lg transition-opacity duration-1000">
+                      {slideShowImages[currentImageIndex].caption}
+                    </p>
+                  </div>
+
+                  {/* Slideshow indicators */}
+                  <div className="absolute bottom-2 right-4 flex space-x-1">
+                    {slideShowImages.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                          index === currentImageIndex
+                            ? "bg-white"
+                            : "bg-white/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Pricing & Registration Section */}
+                <div className="text-center space-y-6 mb-8">
+                  <div>
+                    <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                      Join Our Team
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4">
+                      Competitive fencing program for serious athletes
+                    </p>
+                    <div className="bg-amber-50 rounded-xl p-4 mb-6">
+                      <p className="text-amber-800 font-semibold text-lg">
+                        $185/month
+                      </p>
+                      <p className="text-amber-600 text-sm">
+                        Monthly recurring
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Main CTA Button */}
+                  <button
+                    onClick={() =>
+                      window.open(
+                        "https://texasfencingacademy.glide.page",
+                        "_blank"
+                      )
+                    }
+                    className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg"
+                  >
+                    Register for Team Program
+                  </button>
+                </div>
+
+                {/* Equipment Requirements */}
+                <div className="bg-white rounded-xl p-6 border border-gray-200">
+                  <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4 pb-2 border-b border-gray-100">
+                    Equipment Requirements
+                  </h4>
+                  <div className="space-y-2">
+                    {equipmentRequirements.map((item, index) => (
+                      <div key={index} className="flex items-start space-x-2">
+                        <div className="w-1 h-1 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-gray-700">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN - Compact Program Information */}
+            <div
+              className={`${
+                isLoaded
+                  ? "opacity-100 animate-[fadeInUp_0.8s_ease-out_forwards]"
+                  : "opacity-0"
+              }`}
+              style={{ animationDelay: "0.4s" }}
+            >
+              {/* Program Introduction */}
+              <div className="mb-8">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
+                  <h2 className="text-2xl font-semibold text-gray-900">
+                    About Team Program
+                  </h2>
+                </div>
+                <p className="text-base text-gray-700 leading-relaxed pl-16">
+                  Team fencers over 10 years old commit to training at least
+                  once a week with full access to classes 5 days a week.
+                </p>
+              </div>
+
+              {/* Compact Program Features */}
+              <div className="mb-8">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
+                  <h2 className="text-2xl font-semibold text-gray-900">
+                    Program Features
+                  </h2>
+                </div>
+                <div className="pl-16">
+                  <div className="space-y-2">
+                    {programHighlights.map((highlight, index) => (
+                      <div key={index} className="flex items-start space-x-2">
+                        <div className="w-1 h-1 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-gray-700">
+                          {highlight}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Compact Practice Schedule */}
+              <div className="mb-8">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
+                  <h2 className="text-2xl font-semibold text-gray-900">
+                    Practice Schedule
+                  </h2>
+                </div>
+                <div className="pl-16">
+                  <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                    <div className="space-y-2">
+                      {practiceSchedule.map((session, index) => (
+                        <div
+                          key={index}
+                          className={`
+              flex justify-between items-center py-2 px-2 rounded-lg relative
+              hover:bg-amber-100/70 hover:scale-[1.02] hover:shadow-sm
+              transition-all duration-300 ease-out cursor-pointer
+              ${
+                index !== practiceSchedule.length - 1
+                  ? "after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent"
+                  : ""
+              }
+            `}
+                        >
+                          <span className="text-sm font-medium text-gray-800 hover:text-amber-700 hover:scale-110 transition-all duration-300 ease-out transform-gpu">
+                            {session.day}
+                          </span>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-gray-600 hover:text-gray-700 transition-colors duration-300">
+                              {session.time}
+                            </span>
+                            <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded hover:bg-amber-300 hover:scale-105 transition-all duration-300">
+                              {session.weapon}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Training Expectations */}
+              <div className="mb-4">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
+                  <h2 className="text-2xl font-semibold text-gray-900">
+                    Training Expectations
+                  </h2>
+                </div>
+                <div className="pl-16">
+                  <div className="bg-gray-50 rounded-xl p-4">
+                    <div className="space-y-2 text-sm text-gray-700 leading-relaxed">
+                      <p>
+                        <strong>Competitive fencers:</strong> Expected to
+                        participate in Summer Nationals and Junior Olympics.
+                      </p>
+                      <p>
+                        <strong>National-level fencers:</strong> Train at least
+                        3 times per week, balancing school and tournaments.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </>
   );
 }
 
@@ -749,7 +1065,7 @@ function MinnowFencersSection() {
                   <button
                     onClick={() =>
                       window.open(
-                        "https://texasfencingacademy.glide.page/dl/17171d",
+                        "https://texasfencingacademy.glide.page",
                         "_blank"
                       )
                     }
@@ -857,321 +1173,6 @@ function MinnowFencersSection() {
     </>
   );
 }
-function TeamFencersSection() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const slideShowImages = [
-    {
-      src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_asst_coaches_w_teen_boys-1280x960.jpg",
-      alt: "Team Fencers - Competitive Training",
-      caption: "Competitive fencers training for national tournaments",
-    },
-    {
-      src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_teen_fencers-1280x960.jpg",
-      alt: "Teen Fencers in Action",
-      caption: "Teen fencers competing at national level",
-    },
-  ];
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
-
-  // Slideshow auto-advance effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex(
-        (prevIndex) => (prevIndex + 1) % slideShowImages.length
-      );
-    }, 4000); // Change image every 4 seconds
-
-    return () => clearInterval(interval);
-  }, [slideShowImages.length]);
-
-  const practiceSchedule = [
-    { day: "Monday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
-    { day: "Tuesday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
-    { day: "Wednesday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
-    { day: "Thursday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
-    { day: "Saturday", time: "10:30 am – 12:00 pm", weapon: "Epee/Saber" },
-  ];
-
-  const programHighlights = [
-    "Team fencers over 10 years old commit to fence at least once a week",
-    "Full access to fencing classes 5 days a week",
-    "Expected participation in Summer Nationals and Junior Olympics",
-    "Creates national-level competitors in epee and saber",
-  ];
-
-  const equipmentRequirements = [
-    "Complete personal fencing gear required",
-    "Must wear whites during practice",
-    "TFA jacket required for national competitions",
-    "Weapon-specific equipment (epee or saber)",
-  ];
-
-  return (
-    <>
-      <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
-        {/* Background patterns */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
-            <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
-          </div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          {/* Section header */}
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center space-x-4 mb-8 group">
-              <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-              <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-                <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
-              </div>
-              <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-              Competitive Fencing Program:{" "}
-              <span className="font-semibold text-amber-600">Team Fencers</span>
-            </h1>
-          </div>
-
-          {/* Main content: Two-column layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* LEFT COLUMN - Registration & Equipment */}
-            <div className="flex flex-col items-center justify-start">
-              <div
-                className={`bg-white/95 backdrop-blur-2xl rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md w-full ${
-                  isLoaded
-                    ? "opacity-100 animate-[fadeInUp_0.8s_ease-out_forwards]"
-                    : "opacity-0"
-                }`}
-                style={{ animationDelay: "0.2s" }}
-              >
-                {/* Slideshow Image */}
-                <div className="relative overflow-hidden rounded-xl mb-8">
-                  <div className="relative w-full h-56">
-                    {slideShowImages.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image.src}
-                        alt={image.alt}
-                        className={`absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-1000 ease-in-out ${
-                          index === currentImageIndex
-                            ? "opacity-100"
-                            : "opacity-0"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-sm font-medium drop-shadow-lg transition-opacity duration-1000">
-                      {slideShowImages[currentImageIndex].caption}
-                    </p>
-                  </div>
-
-                  {/* Slideshow indicators */}
-                  <div className="absolute bottom-2 right-4 flex space-x-1">
-                    {slideShowImages.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                          index === currentImageIndex
-                            ? "bg-white"
-                            : "bg-white/50"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Pricing & Registration Section */}
-                <div className="text-center space-y-6 mb-8">
-                  <div>
-                    <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                      Join Our Team
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4">
-                      Competitive fencing program for serious athletes
-                    </p>
-                    <div className="bg-amber-50 rounded-xl p-4 mb-6">
-                      <p className="text-amber-800 font-semibold text-lg">
-                        $185/month
-                      </p>
-                      <p className="text-amber-600 text-sm">
-                        Monthly recurring
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Main CTA Button */}
-                  <button
-                    onClick={() =>
-                      window.open(
-                        "https://texasfencingacademy.glide.page/dl/17171d",
-                        "_blank"
-                      )
-                    }
-                    className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg"
-                  >
-                    Register for Team Program
-                  </button>
-                </div>
-
-                {/* Equipment Requirements */}
-                <div className="bg-white rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-4 pb-2 border-b border-gray-100">
-                    Equipment Requirements
-                  </h4>
-                  <div className="space-y-2">
-                    {equipmentRequirements.map((item, index) => (
-                      <div key={index} className="flex items-start space-x-2">
-                        <div className="w-1 h-1 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-sm text-gray-700">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN - Compact Program Information */}
-            <div
-              className={`${
-                isLoaded
-                  ? "opacity-100 animate-[fadeInUp_0.8s_ease-out_forwards]"
-                  : "opacity-0"
-              }`}
-              style={{ animationDelay: "0.4s" }}
-            >
-              {/* Program Introduction */}
-              <div className="mb-8">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
-                  <h2 className="text-2xl font-semibold text-gray-900">
-                    About Team Program
-                  </h2>
-                </div>
-                <p className="text-base text-gray-700 leading-relaxed pl-16">
-                  Team fencers over 10 years old commit to training at least
-                  once a week with full access to classes 5 days a week.
-                </p>
-              </div>
-
-              {/* Compact Program Features */}
-              <div className="mb-8">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
-                  <h2 className="text-2xl font-semibold text-gray-900">
-                    Program Features
-                  </h2>
-                </div>
-                <div className="pl-16">
-                  <div className="space-y-2">
-                    {programHighlights.map((highlight, index) => (
-                      <div key={index} className="flex items-start space-x-2">
-                        <div className="w-1 h-1 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-sm text-gray-700">
-                          {highlight}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Compact Practice Schedule */}
-              <div className="mb-8">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
-                  <h2 className="text-2xl font-semibold text-gray-900">
-                    Practice Schedule
-                  </h2>
-                </div>
-                <div className="pl-16">
-                  <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
-                    <div className="space-y-2">
-                      {practiceSchedule.map((session, index) => (
-                        <div
-                          key={index}
-                          className={`
-              flex justify-between items-center py-2 px-2 rounded-lg relative
-              hover:bg-amber-100/70 hover:scale-[1.02] hover:shadow-sm
-              transition-all duration-300 ease-out cursor-pointer
-              ${
-                index !== practiceSchedule.length - 1
-                  ? "after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent"
-                  : ""
-              }
-            `}
-                        >
-                          <span className="text-sm font-medium text-gray-800 hover:text-amber-700 hover:scale-110 transition-all duration-300 ease-out transform-gpu">
-                            {session.day}
-                          </span>
-                          <div className="flex items-center space-x-2">
-                            <span className="text-xs text-gray-600 hover:text-gray-700 transition-colors duration-300">
-                              {session.time}
-                            </span>
-                            <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded hover:bg-amber-300 hover:scale-105 transition-all duration-300">
-                              {session.weapon}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Training Expectations */}
-              <div className="mb-4">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
-                  <h2 className="text-2xl font-semibold text-gray-900">
-                    Training Expectations
-                  </h2>
-                </div>
-                <div className="pl-16">
-                  <div className="bg-gray-50 rounded-xl p-4">
-                    <div className="space-y-2 text-sm text-gray-700 leading-relaxed">
-                      <p>
-                        <strong>Competitive fencers:</strong> Expected to
-                        participate in Summer Nationals and Junior Olympics.
-                      </p>
-                      <p>
-                        <strong>National-level fencers:</strong> Train at least
-                        3 times per week, balancing school and tournaments.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </>
-  );
-}
-
 export default function ProgramOverviewPage() {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -1213,6 +1214,7 @@ export default function ProgramOverviewPage() {
         <ProgramsAndScheduleSection />
         <MinnowFencersSection />
         <TeamFencersSection />
+        <FooterSection />
       </div>
     </>
   );

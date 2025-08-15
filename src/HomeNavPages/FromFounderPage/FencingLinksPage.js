@@ -1,5 +1,3 @@
-import React from "react";
-import FooterSection from "../../Sections/FooterSection";
 import InfoBanner from "../../HomePageComponent/InfoBanner";
 import Navbar from "../../HomePageComponent/Navbar";
 
