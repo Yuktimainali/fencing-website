@@ -3,57 +3,60 @@ import Navbar from '../HomePageComponent/Navbar'
 import InfoBanner from '../HomePageComponent/InfoBanner'
 import FooterSection from '../Sections/FooterSection'
 import { sanityClient } from '../Sanity/sanityClient';
+import { urlFor } from '../Sanity/imageBuilder';
 
-/* GROQ — fetch the one hero that has slug "adult-fencing" */
 const HERO_QUERY = `*[_type=="heroSection" && slug.current=="adult-fencing"][0]{
   title { first, second, third },
   tagline,
   description,
-  "bg": background.asset->url,
-  "bgAlt": background.alt,
-  "bgMob": backgroundMobile.asset->url,
+  background { asset, alt },
+  backgroundMobile { asset, alt },
   primaryCta { text, url, newTab },
   secondaryCta { text, action }
 }`;
 
 function AdultFencingHeroSection() {
-  const [data, setData]   = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
 
-  /* fetch once on mount */
   useEffect(() => {
-    sanityClient.fetch(HERO_QUERY).then(res => { setData(res); setLoading(false); });
+    sanityClient.fetch(HERO_QUERY).then(res => {
+      setData(res);
+      setLoading(false);
+    });
   }, []);
 
-  /* pause animations while user resizes window */
   useEffect(() => {
     let t;
-    const onResize = () => { setIsResizing(true); clearTimeout(t); t = setTimeout(() => setIsResizing(false), 300); };
+    const onResize = () => {
+      setIsResizing(true);
+      clearTimeout(t);
+      t = setTimeout(() => setIsResizing(false), 300);
+    };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  /* scroll / link logic for secondary CTA */
   const runSecondary = () => {
     const a = data?.secondaryCta?.action;
     if (!a) return;
     if (a.startsWith('scroll:')) {
       document.getElementById(a.replace('scroll:', ''))?.scrollIntoView({ behavior: 'smooth' });
     } else if (a.startsWith('/')) {
-      window.location.href = a;     // same-site path
+      window.location.href = a;
     } else {
-      window.open(a, '_self');      // full URL
+      window.open(a, '_self');
     }
   };
 
-  /* loading / error states */
   if (loading)
     return (
       <section className="min-h-screen flex items-center justify-center bg-primary-900">
         <p className="text-white text-xl animate-pulse">Loading…</p>
       </section>
     );
+
   if (!data)
     return (
       <section className="min-h-screen flex items-center justify-center bg-primary-900">
@@ -61,7 +64,11 @@ function AdultFencingHeroSection() {
       </section>
     );
 
-  /* ──────────────────────────────────────────── */
+  const desktopImg = urlFor(data.background.asset).width(1920).format('webp').quality(80).url();
+  const mobileImg = data.backgroundMobile?.asset
+    ? urlFor(data.backgroundMobile.asset).width(768).format('webp').quality(75).url()
+    : null;
+
   return (
     <section
       className={`relative min-h-screen flex items-center justify-center overflow-hidden px-6 ${
@@ -70,12 +77,12 @@ function AdultFencingHeroSection() {
     >
       {/* ─── Background image + overlay ─── */}
       <div className="absolute inset-0">
-        {data.bgMob ? (
+        {mobileImg ? (
           <picture>
-            <source media="(max-width:639px)" srcSet={data.bgMob} />
+            <source media="(max-width:639px)" srcSet={mobileImg} />
             <img
-              src={data.bg}
-              alt={data.bgAlt}
+              src={desktopImg}
+              alt={data.background.alt}
               className="w-full h-full object-cover object-center animate-fade-in"
               fetchPriority="high"
               decoding="async"
@@ -83,8 +90,8 @@ function AdultFencingHeroSection() {
           </picture>
         ) : (
           <img
-            src={data.bg}
-            alt={data.bgAlt}
+            src={desktopImg}
+            alt={data.background.alt}
             className="w-full h-full object-cover object-center animate-fade-in"
             fetchPriority="high"
             decoding="async"
@@ -102,7 +109,6 @@ function AdultFencingHeroSection() {
 
       {/* ─── Text & CTAs ─── */}
       <div className="relative z-10 max-w-4xl mx-auto text-center space-y-12">
-        {/* heading */}
         <div className="space-y-6">
           <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extralight tracking-tight leading-none text-white drop-shadow-lg">
             <span className="block animate-slide-up delay-[800ms]">{data.title.first}</span>
@@ -112,7 +118,6 @@ function AdultFencingHeroSection() {
             <span className="block animate-slide-up delay-[1600ms]">{data.title.third}</span>
           </h1>
 
-          {/* divider */}
           <div className="flex items-center justify-center space-x-4 opacity-0 animate-[fadeIn_0.8s_ease-out_1.5s_forwards]">
             <div className="w-16 h-px bg-gradient-to-r from-transparent to-amber-400" />
             <div className="w-12 h-12 border-2 border-white/70 rotate-45 flex items-center justify-center hover:scale-110 hover:border-amber-400 transition-all duration-500 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm">
@@ -122,23 +127,19 @@ function AdultFencingHeroSection() {
           </div>
         </div>
 
-        {/* tagline */}
         {data.tagline && (
           <h2 className="text-2xl lg:text-3xl font-light text-white tracking-[0.15em] drop-shadow-md opacity-0 animate-[fadeInUp_0.8s_ease-out_2s_forwards]">
             {data.tagline}
           </h2>
         )}
 
-        {/* description */}
         {data.description && (
           <p className="text-lg lg:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto drop-shadow-sm opacity-0 animate-[fadeIn_0.8s_ease-out_2.5s_forwards]">
             {data.description}
           </p>
         )}
 
-        {/* buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0 animate-[fadeInUp_0.8s_ease-out_3s_forwards]">
-          {/* Primary */}
           {data.primaryCta && (
             <a
               href={data.primaryCta.url}
@@ -151,7 +152,6 @@ function AdultFencingHeroSection() {
             </a>
           )}
 
-          {/* Secondary */}
           {data.secondaryCta && (
             <button
               onClick={runSecondary}
@@ -164,7 +164,6 @@ function AdultFencingHeroSection() {
         </div>
       </div>
 
-      {/* disable animations while resizing */}
       <style jsx>{`
         .no-animations * {
           animation-duration: 0s !important;
@@ -174,7 +173,6 @@ function AdultFencingHeroSection() {
     </section>
   );
 }
-
 
 function AdultFencingInfoSection() {
   return (

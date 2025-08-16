@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Navbar from '../HomePageComponent/Navbar'
 import InfoBanner from '../HomePageComponent/InfoBanner'
 import FooterSection from '../Sections/FooterSection';
+import { sanityClient } from "../Sanity/sanityClient";
+import { urlFor } from "../Sanity/imageBuilder";
 
 const youthFencingProducts = [
   {
@@ -47,8 +49,27 @@ const youthFencingProducts = [
   }
 ]
 
+const HERO_QUERY = `*[_type=="heroSection" && slug.current=="youthfencing-section"][0]{
+  title { first, second, third },
+  tagline,
+  description,
+  background { asset, alt },
+  backgroundMobile { asset, alt },
+  primaryCta { text, url, newTab },
+  secondaryCta { text, action }
+}`;
+
 function YouthFencingHeroSection() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
+
+  useEffect(() => {
+    sanityClient.fetch(HERO_QUERY).then(res => {
+      setData(res);
+      setLoading(false);
+    });
+  }, []);
 
   useEffect(() => {
     let resizeTimer;
@@ -67,22 +88,155 @@ function YouthFencingHeroSection() {
     };
   }, []);
 
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  const runSecondary = () => {
+    const a = data?.secondaryCta?.action;
+    if (!a) return;
+    if (a.startsWith('scroll:')) {
+      document.getElementById(a.replace('scroll:', ''))?.scrollIntoView({ behavior: 'smooth' });
+    } else if (a.startsWith('/')) {
+      window.location.href = a;
+    } else {
+      window.open(a, '_self');
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="min-h-screen flex items-center justify-center bg-gray-900">
+        <p className="text-white text-xl animate-pulse">Loading...</p>
+      </section>
+    );
+  }
+
+  if (!data) {
+    return (
+      <section className={`relative min-h-screen flex items-center justify-center overflow-hidden px-6 ${
+        isResizing ? 'no-animations' : ''
+      }`}>
+        {/* Fallback background */}
+        <div className="absolute inset-0">
+          <img
+            src="/youthFencing/YouthFencingBg2.jpg"
+            alt="Youth Fencing at Texas Fencing Academy"
+            className="w-full h-full object-cover object-bottom animate-fade-in will-change-transform-opacity"
+            fetchPriority="high"
+            decoding="async"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-800/60 to-gray-900/70"></div>
+        </div>
+
+        {/* Refined fencing motifs */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-40 left-1/4 w-px h-40 bg-gradient-to-b from-amber-500 to-transparent transform rotate-12 animate-pulse"></div>
+          <div className="absolute bottom-40 right-1/4 w-px h-40 bg-gradient-to-b from-amber-500 to-transparent transform -rotate-12 animate-pulse"></div>
+          <div className="absolute top-1/2 left-1/2 w-px h-32 bg-gradient-to-b from-amber-400 to-transparent transform rotate-45 animate-pulse"></div>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-12">
+          <div className="space-y-6">
+            <div className="overflow-hidden">
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extralight tracking-tight leading-none animate-slide-up delay-[800ms] will-change-transform-opacity text-white drop-shadow-lg">
+                <span className="block animate-slide-up delay-[1000ms] will-change-transform-opacity">
+                  YOUTH
+                </span>
+                <span className="block text-amber-400 font-normal animate-slide-up delay-[1400ms] will-change-transform-opacity drop-shadow-lg">
+                  FENCING
+                </span>
+                <span className="block animate-slide-up delay-[1800ms] will-change-transform-opacity">
+                  TEXAS FENCING ACADEMY
+                </span>
+              </h1>
+            </div>
+
+            <div className="flex items-center justify-center space-x-4 opacity-0 animate-[fadeIn_0.8s_ease-out_1.5s_forwards]">
+              <div className="w-16 h-px bg-gradient-to-r from-transparent to-amber-400"></div>
+              <div className="w-12 h-12 border-2 border-white/70 rotate-45 flex items-center justify-center hover:scale-110 hover:border-amber-400 transition-all duration-500 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm">
+                <div className="w-3 h-3 bg-amber-400 rounded-full animate-pulse"></div>
+              </div>
+              <div className="w-16 h-px bg-gradient-to-l from-transparent to-amber-400"></div>
+            </div>
+          </div>
+
+          <div className="overflow-hidden">
+            <h2 className="text-2xl lg:text-3xl font-light text-white tracking-[0.15em] drop-shadow-md opacity-0 animate-[fadeInUp_0.8s_ease-out_2s_forwards]">
+              WHERE FUTURE CHAMPIONS BEGIN
+            </h2>
+          </div>
+
+          <div className="overflow-hidden">
+            <p className="text-lg lg:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto drop-shadow-sm opacity-0 animate-[fadeIn_0.8s_ease-out_2.5s_forwards]">
+              Excellence on the piste, character for life. Experience world-class 
+              fencing instruction for youth ages 6-17, nurturing discipline, focus, 
+              and sportsmanship in a safe and empowering environment.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0 animate-[fadeInUp_0.8s_ease-out_3s_forwards]">
+            <a
+              href="https://texasfencingacademy.glide.page"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <span className="relative z-10">Join Our Youth Program</span>
+            </a>
+
+            <button
+              onClick={() => scrollToSection('youth-programs')}
+              className="group relative px-8 py-4 bg-transparent border-2 border-white/70 text-white font-semibold rounded-xl hover:border-amber-400 hover:bg-amber-400/10 hover:scale-105 hover:shadow-lg backdrop-blur-sm transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/20 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <span className="relative z-10">View Youth Programs</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const desktopImg = urlFor(data.background.asset).width(1920).format('webp').quality(80).url();
+  const mobileImg = data.backgroundMobile?.asset
+    ? urlFor(data.backgroundMobile.asset).width(768).format('webp').quality(75).url()
+    : null;
+
   return (
     <section className={`relative min-h-screen flex items-center justify-center overflow-hidden px-6 ${
       isResizing ? 'no-animations' : ''
     }`}>
-      {/* Background image */}
+      {/* Background image + overlay */}
       <div className="absolute inset-0">
-        <img
-          src="/youthFencing/YouthFencingBg2.jpg"
-          alt="Youth Fencing at Texas Fencing Academy"
-          className="w-full h-full object-cover object-bottom animate-fade-in will-change-transform-opacity"
-          fetchPriority="high"
-          decoding="async"
-        />
-
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-800/60 to-gray-900/70"></div>
+        {mobileImg ? (
+          <picture>
+            <source media="(max-width:639px)" srcSet={mobileImg} />
+            <img
+              src={desktopImg}
+              alt={data.background.alt || "Youth Fencing at Texas Fencing Academy"}
+              className="w-full h-full object-cover object-center animate-fade-in"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
+        ) : (
+          <img
+            src={desktopImg}
+            alt={data.background.alt || "Youth Fencing at Texas Fencing Academy"}
+            className="w-full h-full object-cover object-center animate-fade-in"
+            fetchPriority="high"
+            decoding="async"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-800/60 to-gray-900/70" />
       </div>
 
       {/* Refined fencing motifs */}
@@ -92,77 +246,119 @@ function YouthFencingHeroSection() {
         <div className="absolute top-1/2 left-1/2 w-px h-32 bg-gradient-to-b from-amber-400 to-transparent transform rotate-45 animate-pulse"></div>
       </div>
 
+      {/* Text & CTAs */}
       <div className="relative z-10 max-w-4xl mx-auto text-center space-y-12">
-        {/* Main heading */}
         <div className="space-y-6">
           <div className="overflow-hidden">
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extralight tracking-tight leading-none animate-slide-up delay-[800ms] will-change-transform-opacity text-white drop-shadow-lg">
-              <span className="block animate-slide-up delay-[1000ms] will-change-transform-opacity">
-                YOUTH
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extralight tracking-tight leading-none text-white drop-shadow-lg">
+              <span className="block animate-slide-up delay-[800ms]">{data.title.first}</span>
+              <span className="block text-amber-400 font-normal animate-slide-up delay-[1200ms] drop-shadow-lg">
+                {data.title.second}
               </span>
-              <span className="block text-amber-400 font-normal animate-slide-up delay-[1400ms] will-change-transform-opacity drop-shadow-lg">
-                FENCING
-              </span>
-              <span className="block animate-slide-up delay-[1800ms] will-change-transform-opacity">
-                TEXAS FENCING ACADEMY
-              </span>
+              <span className="block animate-slide-up delay-[1600ms]">{data.title.third}</span>
             </h1>
           </div>
 
-          {/* Elegant centered divider */}
           <div className="flex items-center justify-center space-x-4 opacity-0 animate-[fadeIn_0.8s_ease-out_1.5s_forwards]">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent to-amber-400"></div>
+            <div className="w-16 h-px bg-gradient-to-r from-transparent to-amber-400" />
             <div className="w-12 h-12 border-2 border-white/70 rotate-45 flex items-center justify-center hover:scale-110 hover:border-amber-400 transition-all duration-500 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm">
-              <div className="w-3 h-3 bg-amber-400 rounded-full animate-pulse"></div>
+              <div className="w-3 h-3 bg-amber-400 rounded-full animate-pulse" />
             </div>
-            <div className="w-16 h-px bg-gradient-to-l from-transparent to-amber-400"></div>
+            <div className="w-16 h-px bg-gradient-to-l from-transparent to-amber-400" />
           </div>
         </div>
 
-        {/* Excellence tagline */}
-        <div className="overflow-hidden">
-          <h2 className="text-2xl lg:text-3xl font-light text-white tracking-[0.15em] drop-shadow-md opacity-0 animate-[fadeInUp_0.8s_ease-out_2s_forwards]">
-            WHERE FUTURE CHAMPIONS BEGIN
-          </h2>
-        </div>
+        {data.tagline && (
+          <div className="overflow-hidden">
+            <h2 className="text-2xl lg:text-3xl font-light text-white tracking-[0.15em] drop-shadow-md opacity-0 animate-[fadeInUp_0.8s_ease-out_2s_forwards]">
+              {data.tagline}
+            </h2>
+          </div>
+        )}
 
-        {/* Description */}
-        <div className="overflow-hidden">
-          <p className="text-lg lg:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto drop-shadow-sm opacity-0 animate-[fadeIn_0.8s_ease-out_2.5s_forwards]">
-            Excellence on the piste, character for life. Experience world-class 
-            fencing instruction for youth ages 6-17, nurturing discipline, focus, 
-            and sportsmanship in a safe and empowering environment.
-          </p>
-        </div>
+        {data.description && (
+          <div className="overflow-hidden">
+            <p className="text-lg lg:text-xl text-white leading-relaxed font-light max-w-3xl mx-auto drop-shadow-sm opacity-0 animate-[fadeIn_0.8s_ease-out_2.5s_forwards]">
+              {data.description}
+            </p>
+          </div>
+        )}
 
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 opacity-0 animate-[fadeInUp_0.8s_ease-out_3s_forwards]">
-          {/* Join Program Button */}
-          <a
-            href="https://texasfencingacademy.glide.page"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
-          >
-            {/* Button shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            <span className="relative z-10">Join Our Youth Program</span>
-          </a>
+          {data.primaryCta ? (
+            data.primaryCta.url && data.primaryCta.url.startsWith('http') ? (
+              // External link - use anchor tag
+              <a
+                href={data.primaryCta.url}
+                target={data.primaryCta.newTab ? '_blank' : '_self'}
+                rel={data.primaryCta.newTab ? 'noopener noreferrer' : ''}
+                className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <span className="relative z-10">{data.primaryCta.text}</span>
+              </a>
+            ) : (
+              // Internal scroll - use button with scroll functionality
+              <button
+                onClick={() => {
+                  if (data.primaryCta.url && data.primaryCta.url.startsWith('#')) {
+                    scrollToSection(data.primaryCta.url.replace('#', ''));
+                  } else if (data.primaryCta.url && data.primaryCta.url.startsWith('scroll:')) {
+                    scrollToSection(data.primaryCta.url.replace('scroll:', ''));
+                  } else {
+                    // Fallback to external link
+                    window.open("https://texasfencingacademy.glide.page", "_blank");
+                  }
+                }}
+                className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <span className="relative z-10">{data.primaryCta.text}</span>
+              </button>
+            )
+          ) : (
+            // Fallback button
+            <a
+              href="https://texasfencingacademy.glide.page"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <span className="relative z-10">Join Our Youth Program</span>
+            </a>
+          )}
 
-          {/* View Programs Button */}
-          <button
-            onClick={() => document.getElementById('youth-programs')?.scrollIntoView({ behavior: 'smooth' })}
-            className="group relative px-8 py-4 bg-transparent border-2 border-white/70 text-white font-semibold rounded-xl hover:border-amber-400 hover:bg-amber-400/10 hover:scale-105 hover:shadow-lg backdrop-blur-sm transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
-          >
-            {/* Button glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/20 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <span className="relative z-10">View Youth Programs</span>
-          </button>
+          {data.secondaryCta ? (
+            <button
+              onClick={runSecondary}
+              className="group relative px-8 py-4 bg-transparent border-2 border-white/70 text-white font-semibold rounded-xl hover:border-amber-400 hover:bg-amber-400/10 hover:scale-105 hover:shadow-lg backdrop-blur-sm transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/20 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <span className="relative z-10">{data.secondaryCta.text}</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => scrollToSection('youth-programs')}
+              className="group relative px-8 py-4 bg-transparent border-2 border-white/70 text-white font-semibold rounded-xl hover:border-amber-400 hover:bg-amber-400/10 hover:scale-105 hover:shadow-lg backdrop-blur-sm transition-all duration-500 text-lg min-w-[200px] overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/20 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <span className="relative z-10">View Youth Programs</span>
+            </button>
+          )}
         </div>
       </div>
+
+      <style jsx>{`
+        .no-animations * {
+          animation-duration: 0s !important;
+          transition-duration: 0s !important;
+        }
+      `}</style>
     </section>
   );
 }
+
 function YouthFencingInfoSection() {
   return (
     <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
