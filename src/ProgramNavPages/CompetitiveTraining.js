@@ -9,7 +9,7 @@ const competitiveEdgeFeatures = [
     title: "BlazePod + HAT Technology",
     description:
       "Exclusive patent-pending High Accuracy Trigger system for unparalleled precision in reaction time measurement. Only available at TFA.",
-    icon: "⚡",
+    icon: "/competitiveEdge/icons/Technology.png",
     details: [
       "Real-time dynamic training drills",
       "Ultra-precise reaction time tracking",
@@ -22,7 +22,7 @@ const competitiveEdgeFeatures = [
     title: "Pro Training Hub App",
     description:
       "Comprehensive mobile platform tracking your progress across 10+ fencing skills with detailed analytics and personalized insights.",
-    icon: "📱",
+    icon: "/competitiveEdge/icons/MobileApplication.png",
     details: [
       "Individual skill rankings",
       "Daily activity tracking",
@@ -35,7 +35,7 @@ const competitiveEdgeFeatures = [
     title: "Personalized Training Plans",
     description:
       "Custom conditioning programs targeting your weakest skills and tournament-specific preparation aligned with your competition schedule.",
-    icon: "🎯",
+    icon: "/competitiveEdge/icons/Training.png",
     details: [
       "Weekly performance reviews",
       "Targeted weakness conditioning",
@@ -513,7 +513,11 @@ function PersonalizedTrainingSection() {
                 {/* Feature icon */}
                 <div className="text-center mb-6">
                   <div className="w-16 h-16 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center text-3xl group-hover:scale-125 group-hover:rotate-12 group-hover:bg-gradient-to-br group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-500 ease-out">
-                    {feature.icon}
+                      <img
+                        src={feature.icon}
+                        alt={feature.title}
+                        className="w-10 h-10 group-hover:animate-pulse object-contain"
+                      />
                   </div>
                 </div>
 
