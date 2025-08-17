@@ -4,7 +4,7 @@ import InfoBanner from "../HomePageComponent/InfoBanner";
 import FooterSection from "../Sections/FooterSection";
 import { sanityClient } from "../Sanity/sanityClient";
 import { urlFor } from "../Sanity/imageBuilder";
-
+import { COMPETITIVE_FENCING_HERO_QUERY } from "../Sanity/queries";
 const competitiveEdgeFeatures = [
   {
     id: 1,
@@ -93,15 +93,6 @@ const skillMetrics = [
 ];
 
 
-const HERO_QUERY = `*[_type=="heroSection" && slug.current=="competitiveEdge-section"][0]{
-  title { first, second, third },
-  tagline,
-  description,
-  background { asset, alt },
-  backgroundMobile { asset, alt },
-  primaryCta { text, url, newTab },
-  secondaryCta { text, action }
-}`;
 
 function CompetitiveEdgeHeroSection() {
   const [data, setData] = useState(null);
@@ -109,7 +100,7 @@ function CompetitiveEdgeHeroSection() {
   const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
-    sanityClient.fetch(HERO_QUERY).then(res => {
+    sanityClient.fetch(COMPETITIVE_FENCING_HERO_QUERY).then(res => {
       setData(res);
       setLoading(false);
     });

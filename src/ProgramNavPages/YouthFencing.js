@@ -4,6 +4,7 @@ import InfoBanner from '../HomePageComponent/InfoBanner'
 import FooterSection from '../Sections/FooterSection';
 import { sanityClient } from "../Sanity/sanityClient";
 import { urlFor } from "../Sanity/imageBuilder";
+import { YOUTH_FENCING_HERO_QUERY } from '../Sanity/queries';
 
 const youthFencingProducts = [
   {
@@ -49,23 +50,13 @@ const youthFencingProducts = [
   }
 ]
 
-const HERO_QUERY = `*[_type=="heroSection" && slug.current=="youthfencing-section"][0]{
-  title { first, second, third },
-  tagline,
-  description,
-  background { asset, alt },
-  backgroundMobile { asset, alt },
-  primaryCta { text, url, newTab },
-  secondaryCta { text, action }
-}`;
-
 function YouthFencingHeroSection() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
-    sanityClient.fetch(HERO_QUERY).then(res => {
+    sanityClient.fetch(YOUTH_FENCING_HERO_QUERY).then(res => {
       setData(res);
       setLoading(false);
     });

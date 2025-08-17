@@ -4,16 +4,7 @@ import Navbar from "../HomePageComponent/Navbar";
 import FooterSection from "../Sections/FooterSection";
 import { sanityClient } from "../Sanity/sanityClient";
 import { urlFor } from "../Sanity/imageBuilder";
-
-const HERO_QUERY = `*[_type=="heroSection" && slug.current=="privateFencing-section"][0]{
-  title { first, second, third },
-  tagline,
-  description,
-  background { asset, alt },
-  backgroundMobile { asset, alt },
-  primaryCta { text, url, newTab },
-  secondaryCta { text, action }
-}`;
+import { PRIVATE_TUTORING_HERO_QUERY } from '../Sanity/queries';
 
 function PrivateLessonsHeroSection() {
   const [data, setData] = useState(null);
@@ -21,7 +12,7 @@ function PrivateLessonsHeroSection() {
   const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
-    sanityClient.fetch(HERO_QUERY).then(res => {
+    sanityClient.fetch(PRIVATE_TUTORING_HERO_QUERY).then(res => {
       setData(res);
       setLoading(false);
     });

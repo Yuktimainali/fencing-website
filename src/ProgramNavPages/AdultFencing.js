@@ -4,16 +4,7 @@ import InfoBanner from '../HomePageComponent/InfoBanner'
 import FooterSection from '../Sections/FooterSection'
 import { sanityClient } from '../Sanity/sanityClient';
 import { urlFor } from '../Sanity/imageBuilder';
-
-const HERO_QUERY = `*[_type=="heroSection" && slug.current=="adult-fencing"][0]{
-  title { first, second, third },
-  tagline,
-  description,
-  background { asset, alt },
-  backgroundMobile { asset, alt },
-  primaryCta { text, url, newTab },
-  secondaryCta { text, action }
-}`;
+import { ADULT_FENCING_HERO_QUERY } from '../Sanity/queries';
 
 function AdultFencingHeroSection() {
   const [data, setData] = useState(null);
@@ -21,7 +12,7 @@ function AdultFencingHeroSection() {
   const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
-    sanityClient.fetch(HERO_QUERY).then(res => {
+    sanityClient.fetch(ADULT_FENCING_HERO_QUERY).then(res => {
       setData(res);
       setLoading(false);
     });

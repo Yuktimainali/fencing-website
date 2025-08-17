@@ -4,25 +4,9 @@ import InfoBanner from "../HomePageComponent/InfoBanner";
 import Navbar from "../HomePageComponent/Navbar";
 import { sanityClient } from "../Sanity/sanityClient";
 import {getVideoAttributes } from '../Sanity/imageBuilder';
+import { SUMMER_CAMP_HERO_QUERY } from "../Sanity/queries";
 
-const SUMMER_CAMP_HERO_QUERY = `*[_type=="heroSection" && slug.current==$heroSlug][0]{
-  title { first, second, third },
-  tagline,
-  description,
-  campDates {
-    camp1 { title, dates },
-    camp2 { title, dates }
-  },
-  "backgroundVideoUrl": backgroundVideo.asset->url,
-  "backgroundVideoSize": backgroundVideo.asset->size,
-  "backgroundVideoMimeType": backgroundVideo.asset->mimeType,
-  primaryCta { 
-    text, 
-    url, 
-    newTab, 
-    actionType 
-  }
-}`;
+
 
 
 // Helper to fetch hero data
