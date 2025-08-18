@@ -288,80 +288,23 @@ function HeroSection() {
     </section>
   );
 }
-
 function ProgramsAndScheduleSection() {
-  const programsData = [
-    {
-      title: "FENCING INTRODUCTION 1ST MONTH",
-      description:
-        "Includes access to all our Epee and Saber classes for you to discover the joy of fencing.",
-      icon: "/program/icons/FencingIntroduction.png",
-      schedule: [
-        { day: "Access to all classes", time: "Various times", weapon: "Both" },
-      ],
-    },
-    {
-      title: "MINNOW FENCERS",
-      description:
-        "Our youngest fencers ages 6-9 come on Saturdays once a week. Our goal is to introduce fencing in a fun, safe environment.",
-      icon: "/program/icons/MinnowFencers.png",
-      schedule: [
-        { day: "Saturday", time: "9:00 am to 9:45 am", weapon: "Epee" },
-        { day: "Saturday", time: "9:45 am to 10:30 am", weapon: "Saber" },
-      ],
-    },
-    {
-      title: "COMPETITIVE FENCERS",
-      description:
-        "Make more of a time commitment and usually have already narrowed their focus to a specific weapon and plan on competing in tournaments.",
-      icon: "/program/icons/FencingCompetion.png",
-      schedule: [
-        {
-          day: "Monday, Tuesday, Wednesday, Thursday",
-          time: "5:00 pm to 6:00 pm",
-          weapon: "All",
-        },
-      ],
-    },
-    {
-      title: "TEAM FENCERS",
-      description:
-        "Recreational fencers that may have already narrowed their focus to a specific weapon and have not yet decided if they'd like to pursue tournaments.",
-      icon: "/program/icons/TeamFencers.png",
-      schedule: [
-        {
-          day: "Tuesday, Thursday",
-          time: "6:00 pm to 7:00 pm",
-          weapon: "Epee",
-        },
-        {
-          day: "Monday, Wednesday",
-          time: "6:00 pm to 7:00 pm",
-          weapon: "Saber",
-        },
-        { day: "Saturday", time: "10:30 am to 11:30 am", weapon: "Both" },
-      ],
-    },
-    {
-      title: "OPEN FENCING",
-      description:
-        "For adults and competitive TFA fencers to fence at our salle. Contact the coach or staff to determine which nights you'd like to attend.",
-      icon: "/program/icons/OpenFencing.png",
-      schedule: [
-        {
-          day: "Monday, Tuesday, Wednesday, Thursday",
-          time: "7:00 pm to 9:00 pm",
-          weapon: "Both",
-        },
-        { day: "Saturday", time: "10:30 am to 12:30 pm", weapon: "Both" },
-      ],
-    },
-  ];
+  const [programs, setPrograms] = useState([]);
 
-  // Function to handle card click
+  useEffect(() => {
+    sanityClient
+      .fetch(`*[_type == "program"] | order(title asc) {title, description, icon, schedule}`)
+      .then((data) => setPrograms(data))
+      .catch(console.error);
+  }, []);
+
   const handleCardClick = () => {
     window.open("https://texasfencingacademy.glide.page", "_blank");
   };
+
+  if (programs.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section
@@ -379,7 +322,7 @@ function ProgramsAndScheduleSection() {
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
-        {/* Section header with decorative elements */}
+        {/* Section header */}
         <div className="text-center mb-16">
           <div className="flex items-center justify-center space-x-4 mb-8 group">
             <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
@@ -388,22 +331,16 @@ function ProgramsAndScheduleSection() {
             </div>
             <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
           </div>
-
           <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-            Our <span className="font-semibold text-amber-600">Programs</span> &
-            Schedule
+            Our <span className="font-semibold text-amber-600">Programs</span> & Schedule
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-4">
-            Comprehensive fencing programs designed for every skill level and
-            age group
+            Comprehensive fencing programs designed for every skill level and age group
           </p>
-
           {/* Registration info */}
           <div className="max-w-4xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-4 mb-8">
             <p className="text-gray-700 text-base mb-2">
-              <strong>Prior to coming to the club</strong> you must register
-              through the TFA Pro V2 and attend a scheduled complementary
-              orientation class on Saturday.
+              <strong>Prior to coming to the club</strong> you must register through the TFA Pro V2 and attend a scheduled complementary orientation class on Saturday.
             </p>
             <p className="text-gray-600 text-sm">
               See App for more details once you submit your profile in the app.
@@ -411,35 +348,105 @@ function ProgramsAndScheduleSection() {
           </div>
         </div>
 
-        {/* Programs with hover schedule */}
-        <div className="mb-16">
-          <h3 className="text-3xl font-light text-gray-800 mb-4 text-center">
-            Choose Your{" "}
-            <span className="font-semibold text-amber-600">Path</span>
-          </h3>
-          <p className="text-center text-gray-600 mb-2 text-lg">
-            Hover over a class you're interested in to see the schedule
-          </p>
-          <p className="text-center text-amber-600 mb-12 text-base font-medium">
-            Click any card to register through our portal
-          </p>
-
-          {/* First row - 3 cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            {programsData.slice(0, 3).map((program, index) => (
+        {/* First row - 3 cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {programs.slice(0, 3).map((program, index) => (
+            <div
+              key={index}
+              onClick={handleCardClick}
+              className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards] min-h-[320px] cursor-pointer overflow-hidden"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              {/* Subtle top accent */}
+              <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
+              {/* Hover glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
+              {/* Click indicator */}
+              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
+                <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
+                  <svg
+                    className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </div>
+              </div>
+              {/* Program info */}
+              <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
+                <div className="text-center mb-4">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center text-xl mb-3 border border-amber-200/50 group-hover:scale-125 group-hover:rotate-12 group-hover:bg-gradient-to-br group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-500 ease-out">
+                      <img
+            src={urlFor(program.icon).width(40).height(40).url()}
+            alt={program.title}
+            className="w-10 h-10 group-hover:animate-pulse object-contain"
+          />
+                  </div>
+                  <h4 className="text-amber-700 font-semibold text-base mb-3 tracking-wide group-hover:text-amber-800 transition-colors duration-300">
+                    {program.title}
+                  </h4>
+                </div>
+                <p className="text-gray-600 text-base leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-300">
+                  {program.description}
+                </p>
+              </div>
+              {/* Schedule overlay */}
+              <div className="absolute inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
+                <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
+                  SCHEDULE
+                </h5>
+                <div className="space-y-1">
+                  {program.schedule.map((schedule, scheduleIndex) => (
+                    <div
+                      key={scheduleIndex}
+                      className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
+                      style={{ transitionDelay: `${scheduleIndex * 100}ms` }}
+                    >
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-medium text-gray-800 text-xs">
+                          {schedule.day}
+                        </span>
+                        <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">
+                          {schedule.weapon}
+                        </span>
+                      </div>
+                      <p className="text-gray-600 text-xs font-medium">
+                        {schedule.time}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-2 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
+                  <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
+                    Click to Register &rarr;
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Second row - 2 cards */}
+        <div className="flex justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
+            {programs.slice(3, 5).map((program, index) => (
               <div
-                key={index}
+                key={index + 3}
                 onClick={handleCardClick}
                 className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards] min-h-[320px] cursor-pointer overflow-hidden"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ animationDelay: `${(index + 3) * 0.1}s` }}
               >
-                {/* Subtle top accent with animation */}
+                {/* Subtle top accent */}
                 <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
-
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
-
-                {/* Click indicator with bounce animation */}
+                {/* Click indicator */}
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
                   <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
                     <svg
@@ -457,16 +464,15 @@ function ProgramsAndScheduleSection() {
                     </svg>
                   </div>
                 </div>
-
-                {/* Program info with fade and scale animations */}
+                {/* Program info */}
                 <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
                   <div className="text-center mb-4">
                     <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center text-xl mb-3 border border-amber-200/50 group-hover:scale-125 group-hover:rotate-12 group-hover:bg-gradient-to-br group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-500 ease-out">
-                      <img
-                        src={program.icon}
-                        alt={program.title}
-                        className="w-10 h-10 group-hover:animate-pulse object-contain"
-                      />
+                        <img
+            src={urlFor(program.icon).width(40).height(40).url()}
+            alt={program.title}
+            className="w-10 h-10 group-hover:animate-pulse object-contain"
+          />
                     </div>
                     <h4 className="text-amber-700 font-semibold text-base mb-3 tracking-wide group-hover:text-amber-800 transition-colors duration-300">
                       {program.title}
@@ -476,8 +482,7 @@ function ProgramsAndScheduleSection() {
                     {program.description}
                   </p>
                 </div>
-
-                {/* Schedule overlay - CONSISTENT FOR ALL CARDS */}
+                {/* Schedule overlay */}
                 <div className="absolute inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
                   <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
                     SCHEDULE
@@ -505,108 +510,14 @@ function ProgramsAndScheduleSection() {
                   </div>
                   <div className="mt-2 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
                     <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
-                      Click to Register →
+                      Click to Register &rarr;
                     </span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Second row - 2 cards centered */}
-          <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
-              {programsData.slice(3, 5).map((program, index) => (
-                <div
-                  key={index + 3}
-                  onClick={handleCardClick}
-                  className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards] min-h-[320px] cursor-pointer overflow-hidden"
-                  style={{ animationDelay: `${(index + 3) * 0.1}s` }}
-                >
-                  {/* Subtle top accent with animation */}
-                  <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
-
-                  {/* Hover glow effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
-
-                  {/* Click indicator with bounce animation */}
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
-                    <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
-                      <svg
-                        className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Program info with fade and scale animations */}
-                  <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
-                    <div className="text-center mb-4">
-                      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center text-xl mb-3 border border-amber-200/50 group-hover:scale-125 group-hover:rotate-12 group-hover:bg-gradient-to-br group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-500 ease-out">
-                        <img
-                          src={program.icon}
-                          alt={program.title}
-                          className="w-10 h-10 group-hover:animate-pulse object-contain"
-                        />
-                      </div>
-                      <h4 className="text-amber-700 font-semibold text-base mb-3 tracking-wide group-hover:text-amber-800 transition-colors duration-300">
-                        {program.title}
-                      </h4>
-                    </div>
-                    <p className="text-gray-600 text-base leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-300">
-                      {program.description}
-                    </p>
-                  </div>
-
-                  {/* Schedule overlay - CONSISTENT FOR ALL CARDS */}
-                  <div className="absolute inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
-                    <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
-                      SCHEDULE
-                    </h5>
-                    <div className="space-y-1">
-                      {program.schedule.map((schedule, scheduleIndex) => (
-                        <div
-                          key={scheduleIndex}
-                          className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
-                          style={{
-                            transitionDelay: `${scheduleIndex * 100}ms`,
-                          }}
-                        >
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="font-medium text-gray-800 text-xs">
-                              {schedule.day}
-                            </span>
-                            <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">
-                              {schedule.weapon}
-                            </span>
-                          </div>
-                          <p className="text-gray-600 text-xs font-medium">
-                            {schedule.time}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-2 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
-                      <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
-                        Click to Register →
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
-
         {/* Team philosophy */}
         <div className="text-center">
           <div className="inline-flex items-center justify-center mb-4">
@@ -616,11 +527,8 @@ function ProgramsAndScheduleSection() {
           </div>
           <div className="max-w-2xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
             <p className="text-gray-700 font-medium text-base">
-              <span className="text-amber-700 font-semibold">
-                Our Philosophy:
-              </span>{" "}
-              We foster a sense of team and family, so all of our fencers must
-              list TFA as your primary club.
+              <span className="text-amber-700 font-semibold">Our Philosophy:</span>{" "}
+              We foster a sense of team and family, so all of our fencers must list TFA as your primary club.
             </p>
           </div>
         </div>
@@ -628,7 +536,6 @@ function ProgramsAndScheduleSection() {
     </section>
   );
 }
-
 function TeamFencersSection() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

@@ -85,5 +85,80 @@ LANDING_PAGE_ABOUT_QUERY : `*[_type == "landingPageAbout"][0]{
   },
   statsWidget,
   seo
-}`
+}`,
+REGISTRATION_SECTION_QUERY : `*[_type == "landingPageRegistrationSection" && slug.current == "registration-section"][0]{
+      title,
+      header {
+        logo {
+          asset->,
+          alt
+        },
+        mainHeading {
+          prefix,
+          highlight
+        },
+        subtitle
+      },
+      platformShowcase {
+        logo {
+          asset->,
+          alt
+        },
+        title,
+        description
+      },
+      features[]{
+        title,
+        description
+      },
+      statistics[]{
+        number,
+        label
+      },
+      accessPortal {
+        title,
+        subtitle,
+        qrCode {
+          asset->,
+          alt
+        },
+        ctaButton {
+          text,
+          url,
+          openInNewTab
+        },
+        disclaimer
+      },
+      bottomQuote {
+        quote,
+        attribution
+      }
+    }`,
+    LANDING_PAGE_GALLERY_SECTION_QUERY : `
+      *[_type == "landingPageGallerySection"][0]{
+        header {
+          label,
+          headingPrefix,
+          headingHighlight,
+          subtitle
+        },
+        galleryImages[]{
+          src { asset-> },
+          alt
+        }
+      }
+    `,
+    LANDING_PAGE_SOCIAL_MEDIA_QUERY : `
+      *[_type == "socialMediaSection"][0]{
+        sectionTitle,
+        sectionSubtitle,
+        instagramUrl,
+        ctaLabel,
+        ctaButtonText,
+        gallery[] {
+          image { asset->, alt },
+          description
+        }
+      }
+    `
 }
