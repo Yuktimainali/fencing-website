@@ -4,7 +4,8 @@ import InfoBanner from '../HomePageComponent/InfoBanner'
 import FooterSection from '../Sections/FooterSection'
 import { sanityClient } from '../Sanity/sanityClient';
 import { urlFor } from '../Sanity/imageBuilder';
-import { ADULT_FENCING_HERO_QUERY } from '../Sanity/queries';
+import { ADULT_FENCING_HERO_QUERY, PROGRAM_QUERIES } from '../Sanity/queries';
+
 
 function AdultFencingHeroSection() {
   const [data, setData] = useState(null);
@@ -166,6 +167,85 @@ function AdultFencingHeroSection() {
 }
 
 function AdultFencingInfoSection() {
+  const [sectionData, setSectionData] = useState(null);
+
+  // Fetch data from Sanity
+  useEffect(() => {
+    const fetchSectionData = async () => {
+      try {
+        const query = PROGRAM_QUERIES.PROGRAM_ADULT_FENCING_INFO_SECTION;
+        
+        const data = await sanityClient.fetch(query);
+        setSectionData(data);
+      } catch (error) {
+        console.error('Error fetching section data:', error);
+        // Fallback to default data if Sanity fetch fails
+        setSectionData(getDefaultData());
+      }
+    };
+
+    fetchSectionData();
+  }, []);
+
+  // Fallback default data
+  const getDefaultData = () => ({
+    sectionTitle: "Precision, Strategy & Excellence",
+    sectionTitleHighlight: "Strategy",
+    headerDescription: "Our adult fencing programs welcome everyone from curious beginners to competitive athletes. Experience the mental chess match and physical precision that makes fencing the ultimate thinking person's sport.",
+    mainDescription: "Whether you're looking to try something new, get fit in an engaging way, or pursue competitive fencing, our programs are designed to meet you where you are and take you where you want to go.",
+    featureTitle: "What Sets Us Apart:",
+    features: [
+      "Expert instruction in both Epee and Saber disciplines",
+      "Flexible scheduling for busy adult lifestyles",
+      "Supportive community of like-minded adults",
+      "Equipment provided for beginners",
+      "Tournament preparation and competitive opportunities"
+    ],
+    mainCtaText: "Start Your Journey",
+    mainCtaUrl: "https://texasfencingacademy.glide.page",
+    secondaryCtaText: "Explore Membership Options",
+    secondaryCtaTargetId: "adult-programs",
+    actionImage: {
+      src: "/adultFencing/AdultFencing1.jpg",
+      alt: "Adult fencers in training"
+    },
+    statsBadge: {
+      stat: "18+",
+      label: "Adult Focus"
+    }
+  });
+
+  // Process action image for WebP format
+  const processedActionImage = sectionData?.actionImage?.asset 
+    ? {
+        src: urlFor(sectionData.actionImage.asset).format('webp').quality(85).url(),
+        alt: sectionData.actionImage.alt
+      }
+    : {
+        src: sectionData?.actionImage?.src || "/adultFencing/AdultFencing1.jpg",
+        alt: sectionData?.actionImage?.alt || "Adult fencers in training"
+      };
+
+  // Render title with highlight
+  const renderTitle = () => {
+    if (!sectionData?.sectionTitle || !sectionData?.sectionTitleHighlight) {
+      return sectionData?.sectionTitle || "Precision, Strategy & Excellence";
+    }
+
+    const parts = sectionData.sectionTitle.split(sectionData.sectionTitleHighlight);
+    return (
+      <>
+        {parts[0]}
+        <span className="font-semibold text-amber-600">{sectionData.sectionTitleHighlight}</span>
+        {parts[1]}
+      </>
+    );
+  };
+
+  if (!sectionData) {
+    return <div>Loading...</div>; // Loading state
+  }
+
   return (
     <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
       {/* Subtle background patterns */}
@@ -190,12 +270,10 @@ function AdultFencingInfoSection() {
           </div>
 
           <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-            Precision, <span className="font-semibold text-amber-600">Strategy</span> & Excellence
+            {renderTitle()}
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Our adult fencing programs welcome everyone from curious beginners to competitive athletes. 
-            Experience the mental chess match and physical precision that makes fencing the ultimate 
-            thinking person's sport.
+            {sectionData.headerDescription}
           </p>
         </div>
 
@@ -205,54 +283,40 @@ function AdultFencingInfoSection() {
           <div className="space-y-8">
             <div className="space-y-6">
               <p className="text-lg text-gray-700 leading-relaxed">
-                Whether you're looking to try something new, get fit in an engaging way, or pursue 
-                competitive fencing, our programs are designed to meet you where you are and take 
-                you where you want to go.
+                {sectionData.mainDescription}
               </p>
               
               <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-amber-700 mb-4">What Sets Us Apart:</h3>
+                <h3 className="text-xl font-semibold text-amber-700 mb-4">
+                  {sectionData.featureTitle}
+                </h3>
                 <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Expert instruction in both Epee and Saber disciplines</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Flexible scheduling for busy adult lifestyles</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Supportive community of like-minded adults</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Equipment provided for beginners</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Tournament preparation and competitive opportunities</span>
-                  </li>
+                  {sectionData.features?.map((feature, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="https://texasfencingacademy.glide.page"
+                href={sectionData.mainCtaUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-500 text-center overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                <span className="relative z-10">Start Your Journey</span>
+                <span className="relative z-10">{sectionData.mainCtaText}</span>
               </a>
               
               <button
-                onClick={() => document.getElementById('adult-programs')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById(sectionData.secondaryCtaTargetId)?.scrollIntoView({ behavior: 'smooth' })}
                 className="group relative px-8 py-4 bg-transparent border-2 border-amber-500 text-amber-600 font-semibold rounded-xl hover:bg-amber-50 hover:scale-105 transition-all duration-500 text-center"
               >
-                Explore Membership Options
+                {sectionData.secondaryCtaText}
               </button>
             </div>
           </div>
@@ -261,126 +325,208 @@ function AdultFencingInfoSection() {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
               <img
-                src="/adultFencing/AdultFencing1.jpg"
-                alt="Adult fencers in training"
+                src={processedActionImage.src}
+                alt={processedActionImage.alt}
                 className="w-full h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-amber-400/20 to-transparent pointer-events-none" />
               
               {/* Floating stats badge */}
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-800">18+</div>
-                  <div className="text-xs text-gray-600 font-medium">Adult Focus</div>
+              {sectionData.statsBadge && (
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-800">
+                      {sectionData.statsBadge.stat}
+                    </div>
+                    <div className="text-xs text-gray-600 font-medium">
+                      {sectionData.statsBadge.label}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
+
 function AdultProgramsSection() {
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(false);
+  const [sectionData, setSectionData] = useState(null);
   
   useEffect(() => { 
     const timer = setTimeout(() => {
       setLoaded(true)
-    }, 200) // Matching youth section timing
+    }, 200);
     return () => clearTimeout(timer)
-  }, [])
+  }, []);
 
-  // Corrected adult products with accurate schedule data from ProgramsAndScheduleSection
-  const adultFencingProducts = [
-    {
-      id: 1,
-      title: "Fencing Introduction 1st Month",
-      description: "Includes access to all our Epee and Saber classes for you to discover the joy of fencing.",
-      price: "$85.00", // Assuming this is the adult equivalent
-      image: "/adultFencing/AdultFencing1.jpg",
-      href: "https://texasfencingacademy.glide.page",
-      badge: "Beginner Friendly",
-      schedule: [
-        { day: "Access to all classes", time: "Various times", weapon: "Both" }
-      ]
+  // Fetch data from Sanity
+  useEffect(() => {
+    const fetchSectionData = async () => {
+      try {
+        const query = PROGRAM_QUERIES.PROGRAM_ADULT_FENCING_PROGRAM_SECTION;
+        
+        const data = await sanityClient.fetch(query);
+        setSectionData(data);
+      } catch (error) {
+        console.error('Error fetching section data:', error);
+        // Fallback to default data if Sanity fetch fails
+        setSectionData(getDefaultData());
+      }
+    };
+
+    fetchSectionData();
+  }, []);
+
+  // Fallback default data
+  const getDefaultData = () => ({
+    sectionTitle: "Adult Program Options",
+    sectionSubtitle: "Flexible membership and training options designed for adult schedules and goals",
+    infoPanel: {
+      main: "Prior to coming to the club you must register through the TFA Pro V2 and attend a scheduled complementary orientation class on Saturday.",
+      sub: "Hover over each program to see detailed schedules and pricing information."
     },
-    {
-      id: 2,
-      title: "Adult Open Fencing",
-      description: "For adults and competitive TFA fencers to fence at our salle. Contact the coach or staff to determine which nights you'd like to attend.",
-      price: "$95.00",
-      image: "/adultFencing/AdultFencing2.jpg",
-      href: "https://texasfencingacademy.glide.page",
-      recurring: true,
-      schedule: [
-        { day: "Monday, Tuesday, Wednesday, Thursday", time: "7:00 pm to 9:00 pm", weapon: "Both" },
-        { day: "Saturday", time: "10:30 am to 12:30 pm", weapon: "Both" }
-      ]
-    },
-    {
-      id: 3,
-      title: "Full Adult Subscription",
-      description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program including Team Fencer schedules.",
-      price: "$195.00",
-      image: "/adultFencing/AdultFencing3.jpg",
-      href: "https://texasfencingacademy.glide.page",
-      recurring: true,
-      badge: "Most Popular",
-      schedule: [
-        { day: "Tuesday, Thursday", time: "6:00 pm to 7:00 pm", weapon: "Epee" },
-        { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Saber" },
-        { day: "Saturday", time: "10:30 am to 11:30 am", weapon: "Both" },
-        { day: "Open Fencing", time: "7:00 pm to 9:00 pm", weapon: "Both" }
-      ]
-    },
-    {
-      id: 4,
-      title: "Competitive Adult Program",
-      description: "For adults who make more of a time commitment and have narrowed their focus to a specific weapon and plan on competing in tournaments.",
-      price: "Contact for Pricing",
-      image: "/adultFencing/AdultFencing4.jpg",
-      href: "https://texasfencingacademy.glide.page",
-      schedule: [
-        { day: "Monday, Tuesday, Wednesday, Thursday", time: "5:00 pm to 6:00 pm", weapon: "All" },
-        { day: "Open Fencing Access", time: "7:00 pm to 9:00 pm", weapon: "Both" },
-        { day: "Saturday Training", time: "10:30 am to 12:30 pm", weapon: "Competition" }
-      ]
-    },
-    {
-      id: 5,
-      title: "Adult Team Fencers",
-      description: "Recreational adult fencers that may have already narrowed their focus to a specific weapon and have not yet decided if they'd like to pursue tournaments.",
-      price: "$150.00", // Estimated based on schedule complexity
-      image: "/adultFencing/AdultFencing5.jpg",
-      href: "https://texasfencingacademy.glide.page",
-      recurring: true,
-      schedule: [
-        { day: "Tuesday, Thursday", time: "6:00 pm to 7:00 pm", weapon: "Epee" },
-        { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Saber" },
-        { day: "Saturday", time: "10:30 am to 11:30 am", weapon: "Both" }
-      ]
-    },
-    {
-      id: 6,
-      title: "Private Lessons Package",
-      description: "One-on-one coaching sessions tailored to your specific goals and skill level. Available for all adult programs and skill levels.",
-      price: "Contact for Pricing",
-      image: "/adultFencing/AdultFencing6.jpg",
-      href: "https://texasfencingacademy.glide.page",
-      schedule: [
-        { day: "Flexible Scheduling", time: "By Appointment", weapon: "Personalized" },
-        { day: "Weekend Sessions", time: "Available", weapon: "All" },
-        { day: "Goal-Oriented Training", time: "Custom Duration", weapon: "Specialized" }
-      ]
+    chooseTitle: "Choose Your Adult Path",
+    chooseSubtitle: "Hover over a program you're interested in to see the schedule",
+    chooseInstructions: "Click any card to register through our portal",
+    programs: [
+      {
+        title: "Fencing Introduction 1st Month",
+        description: "Includes access to all our Epee and Saber classes for you to discover the joy of fencing.",
+        price: "$85.00",
+        image: { src: "/adultFencing/AdultFencing1.jpg", alt: "Adult Fencing Introduction Program" },
+        href: "https://texasfencingacademy.glide.page",
+        badge: "Beginner Friendly",
+        recurring: false,
+        schedule: [
+          { day: "Access to all classes", time: "Various times", weapon: "Both" }
+        ]
+      },
+      {
+        title: "Adult Open Fencing",
+        description: "For adults and competitive TFA fencers to fence at our salle. Contact the coach or staff to determine which nights you'd like to attend.",
+        price: "$95.00",
+        image: { src: "/adultFencing/AdultFencing2.jpg", alt: "Adult Open Fencing Program" },
+        href: "https://texasfencingacademy.glide.page",
+        badge: null,
+        recurring: true,
+        schedule: [
+          { day: "Monday, Tuesday, Wednesday, Thursday", time: "7:00 pm to 9:00 pm", weapon: "Both" },
+          { day: "Saturday", time: "10:30 am to 12:30 pm", weapon: "Both" }
+        ]
+      },
+      {
+        title: "Full Adult Subscription",
+        description: "Complete access to all adult classes, open fencing, and coaching. Our most comprehensive adult program including Team Fencer schedules.",
+        price: "$195.00",
+        image: { src: "/adultFencing/AdultFencing3.jpg", alt: "Full Adult Subscription Program" },
+        href: "https://texasfencingacademy.glide.page",
+        badge: "Most Popular",
+        recurring: true,
+        schedule: [
+          { day: "Tuesday, Thursday", time: "6:00 pm to 7:00 pm", weapon: "Epee" },
+          { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Saber" },
+          { day: "Saturday", time: "10:30 am to 11:30 am", weapon: "Both" },
+          { day: "Open Fencing", time: "7:00 pm to 9:00 pm", weapon: "Both" }
+        ]
+      },
+      {
+        title: "Competitive Adult Program",
+        description: "For adults who make more of a time commitment and have narrowed their focus to a specific weapon and plan on competing in tournaments.",
+        price: "Contact for Pricing",
+        image: { src: "/adultFencing/AdultFencing4.jpg", alt: "Competitive Adult Program" },
+        href: "https://texasfencingacademy.glide.page",
+        badge: null,
+        recurring: false,
+        schedule: [
+          { day: "Monday, Tuesday, Wednesday, Thursday", time: "5:00 pm to 6:00 pm", weapon: "All" },
+          { day: "Open Fencing Access", time: "7:00 pm to 9:00 pm", weapon: "Both" },
+          { day: "Saturday Training", time: "10:30 am to 12:30 pm", weapon: "Competition" }
+        ]
+      },
+      {
+        title: "Adult Team Fencers",
+        description: "Recreational adult fencers that may have already narrowed their focus to a specific weapon and have not yet decided if they'd like to pursue tournaments.",
+        price: "$150.00",
+        image: { src: "/adultFencing/AdultFencing5.jpg", alt: "Adult Team Fencers Program" },
+        href: "https://texasfencingacademy.glide.page",
+        badge: null,
+        recurring: true,
+        schedule: [
+          { day: "Tuesday, Thursday", time: "6:00 pm to 7:00 pm", weapon: "Epee" },
+          { day: "Monday, Wednesday", time: "6:00 pm to 7:00 pm", weapon: "Saber" },
+          { day: "Saturday", time: "10:30 am to 11:30 am", weapon: "Both" }
+        ]
+      },
+      {
+        title: "Private Lessons Package",
+        description: "One-on-one coaching sessions tailored to your specific goals and skill level. Available for all adult programs and skill levels.",
+        price: "Contact for Pricing",
+        image: { src: "/adultFencing/AdultFencing6.jpg", alt: "Private Lessons Package" },
+        href: "https://texasfencingacademy.glide.page",
+        badge: null,
+        recurring: false,
+        schedule: [
+          { day: "Flexible Scheduling", time: "By Appointment", weapon: "Personalized" },
+          { day: "Weekend Sessions", time: "Available", weapon: "All" },
+          { day: "Goal-Oriented Training", time: "Custom Duration", weapon: "Specialized" }
+        ]
+      }
+    ],
+    bottomCtaPanel: {
+      leadText: "Our Philosophy: We foster a sense of team and family, so all of our fencers must list TFA as your primary club.",
+      registerText: "Get Started Today",
+      registerHref: "https://texasfencingacademy.glide.page"
     }
-  ]
+  });
+
+  // Process program images for WebP format
+  const processedPrograms = sectionData?.programs?.map((program, index) => ({
+    ...program,
+    id: index + 1, // Add ID for key prop
+    image: program.image?.asset 
+      ? urlFor(program.image.asset).format('webp').quality(85).url()
+      : program.image?.src || `/adultFencing/AdultFencing${index + 1}.jpg`,
+    alt: program.image?.alt || program.title
+  })) || [];
 
   // Function to handle card click
-  const handleCardClick = () => {
-    window.open("https://texasfencingacademy.glide.page", "_blank");
+  const handleCardClick = (href) => {
+    window.open(href, "_blank");
   };
+
+  // Render title with highlight
+  const renderTitle = (title) => {
+    if (title.includes('Options')) {
+      const parts = title.split('Options');
+      return (
+        <>
+          {parts[0]}<span className="font-semibold text-amber-600">Options</span>
+        </>
+      );
+    }
+    return title;
+  };
+
+  const renderChooseTitle = (title) => {
+    if (title.includes('Adult Path')) {
+      const parts = title.split('Adult Path');
+      return (
+        <>
+          {parts[0]}<span className="font-semibold text-amber-600">Adult Path</span>
+        </>
+      );
+    }
+    return title;
+  };
+
+  if (!sectionData) {
+    return <div>Loading...</div>; // Loading state
+  }
 
   return (
     <section id="adult-programs" className="relative py-24 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-50 overflow-hidden">
@@ -406,41 +552,40 @@ function AdultProgramsSection() {
           </div>
 
           <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-            Adult Program <span className="font-semibold text-amber-600">Options</span>
+            {renderTitle(sectionData.sectionTitle)}
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed mb-4">
-            Flexible membership and training options designed for adult schedules and goals
+            {sectionData.sectionSubtitle}
           </p>
           
           <div className="max-w-3xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-4 mb-8">
             <p className="text-gray-700 text-base mb-2">
-              <strong>Prior to coming to the club</strong> you must register through the TFA Pro V2 and attend a scheduled complementary orientation class on Saturday.
+              <strong>Prior to coming to the club</strong> {sectionData.infoPanel.main.replace('Prior to coming to the club ', '')}
             </p>
             <p className="text-gray-600 text-sm">
-              Hover over each program to see detailed schedules and pricing information.
+              {sectionData.infoPanel.sub}
             </p>
           </div>
         </div>
 
-        {/* Programs with hover schedule - matching YouthProgramsSection style */}
+        {/* Programs with hover schedule */}
         <div className="mb-16">
           <h3 className="text-3xl font-light text-gray-800 mb-4 text-center">
-            Choose Your{" "}
-            <span className="font-semibold text-amber-600">Adult Path</span>
+            {renderChooseTitle(sectionData.chooseTitle)}
           </h3>
           <p className="text-center text-gray-600 mb-2 text-lg">
-            Hover over a program you're interested in to see the schedule
+            {sectionData.chooseSubtitle}
           </p>
           <p className="text-center text-amber-600 mb-12 text-base font-medium">
-            Click any card to register through our portal
+            {sectionData.chooseInstructions}
           </p>
 
           {/* Programs grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {adultFencingProducts.map((program, index) => (
+            {processedPrograms.map((program, index) => (
               <div
                 key={program.id}
-                onClick={handleCardClick}
+                onClick={() => handleCardClick(program.href)}
                 className={`group relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-1000 ease-out min-h-[400px] cursor-pointer overflow-hidden ${
                   loaded 
                     ? 'opacity-100 translate-y-0' 
@@ -496,8 +641,9 @@ function AdultProgramsSection() {
                   <div className="relative h-48 overflow-hidden rounded-lg mb-4">
                     <img 
                       src={program.image} 
-                      alt={program.title} 
-                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-1200" 
+                      alt={program.alt} 
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-1200"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                   </div>
@@ -522,7 +668,7 @@ function AdultProgramsSection() {
                   </div>
                 </div>
 
-                {/* Schedule overlay - matching YouthProgramsSection */}
+                {/* Schedule overlay */}
                 <div className="absolute inset-6 opacity-0 group-hover:opacity-100 transition-all duration-1000 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
                   <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
                     SCHEDULE & PRICING
@@ -539,7 +685,7 @@ function AdultProgramsSection() {
                   </div>
 
                   <div className="space-y-1">
-                    {program.schedule.map((schedule, scheduleIndex) => (
+                    {program.schedule?.map((schedule, scheduleIndex) => (
                       <div
                         key={scheduleIndex}
                         className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-800 ease-out hover:bg-amber-100 hover:scale-102"
@@ -580,15 +726,15 @@ function AdultProgramsSection() {
           <div className="max-w-2xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
             <p className="text-gray-700 font-medium text-base mb-4">
               <span className="text-amber-700 font-semibold">Our Philosophy:</span>{" "}
-              We foster a sense of team and family, so all of our fencers must list TFA as your primary club.
+              {sectionData.bottomCtaPanel.leadText.replace('Our Philosophy: ', '')}
             </p>
             <a
-              href="https://texasfencingacademy.glide.page"
+              href={sectionData.bottomCtaPanel.registerHref}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-amber-700 hover:scale-105 transition-all duration-500 shadow-lg"
             >
-              <span>Get Started Today</span>
+              <span>{sectionData.bottomCtaPanel.registerText}</span>
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
@@ -597,7 +743,7 @@ function AdultProgramsSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 

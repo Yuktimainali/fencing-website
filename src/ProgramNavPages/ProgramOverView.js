@@ -4,7 +4,7 @@ import InfoBanner from "../HomePageComponent/InfoBanner";
 import FooterSection from "../Sections/FooterSection";
 import { sanityClient } from "../Sanity/sanityClient";
 import { urlFor } from "../Sanity/imageBuilder";
-import { PROGRAM_OVERVIEW_HERO_QUERY } from "../Sanity/queries";
+import { PROGRAM_QUERIES } from "../Sanity/queries";
 
 function HeroSection() {
   const [data, setData] = useState(null);
@@ -12,7 +12,7 @@ function HeroSection() {
   const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
-    sanityClient.fetch(PROGRAM_OVERVIEW_HERO_QUERY).then(res => {
+    sanityClient.fetch(PROGRAM_QUERIES.PROGRAM_OVERVIEW_HERO_QUERY).then(res => {
       setData(res);
       setLoading(false);
     });
@@ -293,7 +293,7 @@ function ProgramsAndScheduleSection() {
 
   useEffect(() => {
     sanityClient
-      .fetch(`*[_type == "program"] | order(title asc) {title, description, icon, schedule}`)
+      .fetch(PROGRAM_QUERIES.PROGRAM_SCEHDULES_QUERY)
       .then((data) => setPrograms(data))
       .catch(console.error);
   }, []);
@@ -539,19 +539,74 @@ function ProgramsAndScheduleSection() {
 function TeamFencersSection() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [sectionData, setSectionData] = useState(null);
 
-  const slideShowImages = [
-    {
-      src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_asst_coaches_w_teen_boys-1280x960.jpg",
-      alt: "Team Fencers - Competitive Training",
-      caption: "Competitive fencers training for national tournaments",
-    },
-    {
-      src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_teen_fencers-1280x960.jpg",
-      alt: "Teen Fencers in Action",
-      caption: "Teen fencers competing at national level",
-    },
-  ];
+  // Fetch data from Sanity
+  useEffect(() => {
+    const fetchSectionData = async () => {
+      try {
+        const query = PROGRAM_QUERIES.PROGRAM_OVERVIEW_TEAMFENCERS_QUERY;
+        
+        const data = await sanityClient.fetch(query);
+        setSectionData(data);
+      } catch (error) {
+        console.error('Error fetching section data:', error);
+        // Fallback to default data if Sanity fetch fails
+        setSectionData(getDefaultData());
+      }
+    };
+
+    fetchSectionData();
+  }, []);
+
+  // Fallback default data
+  const getDefaultData = () => ({
+    sectionTitle: "Competitive Fencing Program: Team Fencers",
+    headerDescription: "Competitive fencing program for serious athletes",
+    slideShowImages: [
+      {
+        src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_asst_coaches_w_teen_boys-1280x960.jpg",
+        alt: "Team Fencers - Competitive Training",
+        caption: "Competitive fencers training for national tournaments",
+      },
+      {
+        src: "https://texasfencingacademy.org/wp-content/uploads/2024/03/TFA_teen_fencers-1280x960.jpg",
+        alt: "Teen Fencers in Action",
+        caption: "Teen fencers competing at national level",
+      },
+    ],
+    programHighlights: [
+      "Team fencers over 10 years old commit to fence at least once a week",
+      "Full access to fencing classes 5 days a week",
+      "Expected participation in Summer Nationals and Junior Olympics",
+      "Creates national-level competitors in epee and saber",
+    ],
+    practiceSchedule: [
+      { day: "Monday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
+      { day: "Tuesday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
+      { day: "Wednesday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
+      { day: "Thursday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
+      { day: "Saturday", time: "10:30 am – 12:00 pm", weapon: "Epee/Saber" },
+    ],
+    pricingAmount: "$185/month",
+    pricingNote: "Monthly recurring",
+    registrationSectionTitle: "Join Our Team",
+    ctaText: "Register for Team Program",
+    registrationUrl: "https://texasfencingacademy.glide.page",
+    equipmentRequirements: [
+      "Complete personal fencing gear required",
+      "Must wear whites during practice",
+      "TFA jacket required for national competitions",
+      "Weapon-specific equipment (epee or saber)",
+    ],
+    aboutSectionTitle: "About Team Program",
+    aboutSectionDescription: "Team fencers over 10 years old commit to training at least once a week with full access to classes 5 days a week.",
+    trainingExpectationsTitle: "Training Expectations",
+    trainingExpectations: [
+      "Competitive fencers: Expected to participate in Summer Nationals and Junior Olympics.",
+      "National-level fencers: Train at least 3 times per week, balancing school and tournaments."
+    ]
+  });
 
   useEffect(() => {
     setIsLoaded(true);
@@ -559,36 +614,29 @@ function TeamFencersSection() {
 
   // Slideshow auto-advance effect
   useEffect(() => {
+    if (!sectionData?.slideShowImages?.length) return;
+    
     const interval = setInterval(() => {
       setCurrentImageIndex(
-        (prevIndex) => (prevIndex + 1) % slideShowImages.length
+        (prevIndex) => (prevIndex + 1) % sectionData.slideShowImages.length
       );
-    }, 4000); // Change image every 4 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [slideShowImages.length]);
+  }, [sectionData?.slideShowImages?.length]);
 
-  const practiceSchedule = [
-    { day: "Monday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
-    { day: "Tuesday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
-    { day: "Wednesday", time: "6:00 pm – 8:00 pm", weapon: "Saber" },
-    { day: "Thursday", time: "6:00 pm – 8:00 pm", weapon: "Epee" },
-    { day: "Saturday", time: "10:30 am – 12:00 pm", weapon: "Epee/Saber" },
-  ];
+  // Process slideshow images for consistent format with WebP optimization
+  const processedSlideShowImages = sectionData?.slideShowImages?.map(image => ({
+    src: image.asset 
+      ? urlFor(image.asset).format('webp').quality(85).url()
+      : image.src,
+    alt: image.alt,
+    caption: image.caption
+  })) || [];
 
-  const programHighlights = [
-    "Team fencers over 10 years old commit to fence at least once a week",
-    "Full access to fencing classes 5 days a week",
-    "Expected participation in Summer Nationals and Junior Olympics",
-    "Creates national-level competitors in epee and saber",
-  ];
-
-  const equipmentRequirements = [
-    "Complete personal fencing gear required",
-    "Must wear whites during practice",
-    "TFA jacket required for national competitions",
-    "Weapon-specific equipment (epee or saber)",
-  ];
+  if (!sectionData) {
+    return <div>Loading...</div>; // Loading state
+  }
 
   return (
     <>
@@ -614,8 +662,16 @@ function TeamFencersSection() {
               <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
             </div>
             <h1 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-              Competitive Fencing Program:{" "}
-              <span className="font-semibold text-amber-600">Team Fencers</span>
+              {sectionData.sectionTitle.includes(':') ? (
+                <>
+                  {sectionData.sectionTitle.split(':')[0]}:{" "}
+                  <span className="font-semibold text-amber-600">
+                    {sectionData.sectionTitle.split(':')[1].trim()}
+                  </span>
+                </>
+              ) : (
+                sectionData.sectionTitle
+              )}
             </h1>
           </div>
 
@@ -632,58 +688,61 @@ function TeamFencersSection() {
                 style={{ animationDelay: "0.2s" }}
               >
                 {/* Slideshow Image */}
-                <div className="relative overflow-hidden rounded-xl mb-8">
-                  <div className="relative w-full h-56">
-                    {slideShowImages.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image.src}
-                        alt={image.alt}
-                        className={`absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-1000 ease-in-out ${
-                          index === currentImageIndex
-                            ? "opacity-100"
-                            : "opacity-0"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-sm font-medium drop-shadow-lg transition-opacity duration-1000">
-                      {slideShowImages[currentImageIndex].caption}
-                    </p>
-                  </div>
+                {processedSlideShowImages.length > 0 && (
+                  <div className="relative overflow-hidden rounded-xl mb-8">
+                    <div className="relative w-full h-56">
+                      {processedSlideShowImages.map((image, index) => (
+                        <img
+                          key={index}
+                          src={image.src}
+                          alt={image.alt}
+                          className={`absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-1000 ease-in-out ${
+                            index === currentImageIndex
+                              ? "opacity-100"
+                              : "opacity-0"
+                          }`}
+                          loading={index === 0 ? "eager" : "lazy"}
+                        />
+                      ))}
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl"></div>
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <p className="text-sm font-medium drop-shadow-lg transition-opacity duration-1000">
+                        {processedSlideShowImages[currentImageIndex]?.caption}
+                      </p>
+                    </div>
 
-                  {/* Slideshow indicators */}
-                  <div className="absolute bottom-2 right-4 flex space-x-1">
-                    {slideShowImages.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                          index === currentImageIndex
-                            ? "bg-white"
-                            : "bg-white/50"
-                        }`}
-                      />
-                    ))}
+                    {/* Slideshow indicators */}
+                    <div className="absolute bottom-2 right-4 flex space-x-1">
+                      {processedSlideShowImages.map((_, index) => (
+                        <div
+                          key={index}
+                          className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                            index === currentImageIndex
+                              ? "bg-white"
+                              : "bg-white/50"
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Pricing & Registration Section */}
                 <div className="text-center space-y-6 mb-8">
                   <div>
                     <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                      Join Our Team
+                      {sectionData.registrationSectionTitle}
                     </h3>
                     <p className="text-gray-600 text-sm mb-4">
-                      Competitive fencing program for serious athletes
+                      {sectionData.headerDescription}
                     </p>
                     <div className="bg-amber-50 rounded-xl p-4 mb-6">
                       <p className="text-amber-800 font-semibold text-lg">
-                        $185/month
+                        {sectionData.pricingAmount}
                       </p>
                       <p className="text-amber-600 text-sm">
-                        Monthly recurring
+                        {sectionData.pricingNote}
                       </p>
                     </div>
                   </div>
@@ -691,14 +750,11 @@ function TeamFencersSection() {
                   {/* Main CTA Button */}
                   <button
                     onClick={() =>
-                      window.open(
-                        "https://texasfencingacademy.glide.page",
-                        "_blank"
-                      )
+                      window.open(sectionData.registrationUrl, "_blank")
                     }
                     className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg"
                   >
-                    Register for Team Program
+                    {sectionData.ctaText}
                   </button>
                 </div>
 
@@ -708,7 +764,7 @@ function TeamFencersSection() {
                     Equipment Requirements
                   </h4>
                   <div className="space-y-2">
-                    {equipmentRequirements.map((item, index) => (
+                    {sectionData.equipmentRequirements?.map((item, index) => (
                       <div key={index} className="flex items-start space-x-2">
                         <div className="w-1 h-1 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
                         <span className="text-sm text-gray-700">{item}</span>
@@ -733,12 +789,11 @@ function TeamFencersSection() {
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
                   <h2 className="text-2xl font-semibold text-gray-900">
-                    About Team Program
+                    {sectionData.aboutSectionTitle}
                   </h2>
                 </div>
                 <p className="text-base text-gray-700 leading-relaxed pl-16">
-                  Team fencers over 10 years old commit to training at least
-                  once a week with full access to classes 5 days a week.
+                  {sectionData.aboutSectionDescription}
                 </p>
               </div>
 
@@ -752,7 +807,7 @@ function TeamFencersSection() {
                 </div>
                 <div className="pl-16">
                   <div className="space-y-2">
-                    {programHighlights.map((highlight, index) => (
+                    {sectionData.programHighlights?.map((highlight, index) => (
                       <div key={index} className="flex items-start space-x-2">
                         <div className="w-1 h-1 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
                         <span className="text-sm text-gray-700">
@@ -775,19 +830,19 @@ function TeamFencersSection() {
                 <div className="pl-16">
                   <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
                     <div className="space-y-2">
-                      {practiceSchedule.map((session, index) => (
+                      {sectionData.practiceSchedule?.map((session, index) => (
                         <div
                           key={index}
                           className={`
-              flex justify-between items-center py-2 px-2 rounded-lg relative
-              hover:bg-amber-100/70 hover:scale-[1.02] hover:shadow-sm
-              transition-all duration-300 ease-out cursor-pointer
-              ${
-                index !== practiceSchedule.length - 1
-                  ? "after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent"
-                  : ""
-              }
-            `}
+                            flex justify-between items-center py-2 px-2 rounded-lg relative
+                            hover:bg-amber-100/70 hover:scale-[1.02] hover:shadow-sm
+                            transition-all duration-300 ease-out cursor-pointer
+                            ${
+                              index !== sectionData.practiceSchedule.length - 1
+                                ? "after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent"
+                                : ""
+                            }
+                          `}
                         >
                           <span className="text-sm font-medium text-gray-800 hover:text-amber-700 hover:scale-110 transition-all duration-300 ease-out transform-gpu">
                             {session.day}
@@ -812,20 +867,17 @@ function TeamFencersSection() {
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-1 bg-amber-500 rounded mr-4"></div>
                   <h2 className="text-2xl font-semibold text-gray-900">
-                    Training Expectations
+                    {sectionData.trainingExpectationsTitle}
                   </h2>
                 </div>
                 <div className="pl-16">
                   <div className="bg-gray-50 rounded-xl p-4">
                     <div className="space-y-2 text-sm text-gray-700 leading-relaxed">
-                      <p>
-                        <strong>Competitive fencers:</strong> Expected to
-                        participate in Summer Nationals and Junior Olympics.
-                      </p>
-                      <p>
-                        <strong>National-level fencers:</strong> Train at least
-                        3 times per week, balancing school and tournaments.
-                      </p>
+                      {sectionData.trainingExpectations?.map((expectation, index) => (
+                        <p key={index}>
+                          {expectation}
+                        </p>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -854,38 +906,81 @@ function TeamFencersSection() {
 function MinnowFencersSection() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [sectionData, setSectionData] = useState(null);
 
-  const slideShowImages = [
-    {
-      src: "/program/MinnowImage1.jpg",
-      alt: "Minnow Fencers - Youth Training",
-      caption: "Young fencers learning in a safe, fun environment",
-    },
-    {
-      src: "/program/MinnowImage2.jpg",
-      alt: "Minnow Fencers - Basic Skills",
-      caption: "Proud coach and student celebrating a fencing achievement",
-    },
-    {
-      src: "/program/MinnowImage3.jpg",
-      alt: "Minnow Fencers - Saturday Sessions",
-      caption: "Engaging Saturday sessions for ages 6-9",
-    },
-    {
-      src: "/program/MinnowImage4.jpg",
-      alt: "Minnow Fencers - Fun Learning",
-      caption: "Sparking a love for fencing through play",
-    },
-  ];
+  // Fetch data from Sanity
+  useEffect(() => {
+    const fetchSectionData = async () => {
+      try {
+        const query = PROGRAM_QUERIES.PROGRAM_OVERVIEW_MINNOWFENCERS_QUERY;
+        
+        const data = await sanityClient.fetch(query);
+        setSectionData(data);
+      } catch (error) {
+        console.error('Error fetching section data:', error);
+        setSectionData(getDefaultData());
+      }
+    };
 
-  const programHighlights = [
-    "Tailored for children ages 6-9",
-    "Consistent, structured introduction to fencing",
-    "Emphasizing fun, safety, and foundational techniques",
-    "Gentle introduction to potential tournament participation",
-  ];
+    fetchSectionData();
+  }, []);
 
-  const equipmentRequirements = ["Long sport pants", "Tennis shoes", "T-shirt"];
+  // Fallback default data
+  const getDefaultData = () => ({
+    sectionTitle: "Youth Fencing Program: Minnow Fencers",
+    headerDescription: "Our Youth Fencing Program for ages 6-9 sparks a love for fencing through engaging Saturday sessions focusing on fundamental skills and positive environment.",
+    slideShowImages: [
+      {
+        src: "/program/MinnowImage1.jpg",
+        alt: "Minnow Fencers - Youth Training",
+        caption: "Young fencers learning in a safe, fun environment",
+      },
+      {
+        src: "/program/MinnowImage2.jpg",
+        alt: "Minnow Fencers - Basic Skills",
+        caption: "Proud coach and student celebrating a fencing achievement",
+      },
+      {
+        src: "/program/MinnowImage3.jpg",
+        alt: "Minnow Fencers - Saturday Sessions",
+        caption: "Engaging Saturday sessions for ages 6-9",
+      },
+      {
+        src: "/program/MinnowImage4.jpg",
+        alt: "Minnow Fencers - Fun Learning",
+        caption: "Sparking a love for fencing through play",
+      },
+    ],
+    programHighlights: [
+      "Tailored for children ages 6-9",
+      "Consistent, structured introduction to fencing",
+      "Emphasizing fun, safety, and foundational techniques",
+      "Gentle introduction to potential tournament participation",
+    ],
+    classSchedule: [
+      { day: "Saturday", startTime: "9:00 am", endTime: "9:45 am", weapon: "Epee" },
+      { day: "Saturday", startTime: "9:45 am", endTime: "10:30 am", weapon: "Saber" }
+    ],
+    pricing: [
+      { label: "First Class", price: "Free", note: "" },
+      { label: "First Month", price: "$85", note: "(after free class)" },
+      { label: "Subsequent Months", price: "$105", note: "(recurring)" }
+    ],
+    terms: "Automatic monthly payments. Cancel anytime with written notice.",
+    equipmentInfo: "All fencing equipment provided",
+    equipmentRequirements: ["Long sport pants", "Tennis shoes", "T-shirt"],
+    sessionStructure: [
+      { activity: "Fencing Instruction", duration: "45 min" },
+      { activity: "Physical Conditioning", duration: "15 min" }
+    ],
+    totalDuration: "60 min",
+    ctaText: "Register for Minnow Fencers",
+    registrationUrl: "https://texasfencingacademy.glide.page",
+    registrationSectionTitle: "Ready to Begin?",
+    registrationSectionDescription: "Join our youth fencing program today",
+    registrationPromoText: "First Class FREE",
+    registrationPromoSubtext: "Try before you commit"
+  });
 
   useEffect(() => {
     setIsLoaded(true);
@@ -893,14 +988,29 @@ function MinnowFencersSection() {
 
   // Slideshow auto-advance effect
   useEffect(() => {
+    if (!sectionData?.slideShowImages?.length) return;
+    
     const interval = setInterval(() => {
       setCurrentImageIndex(
-        (prevIndex) => (prevIndex + 1) % slideShowImages.length
+        (prevIndex) => (prevIndex + 1) % sectionData.slideShowImages.length
       );
-    }, 4000); // Change image every 4 seconds
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [slideShowImages.length]);
+  }, [sectionData?.slideShowImages?.length]);
+
+  // Process slideshow images for consistent format with WebP optimization
+  const processedSlideShowImages = sectionData?.slideShowImages?.map(image => ({
+    src: image.asset 
+      ? urlFor(image.asset).format('webp').quality(85).url()
+      : image.src,
+    alt: image.alt,
+    caption: image.caption
+  })) || [];
+
+  if (!sectionData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -929,10 +1039,17 @@ function MinnowFencersSection() {
               <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
             </div>
             <h1 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-              Youth Fencing Program:{" "}
-              <span className="font-semibold text-amber-600">
-                Minnow Fencers
-              </span>
+              {sectionData.sectionTitle.includes(':') ? (
+                <>
+                  {sectionData.sectionTitle.split(':')[0]}:{" "}
+                  <span className="font-semibold text-amber-600">
+  {sectionData.sectionTitle.split(':')[1]?.trim()}
+</span>
+
+                </>
+              ) : (
+                sectionData.sectionTitle
+              )}
             </h1>
           </div>
 
@@ -955,9 +1072,7 @@ function MinnowFencersSection() {
                   </h2>
                 </div>
                 <p className="text-base text-gray-700 leading-relaxed pl-16">
-                  Our Youth Fencing Program for ages 6-9 sparks a love for
-                  fencing through engaging Saturday sessions focusing on
-                  fundamental skills and positive environment.
+                  {sectionData.headerDescription}
                 </p>
               </div>
 
@@ -971,7 +1086,7 @@ function MinnowFencersSection() {
                 </div>
                 <div className="pl-16">
                   <div className="space-y-2">
-                    {programHighlights.map((highlight, index) => (
+                    {sectionData.programHighlights?.map((highlight, index) => (
                       <div key={index} className="flex items-start space-x-2">
                         <div className="w-1 h-1 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
                         <span className="text-sm text-gray-700">
@@ -994,33 +1109,24 @@ function MinnowFencersSection() {
                 <div className="pl-16">
                   <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
                     <div className="space-y-2">
-                      <div className="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-amber-100/70 hover:scale-[1.02] hover:shadow-sm transition-all duration-300 ease-out cursor-pointer relative after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent">
-                        <span className="text-sm font-medium text-gray-800 hover:text-amber-700 hover:scale-110 transition-all duration-300 ease-out transform-gpu">
-                          Saturday
-                        </span>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs text-gray-600 hover:text-gray-700 transition-colors duration-300">
-                            9:00 am - 9:45 am
+                      {sectionData.classSchedule?.map((schedule, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-amber-100/70 hover:scale-[1.02] hover:shadow-sm transition-all duration-300 ease-out cursor-pointer relative after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent"
+                        >
+                          <span className="text-sm font-medium text-gray-800 hover:text-amber-700 hover:scale-110 transition-all duration-300 ease-out transform-gpu">
+                            {schedule.day}
                           </span>
-                          <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded hover:bg-amber-300 hover:scale-105 transition-all duration-300">
-                            Epee
-                          </span>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-gray-600 hover:text-gray-700 transition-colors duration-300">
+                              {schedule.startTime} - {schedule.endTime}
+                            </span>
+                            <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded hover:bg-amber-300 hover:scale-105 transition-all duration-300">
+                              {schedule.weapon}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-amber-100/70 hover:scale-[1.02] hover:shadow-sm transition-all duration-300 ease-out cursor-pointer">
-                        <span className="text-sm font-medium text-gray-800 hover:text-amber-700 hover:scale-110 transition-all duration-300 ease-out transform-gpu">
-                          Saturday
-                        </span>
-                        <div className="flex items-center space-x-2">
-                          <span className="text-xs text-gray-600 hover:text-gray-700 transition-colors duration-300">
-                            9:45 am - 10:30 am
-                          </span>
-                          <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded hover:bg-amber-300 hover:scale-105 transition-all duration-300">
-                            Saber
-                          </span>
-                        </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -1036,49 +1142,36 @@ function MinnowFencersSection() {
                 </div>
 
                 <dl className="pl-16 space-y-6 opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
-                  <div className="flex justify-between items-center group transition-all duration-300 ease-out hover:scale-[1.02] hover:bg-amber-50/50 hover:shadow-sm rounded-lg p-3 -m-3 cursor-pointer relative after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent">
-                    <dt className="text-gray-700 text-sm font-medium group-hover:text-gray-900 transition-colors duration-300">
-                      First Class
-                    </dt>
-                    <dd className="text-amber-600 text-base font-semibold group-hover:text-amber-700 transition-colors duration-300">
-                      Free
-                    </dd>
-                  </div>
-
-                  <div className="flex justify-between items-center group transition-all duration-300 ease-out hover:scale-[1.02] hover:bg-amber-50/50 hover:shadow-sm rounded-lg p-3 -m-3 cursor-pointer relative after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent">
-                    <dt className="text-gray-700 text-sm font-medium group-hover:text-gray-900 transition-colors duration-300">
-                      First Month
-                    </dt>
-                    <dd className="text-amber-600 text-base font-semibold group-hover:text-amber-700 transition-colors duration-300">
-                      $85{" "}
-                      <span className="text-gray-500 text-xs group-hover:text-gray-600 transition-colors duration-300">
-                        (after free class)
-                      </span>
-                    </dd>
-                  </div>
-
-                  <div className="flex justify-between items-center group transition-all duration-300 ease-out hover:scale-[1.02] hover:bg-amber-50/50 hover:shadow-sm rounded-lg p-3 -m-3 cursor-pointer">
-                    <dt className="text-gray-700 text-sm font-medium group-hover:text-gray-900 transition-colors duration-300">
-                      Subsequent Months
-                    </dt>
-                    <dd className="text-amber-600 text-base font-semibold group-hover:text-amber-700 transition-colors duration-300">
-                      $105{" "}
-                      <span className="text-gray-500 text-xs group-hover:text-gray-600 transition-colors duration-300">
-                        (recurring)
-                      </span>
-                    </dd>
-                  </div>
+                  {sectionData.pricing?.map((priceItem, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center group transition-all duration-300 ease-out hover:scale-[1.02] hover:bg-amber-50/50 hover:shadow-sm rounded-lg p-3 -m-3 cursor-pointer relative after:absolute after:bottom-0 after:left-[20%] after:right-[20%] after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-amber-400/60 after:to-transparent"
+                    >
+                      <dt className="text-gray-700 text-sm font-medium group-hover:text-gray-900 transition-colors duration-300">
+                        {priceItem.label}
+                      </dt>
+                      <dd className="text-amber-600 text-base font-semibold group-hover:text-amber-700 transition-colors duration-300">
+                        {priceItem.price}
+                        {priceItem.note && (
+                          <span className="text-gray-500 text-xs group-hover:text-gray-600 transition-colors duration-300">
+                            {" "}{priceItem.note}
+                          </span>
+                        )}
+                      </dd>
+                    </div>
+                  ))}
                 </dl>
 
-                <div className="pl-16 mt-8 pt-6 border-t border-gray-200 opacity-0 animate-[fadeIn_0.8s_ease-out_0.5s_forwards]">
-                  <p className="text-gray-600 text-xs group hover:text-amber-700 transition-colors duration-300 cursor-default">
-                    <strong className="group-hover:text-gray-800 transition-colors duration-300">
-                      Terms:
-                    </strong>{" "}
-                    Automatic monthly payments. Cancel anytime with written
-                    notice.
-                  </p>
-                </div>
+                {sectionData.terms && (
+                  <div className="pl-16 mt-8 pt-6 border-t border-gray-200 opacity-0 animate-[fadeIn_0.8s_ease-out_0.5s_forwards]">
+                    <p className="text-gray-600 text-xs group hover:text-amber-700 transition-colors duration-300 cursor-default">
+                      <strong className="group-hover:text-gray-800 transition-colors duration-300">
+                        Terms:
+                      </strong>{" "}
+                      {sectionData.terms}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1093,58 +1186,61 @@ function MinnowFencersSection() {
                 style={{ animationDelay: "0.4s" }}
               >
                 {/* Slideshow Image */}
-                <div className="relative overflow-hidden rounded-xl mb-8">
-                  <div className="relative w-full h-56">
-                    {slideShowImages.map((image, index) => (
-                      <img
-                        key={index}
-                        src={image.src}
-                        alt={image.alt}
-                        className={`absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-1000 ease-in-out ${
-                          index === currentImageIndex
-                            ? "opacity-100"
-                            : "opacity-0"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <p className="text-sm font-medium drop-shadow-lg transition-opacity duration-1000">
-                      {slideShowImages[currentImageIndex].caption}
-                    </p>
-                  </div>
+                {processedSlideShowImages.length > 0 && (
+                  <div className="relative overflow-hidden rounded-xl mb-8">
+                    <div className="relative w-full h-56">
+                      {processedSlideShowImages.map((image, index) => (
+                        <img
+                          key={index}
+                          src={image.src}
+                          alt={image.alt}
+                          className={`absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-1000 ease-in-out ${
+                            index === currentImageIndex
+                              ? "opacity-100"
+                              : "opacity-0"
+                          }`}
+                          loading={index === 0 ? "eager" : "lazy"}
+                        />
+                      ))}
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-xl"></div>
+                    <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <p className="text-sm font-medium drop-shadow-lg transition-opacity duration-1000">
+                        {processedSlideShowImages[currentImageIndex]?.caption}
+                      </p>
+                    </div>
 
-                  {/* Slideshow indicators */}
-                  <div className="absolute bottom-2 right-4 flex space-x-1">
-                    {slideShowImages.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                          index === currentImageIndex
-                            ? "bg-white"
-                            : "bg-white/50"
-                        }`}
-                      />
-                    ))}
+                    {/* Slideshow indicators */}
+                    <div className="absolute bottom-2 right-4 flex space-x-1">
+                      {processedSlideShowImages.map((_, index) => (
+                        <div
+                          key={index}
+                          className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                            index === currentImageIndex
+                              ? "bg-white"
+                              : "bg-white/50"
+                          }`}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Registration Section */}
                 <div className="text-center space-y-6 mb-8">
                   <div>
                     <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                      Ready to Begin?
+                      {sectionData.registrationSectionTitle}
                     </h3>
                     <p className="text-gray-600 text-sm mb-4">
-                      Join our youth fencing program today
+                      {sectionData.registrationSectionDescription}
                     </p>
                     <div className="bg-amber-50 rounded-xl p-4 mb-6">
                       <p className="text-amber-800 font-semibold text-lg">
-                        First Class FREE
+                        {sectionData.registrationPromoText}
                       </p>
                       <p className="text-amber-600 text-sm">
-                        Try before you commit
+                        {sectionData.registrationPromoSubtext}
                       </p>
                     </div>
                   </div>
@@ -1152,14 +1248,11 @@ function MinnowFencersSection() {
                   {/* Main CTA Button */}
                   <button
                     onClick={() =>
-                      window.open(
-                        "https://texasfencingacademy.glide.page",
-                        "_blank"
-                      )
+                      window.open(sectionData.registrationUrl, "_blank")
                     }
                     className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg"
                   >
-                    Register for Minnow Fencers
+                    {sectionData.ctaText}
                   </button>
                 </div>
 
@@ -1173,13 +1266,13 @@ function MinnowFencersSection() {
                       </h4>
                       <div className="mb-4">
                         <p className="text-gray-600 text-sm mb-3">
-                          All fencing equipment provided
+                          {sectionData.equipmentInfo}
                         </p>
                         <div className="space-y-2">
                           <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
                             Student Requirements
                           </p>
-                          {equipmentRequirements.map((item, index) => (
+                          {sectionData.equipmentRequirements?.map((item, index) => (
                             <div
                               key={index}
                               className="flex items-center space-x-2"
@@ -1200,29 +1293,23 @@ function MinnowFencersSection() {
                         Session Structure
                       </h4>
                       <div className="space-y-3">
-                        <div className="flex justify-between items-center py-2">
-                          <span className="text-sm text-gray-600">
-                            Fencing Instruction
-                          </span>
-                          <span className="text-sm font-medium text-gray-900">
-                            45 min
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center py-2">
-                          <span className="text-sm text-gray-600">
-                            Physical Conditioning
-                          </span>
-                          <span className="text-sm font-medium text-gray-900">
-                            15 min
-                          </span>
-                        </div>
+                        {sectionData.sessionStructure?.map((session, index) => (
+                          <div key={index} className="flex justify-between items-center py-2">
+                            <span className="text-sm text-gray-600">
+                              {session.activity}
+                            </span>
+                            <span className="text-sm font-medium text-gray-900">
+                              {session.duration}
+                            </span>
+                          </div>
+                        ))}
                         <div className="pt-3 mt-3 border-t border-gray-100">
                           <div className="flex justify-between items-center">
                             <span className="text-sm font-medium text-gray-900">
                               Total Duration
                             </span>
                             <span className="text-sm font-semibold text-gray-900">
-                              60 min
+                              {sectionData.totalDuration}
                             </span>
                           </div>
                         </div>
@@ -1261,6 +1348,7 @@ function MinnowFencersSection() {
     </>
   );
 }
+
 export default function ProgramOverviewPage() {
   const [isLoaded, setIsLoaded] = useState(false);
 
