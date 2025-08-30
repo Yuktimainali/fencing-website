@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback, memo } from "react";
 import Navbar from "../HomePageComponent/Navbar";
 import InfoBanner from "../HomePageComponent/InfoBanner";
 import FooterSection from "../Sections/FooterSection";
@@ -513,143 +513,691 @@ function BlazePodTechnologySection() {
   );
 }
 
-function ProTrainingHubSection() {
-  const [activeMetric, setActiveMetric] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveMetric((prev) => (prev + 1) % skillMetrics.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
+function CompetitiveEdgeTextSection() {
   return (
-    <section className="relative py-24 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-50 overflow-hidden">
-      {/* Background elements */}
+    <section
+      id="competitive-edge-text"
+      className="relative py-20 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
+    >
+      {/* Themed background motif */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 right-20 w-72 h-72 bg-gradient-to-br from-amber-100 to-amber-200 opacity-30 rounded-full"></div>
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
+        <div className="absolute top-16 left-16 w-64 h-64 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full" />
+        <div className="absolute bottom-16 right-16 w-80 h-80 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full" />
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent" />
+          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+        </div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        {/* Section header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center space-x-4 mb-8 group">
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-white/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+      <div className="relative z-10 max-w-5xl mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center space-x-4 mb-6 group">
+            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
+            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse" />
             </div>
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
           </div>
-          <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-            Pro Training Hub{" "}
-            <span className="font-semibold text-amber-600">Mobile App</span>
+
+          <h2 className="text-4xl lg:text-5xl font-light text-gray-800 tracking-tight">
+            Competitive <span className="font-semibold text-amber-600">Edge</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive performance tracking with Cyborg Drills gamification.
-            Monitor your progress across 10+ fencing skills with detailed
-            analytics and personalized insights.
-          </p>
+          <p className="mt-2 text-sm italic text-gray-600">Klingons! Train smarter. Fence faster.</p>
         </div>
 
-        {/* App Features Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
-          {/* App mockup/screenshot area */}
-          <div className="relative">
-            <div className="bg-gray-800 rounded-3xl p-8 shadow-2xl">
-              <div className="bg-amber-500 rounded-2xl p-4 text-black">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-bold text-lg">Cyborg Drills - Stats</h3>
-                  <div className="w-8 h-8 bg-black/20 rounded-full flex items-center justify-center">
-                    <span className="text-sm">⚡</span>
-                  </div>
-                </div>
+        {/* Content with refined typography */}
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Cyborg Drills */}
+          <article className="prose prose-gray max-w-none prose-p:leading-relaxed prose-li:leading-relaxed prose-headings:mb-2">
+            <h3 className="m-0 text-2xl font-extrabold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
+              Cyborg Drills
+            </h3>
+            <p className="mt-4 text-gray-800">
+              Short, repeatable blocks that sharpen timing, reaction, and footwork with crisp reps and immediate feedback—designed to make every minute count. 
+            </p>
+            <ul className="text-gray-800">
+              <li><span className="font-semibold">Daily:</span> a quick skill tune‑up that fits busy schedules and keeps progress moving.</li>
+              <li><span className="font-semibold">History:</span> a clear record of sessions and quality that reveals patterns at a glance.</li>
+              <li><span className="font-semibold">Rank:</span> an ordered snapshot of skills so strengths and priorities are obvious.</li>
+              <li><span className="font-semibold">Stats:</span> simple trends that show real gains—not just session noise.</li>
+              <li><span className="font-semibold">Effort:</span> a feel for session load that balances work and recovery.</li>
+              <li><span className="font-semibold">Standing:</span> a readiness view that blends results across drills and days.</li>
+            </ul>
+          </article>
 
-                {/* Animated skill metrics */}
-                <div className="space-y-3">
-                  {skillMetrics.map((metric, index) => (
-                    <div
-                      key={metric.skill}
-                      className={`bg-black/10 rounded-lg p-3 transition-all duration-500 ${
-                        activeMetric === index ? "bg-black/20 scale-105" : ""
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-sm">
-                          {metric.skill}
-                        </span>
-                        <div className="flex items-center space-x-2">
-                          <span
-                            className={`text-sm ${
-                              metric.trend === "up"
-                                ? "text-green-700"
-                                : "text-red-700"
-                            }`}
-                          >
-                            {metric.percentage}
-                          </span>
-                          <span className="text-xs">
-                            {metric.trend === "up" ? "▲" : "▼"}
-                          </span>
-                          <span className="text-xs opacity-70">
-                            {metric.score}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+          {/* Training Plan */}
+          <article className="prose prose-gray max-w-none prose-p:leading-relaxed prose-li:leading-relaxed prose-headings:mb-2">
+            <h3 className="m-0 text-2xl font-extrabold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              Training Plan
+            </h3>
+            <p className="mt-4 text-gray-800">
+              The roadmap that sequences sessions over time so load progresses logically, recovery is protected, and peak form lands when it matters.
+            </p>
+            <ul className="text-gray-800">
+              <li><span className="font-semibold">Day:</span> today’s purpose, drills, gear, and time—focused and actionable.</li>
+              <li><span className="font-semibold">Week:</span> a microcycle that balances stress and recovery across days.</li>
+              <li><span className="font-semibold">Blocks:</span> 2–6 week themes (strength, speed, tactics) that build toward targets.</li>
+              <li><span className="font-semibold">Season:</span> phased planning—prepare, compete, transition—to time the peak.</li>
+            </ul>
+            <p className="mt-4 text-gray-800">
+              Drills are the building blocks; the plan decides the sequence—what to do, when to do it, and how hard to go—so progress is steady without overload.
+            </p>
+          </article>
+        </div>
+
+        {/* Elegant divider */}
+        <div className="mt-12 h-px w-full bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
+      </div>
+    </section>
+  );
+}
+
+const CardShell = ({ title, icon, children, accent = "bg-amber-500" }) => (
+  <div className="h-full flex flex-col">
+    <div className="bg-gray-800 rounded-3xl p-8 shadow-2xl h-full">
+      <div className={`${accent} rounded-2xl p-4 text-black h-full flex flex-col`}>
+        <div className="flex items-center justify-between mb-4 shrink-0">
+          <h3 className="font-bold text-lg">{title}</h3>
+          <div className="w-8 h-8 bg-black/20 rounded-full flex items-center justify-center">
+            <span className="text-sm">{icon}</span>
+          </div>
+        </div>
+        <div className="flex-1 min-h-0">{children}</div>
+      </div>
+    </div>
+  </div>
+);
+
+/* Your existing data (kept as-is, but we’ll guard its usage) */
+const historyData = [
+  { id: "1", date: "Aug 27", fencer: "Cole Beavers", activity: "3T half adv probe", result: "good" },
+  { id: "2", date: "Aug 26", fencer: "Cole Beavers", activity: "raw retreat parry riposte", result: "ok" },
+  { id: "3", date: "Aug 25", fencer: "Cole Beavers", activity: "wrk lunge adv lunge stop", result: "bad" },
+  { id: "4", date: "Aug 24", fencer: "Cole Beavers", activity: "bepee touch remise 5T", result: "ok" },
+];
+const rankingRows = [
+  { skill: "Foot Work",          score: 98, trend: "up"    }, // rank 1
+  { skill: "Probe",              score: 98, trend: "up"    }, // rank 1
+  { skill: "6 Choice Reaction",  score: 98, trend: "up"    }, // rank 1
+  { skill: "Stutter",            score: 92, trend: "flat"  }, // rank 2
+  { skill: "Power",              score: 92, trend: "down"  }, // rank 2
+  { skill: "Stop Hit",           score: 92, trend: "up"    }, // rank 2
+  { skill: "Hand",               score: 92, trend: "flat"  }, // rank 2
+];
+
+// Example day data (like the screenshot)
+const dayPlan = {
+  dateLabel: "SUNDAY",
+  title: "Training - Day",
+  athlete: "Nathan Li",
+  subtitle: "Recovery Day:",
+  description:
+    "Enjoy the day but think about fencing.....",
+  forList: ["speed", "strength upper"],
+  customBlocks: [
+    {
+      name: "Blazepod target drill",
+      steps: [
+        "Blazepods set on target or wall, hit the target that lights up as fast as you can",
+      ],
+      gear: ["4/8 blazepods", "phone", "weapon", "mask", "glove"],
+      timeMin: 10,
+      repeats: 3,
+    },
+  ],
+};
+
+// Example week data (like the screenshot)
+const weekPlan = {
+  title: "Training - Week",
+  athlete: "Cole Beavers",
+  nextTournaments:
+    "In 1 weeks is our next tournament: TFA Cup 1, TFA Cup 2, North Texas Roundup SYC/RJCC, Battle in Space City RYC/RJCC, Duel in Dallas Fall RYC, Austin Challenge SYC and RCC",
+  trainingWeapon: ["Epee", "Saber"],
+  weekNumber: 1,
+  days: [
+    { name: "Monday", focus: "Footwork, tempo, light conditioning" },
+    { name: "Tuesday", focus: "Epee drills: probe, stop hit chains" },
+    { name: "Wednesday", focus: "Saber timing + reaction 6-choice" },
+    { name: "Thursday", focus: "Parry–riposte trees, recover drills" },
+    { name: "Friday", focus: "Bouts, mental prep, taper" },
+    { name: "Saturday", focus: "Tournament simulation / rest" },
+    { name: "Sunday", focus: "Recovery, mobility" },
+  ],
+};
+
+const badge = (r) =>
+  r === "good" ? "bg-green-600" :
+  r === "ok"   ? "bg-yellow-500" :
+  r === "bad"  ? "bg-red-600" :
+                 "bg-gray-300";
+
+function ProTrainingHistoryCard() {
+  const safeHistory = Array.isArray(historyData) ? historyData : [];
+  const [active, setActive] = useState(0);
+
+  // Precompute safe length to use in dependencies without risking undefined
+  const historyCount = safeHistory.length;
+
+  useEffect(() => {
+    if (historyCount === 0) return;
+    const id = setInterval(() => {
+      setActive((p) => (p + 1) % historyCount);
+    }, 3000);
+    return () => clearInterval(id);
+  }, [historyCount]);
+
+  return (
+    <CardShell title="Cyborg Drills - History" icon="🕘">
+      <ul className="relative space-y-3 overflow-auto pr-1 h-full">
+        {safeHistory.map((h, i) => (
+          <li key={h.id} className="relative flex items-start">
+            <div className="flex flex-col items-center mr-3">
+              <span className={`h-3 w-3 rounded-full ${badge(h.result)}`} />
+              {i !== safeHistory.length - 1 && <span className="flex-1 w-px bg-gray-300 mt-1" />}
+            </div>
+            <div
+              className={`flex-1 rounded-lg border p-3 bg-white/70 backdrop-blur
+                          ${active === i ? "border-amber-500 ring-1 ring-amber-300 scale-[1.01] transition" : "border-gray-200"}`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="text-xs text-gray-600">{h.date}</div>
+                <span className={`h-2.5 w-2.5 rounded-full ${badge(h.result)}`} />
+              </div>
+              <div className="mt-1 flex items-center justify-between">
+                <span className="font-medium text-sm">{h.fencer}</span>
+              </div>
+              <p className="text-sm text-gray-700 mt-1">{h.activity}</p>
+            </div>
+          </li>
+        ))}
+        {safeHistory.length === 0 && (
+          <li className="text-sm text-gray-700">No history available.</li>
+        )}
+      </ul>
+    </CardShell>
+  );
+}
+
+function StatsCard({ skillMetrics = [], activeMetric = 0 }) {
+  const safeMetrics = Array.isArray(skillMetrics) ? skillMetrics : [];
+  return (
+    <CardShell title="Cyborg Drills - Stats" icon="⚡">
+      <div className="space-y-3 h-full pr-1">
+        {safeMetrics.map((metric, index) => (
+          <div
+            key={metric.skill ?? index}
+            className={`bg-black/10 rounded-lg p-3 transition-all duration-500
+                        ${activeMetric === index ? "bg-black/20 scale-105" : ""}`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-sm">{metric.skill}</span>
+              <div className="flex items-center space-x-2">
+                <span className={`text-sm ${metric.trend === "up" ? "text-green-700" : "text-red-700"}`}>
+                  {metric.percentage}
+                </span>
+                <span className="text-xs">{metric.trend === "up" ? "▲" : "▼"}</span>
+                <span className="text-xs opacity-70">{metric.score}</span>
               </div>
             </div>
           </div>
+        ))}
+        {safeMetrics.length === 0 && (
+          <div className="text-sm text-gray-700">No stats available.</div>
+        )}
+      </div>
+    </CardShell>
+  );
+}
+// Utilities
+const rankBadge = (r) =>
+  r === 1 ? "bg-amber-500 text-black" :
+  r === 2 ? "bg-gray-800 text-white" :
+  r === 3 ? "bg-gray-500 text-white" :
+            "bg-black/20 text-gray-800";
 
-          {/* App features content */}
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-gray-800">
-                Track Every Detail of Your Performance
-              </h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Our Pro Training Hub app provides comprehensive analytics across
-                all aspects of your fencing performance. From daily drill
-                tracking to long-term progress analysis, everything is at your
-                fingertips.
-              </p>
+// Stable rank computation with ties (1, 2, 2, 4…)
+function computeRanks(rows, key = "score") {
+  if (!Array.isArray(rows)) return [];
+  const sorted = [...rows].sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0));
+  let lastScore = null;
+  let lastRank = 0;
+  return sorted.map((r, idx) => {
+    const s = r[key] ?? 0;
+    const rank = s === lastScore ? lastRank : idx + 1;
+    lastScore = s;
+    lastRank = rank;
+    return { ...r, rank };
+  });
+}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  {
-                    feature: "Daily Activity Tracking",
-                    desc: "Monitor completed drills with success/failure indicators",
-                  },
-                  {
-                    feature: "Skill Rankings",
-                    desc: "See where you rank in 10+ specific fencing skills",
-                  },
-                  {
-                    feature: "Performance Trends",
-                    desc: "Track improvement over time with detailed analytics",
-                  },
-                  {
-                    feature: "Personalized Insights",
-                    desc: "Get targeted recommendations for skill development",
-                  },
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-gray-200/50"
-                  >
-                    <h4 className="font-semibold text-amber-700 mb-2">
-                      {item.feature}
-                    </h4>
-                    <p className="text-gray-600 text-sm">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+// Sort helpers for header clicks
+const sortFns = {
+  skill: (a, b) => (a.skill || "").localeCompare(b.skill || ""),
+  score: (a, b) => (b.score ?? 0) - (a.score ?? 0),
+  rank: (a, b) => a.rank - b.rank
+};
+
+function RankingCard({ rows = [], defaultSort = "rank" }) {
+  const safeRows = Array.isArray(rows) ? rows : [];
+  const [sortKey, setSortKey] = React.useState(defaultSort);
+  const [asc, setAsc] = React.useState(false);
+
+  // Auto-highlight state
+  const [activeRow, setActiveRow] = React.useState(0);
+
+  const ranked = React.useMemo(() => computeRanks(safeRows, "score"), [safeRows]);
+  const sorted = React.useMemo(() => {
+    const base = [...ranked];
+    base.sort(sortFns[sortKey] ?? sortFns.rank);
+    if (asc) base.reverse();
+    return base;
+  }, [ranked, sortKey, asc]);
+
+  // Reset activeRow when the sorted set changes
+  React.useEffect(() => {
+    setActiveRow(0);
+  }, [sorted.length]);
+
+  // Auto-advance highlight every 3s
+  React.useEffect(() => {
+    if (sorted.length === 0) return;
+    const id = setInterval(() => {
+      setActiveRow((p) => (p + 1) % sorted.length);
+    }, 3000);
+    return () => clearInterval(id);
+  }, [sorted.length]);
+
+  const SortButton = ({ col, label, width }) => (
+    <button
+      type="button"
+      onClick={() => {
+        setAsc((prev) => (sortKey === col ? !prev : false));
+        setSortKey(col);
+      }}
+      className={`inline-flex items-center gap-1 font-semibold ${width ?? ""}`}
+      aria-sort={sortKey === col ? (asc ? "ascending" : "descending") : "none"}
+    >
+      <span>{label}</span>
+      <span className="text-xs opacity-70">
+        {sortKey === col ? (asc ? "▲" : "▼") : "↕"}
+      </span>
+    </button>
+  );
+
+  return (
+    <CardShell title="Cyborg Drills - Ranking" icon="🏅" accent="bg-amber-500">
+      <div className="h-full overflow-hidden">
+        <div className="rounded-2xl bg-white/70 backdrop-blur border border-gray-200 h-full">
+          <div className=" max-h-[420px]">
+            <table className="min-w-full text-sm">
+              <thead className="sticky top-0 bg-white/90 backdrop-blur z-10">
+                <tr className="text-left text-gray-700 border-b">
+                  <th className="py-3 px-4 w-16">
+                    <SortButton col="rank" label="Rank" width="w-full" />
+                  </th>
+                  <th className="py-3 px-4">
+                    <SortButton col="skill" label="Skill" />
+                  </th>
+                  <th className="py-3 px-4 w-24 text-right">
+                    <SortButton col="score" label="Score" />
+                  </th>
+                  <th className="py-3 px-4 w-20 text-right">Trend</th>
+                </tr>
+              </thead>
+<tbody>
+  {sorted.map((r, i) => {
+    const isActive = i === activeRow;
+    return (
+      <tr
+        key={`${r.skill}-${i}`}
+        className={[
+          "border-b last:border-b-0 transition-all duration-500",
+          "hover:bg-black/5",
+          // Active row: darker bg, lift, scale, and soft shadow
+          isActive
+            ? "bg-black/10 motion-safe:-translate-y-0.5 motion-safe:scale-[1.01] shadow-sm"
+            : "",
+        ].join(" ")}
+        style={{
+          // Prevent layout shift when translating/scale by keeping transform context
+          transformOrigin: "center",
+        }}
+      >
+        <td className="py-2.5 px-4">
+          <span
+            className={[
+              "inline-flex items-center justify-center h-7 w-7 rounded-full text-xs font-bold",
+              rankBadge(r.rank),
+              isActive ? "ring-2 ring-amber-300/60 ring-offset-1" : "",
+            ].join(" ")}
+          >
+            {r.rank}
+          </span>
+        </td>
+        <td className="py-2.5 px-4">
+          <span className={["font-medium", isActive ? "text-gray-900" : ""].join(" ")}>
+            {r.skill}
+          </span>
+        </td>
+        <td className="py-2.5 px-4 text-right tabular-nums">
+          {r.score?.toFixed ? r.score.toFixed(0) : r.score}
+        </td>
+        <td className="py-2.5 px-4 text-right">
+          <span
+            className={
+              r.trend === "up"
+                ? "text-green-700"
+                : r.trend === "down"
+                ? "text-red-700"
+                : "text-gray-600"
+            }
+            aria-label={r.trend === "up" ? "Up" : r.trend === "down" ? "Down" : "Flat"}
+          >
+            {r.trend === "up" ? "▲" : r.trend === "down" ? "▼" : "•"}
+          </span>
+        </td>
+      </tr>
+    );
+  })}
+  {sorted.length === 0 && (
+    <tr>
+      <td colSpan={4} className="py-6 px-4 text-gray-700">
+        No rankings available.
+      </td>
+    </tr>
+  )}
+</tbody>
+
+            </table>
+          </div>
+          <div className="px-4 py-2 text-xs text-gray-600 border-t">
+            Click headers to sort • Ties receive the same rank; next rank is offset. [11][12]
           </div>
         </div>
+      </div>
+    </CardShell>
+  );
+}
+
+
+
+/* Small chip and tiny icon helpers */
+const Chip = ({ children }) => (
+  <span className="inline-flex items-center rounded-md bg-black/10 px-2 py-0.5 text-[10px] font-medium text-gray-900">
+    {children}
+  </span>
+);
+
+/* Day panel — minimal typography, condensed spacing */
+const TrainingDayPanel = memo(function TrainingDayPanel({ data }) {
+  const d = data ?? {};
+  return (
+    <div className="space-y-2 text-[13px]">
+      <div className="text-[10px] font-semibold text-blue-700 tracking-wide">{d.dateLabel}</div>
+      <div className="flex items-center justify-between">
+        <h3 className="text-base font-bold">{d.title}</h3>
+        <Chip>{d.athlete}</Chip>
+      </div>
+
+      <div className="flex justify-center">
+        <img src="/assets/mark.png" alt="" className="h-12 opacity-90" />
+      </div>
+
+      <div className="font-semibold">{d.subtitle}</div>
+      <p className="text-gray-800">{d.description}</p>
+
+      {d.forList?.length ? (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-semibold">For:</span>
+          {d.forList.map((f, i) => <Chip key={i}>{f}</Chip>)}
+        </div>
+      ) : null}
+
+      <div className="space-y-1">
+        <div className="font-semibold">Custom Conditioning</div>
+        {(d.customBlocks || []).map((b, i) => (
+          <div key={i} className="rounded-lg border bg-white/70 p-2">
+            <div className="text-[12px] font-semibold italic">{b.name}</div>
+           {b.steps && <div className="text-[12px] text-gray-700 mt-0.5">{b.steps}</div>}
+            <div className="text-[11px] text-gray-600 mt-1 flex items-center gap-2 flex-wrap">
+              <Chip>🧰 {b.gear?.join(", ")}</Chip>
+              <Chip>⏱ {b.timeMin} min</Chip>
+              <Chip>🧾 {b.repeats}x</Chip>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+});
+
+/* Week panel — compact list with select */
+const TrainingWeekPanel = memo(function TrainingWeekPanel({ data }) {
+  const d = data ?? {};
+  const weapons = useMemo(() => d.trainingWeapon || [], [d.trainingWeapon]);
+  const [weapon, setWeapon] = useState(weapons ?? "");
+  useEffect(() => setWeapon(weapons ?? ""), [weapons]);
+
+  return (
+    <div className="space-y-2 text-[13px]">
+      <div className="flex items-center justify-between">
+        <h3 className="text-base font-bold">{d.title}</h3>
+        <Chip>Week {d.weekNumber}</Chip>
+      </div>
+
+      <div className="flex justify-center">
+        <img src="/assets/mark.png" alt="" className="h-12 opacity-90" />
+      </div>
+
+      {d.nextTournaments && <p className="text-gray-800">{d.nextTournaments}</p>}
+      <div className="text-[11px] text-gray-600">{d.athlete}</div>
+
+      {weapons.length > 0 && (
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] font-semibold uppercase text-gray-600">Weapon</span>
+          <select
+            className="border rounded-md px-2 py-1 bg-white text-[12px]"
+            value={weapon}
+            onChange={(e) => setWeapon(e.target.value)}
+          >
+            {weapons.map((w) => <option key={w} value={w}>{w}</option>)}
+          </select>
+        </div>
+      )}
+
+      <ul className="space-y-1">
+        {(d.days || []).map((day) => (
+          <li key={day.name} className="rounded-md border bg-white/70 p-2">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold">{day.name}</span>
+              <Chip>{weapon || "All"}</Chip>
+            </div>
+            <div className="text-[12px] text-gray-800">{day.focus}</div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+});
+
+const TrainingSwitcher = memo(function TrainingSwitcher({
+  day,
+  week,
+  initial = "day",
+  title = "Training Plan",
+  maxHeight = "max-h-96" // ~20rem; tweak as needed
+}) {
+  const [view, setView] = useState(initial);
+  const onChange = useCallback((v) => setView(v), []);
+  const Day = useMemo(() => <TrainingDayPanel data={day} />, [day]);
+  const Week = useMemo(() => <TrainingWeekPanel data={week} />, [week]);
+
+  return (
+    <CardShell title={title} icon="📅" accent="bg-amber-500 ">
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-[12px] text-gray-700">View</div>
+        <div role="tablist" aria-label="Training view" className="inline-flex rounded-lg overflow-hidden border border-black/10">
+          {["day","week"].map((id) => {
+            const active = view === id;
+            return (
+              <button
+                key={id}
+                role="tab"
+                aria-selected={active}
+                className={`px-3 py-1.5 text-[12px] font-medium transition ${active ? "bg-black/80 text-white" : "bg-white text-gray-800 hover:bg-black/5"}`}
+                onClick={() => onChange(id)}
+              >
+                {id.toUpperCase() + id.slice(1)}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* FIX: capped height + internal scroll */}
+      <div className={`bg-white/70 backdrop-blur rounded-xl border p-3 h-full ${maxHeight} overflow-y-auto`}>
+        {view === "day" ? Day : Week}
+      </div>
+    </CardShell>
+  );
+});
+function AlternatingCardsSection({
+  skillMetrics = [],
+  rankingRows = [],
+  day = dayPlan,
+  week = weekPlan,
+}) {
+  const safeMetrics = Array.isArray(skillMetrics) ? skillMetrics : [];
+  const [activeMetric, setActiveMetric] = React.useState(0);
+
+  // Auto-cycle Stats highlights
+  React.useEffect(() => {
+    if (!safeMetrics.length) return;
+    const id = setInterval(() => setActiveMetric((p) => (p + 1) % safeMetrics.length), 3000);
+    return () => clearInterval(id);
+  }, [safeMetrics.length]);
+
+  const items = [
+    {
+      id: "stats",
+      eyebrow: "Clarity at a glance",
+      title: "Stats that drive action",
+      blurb:
+        "Signal over noise—trends, quality, and effort stitched together so the next move is obvious.",
+      card: <StatsCard skillMetrics={safeMetrics} activeMetric={activeMetric} />,
+    },
+    {
+      id: "history",
+      eyebrow: "Progress you can trace",
+      title: "History with meaning",
+      blurb:
+        "Every session in context to reveal patterns—what builds form, what drains it, where to adjust.",
+      card: <ProTrainingHistoryCard />,
+    },
+    {
+      id: "ranking",
+      eyebrow: "Prioritize the win",
+      title: "Ranked skills, clear focus",
+      blurb:
+        "Strengths and gaps, ordered—train what moves the needle this week, not just what feels good.",
+      card: <RankingCard rows={rankingRows} />,
+    },
+    {
+      id: "switcher",
+      eyebrow: "From today to peak",
+      title: "Day-to-week planning",
+      blurb:
+        "Stress and recovery sequenced so peak form lands on time, not by accident.",
+      card: <TrainingSwitcher day={day} week={week} />,
+    },
+  ];
+
+  return (
+    <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
+      {/* Background motif */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-16 left-16 w-64 h-64 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full" />
+        <div className="absolute bottom-16 right-16 w-80 h-80 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full" />
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent" />
+          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
+        </div>
+      </div>
+
+      {/* Section header */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center mb-16 taos:opacity-0 taos:translate-y-4 duration-700">
+        <div className="flex items-center justify-center space-x-4 mb-6 group">
+          <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
+          <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+            <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse" />
+          </div>
+          <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
+        </div>
+        <h2 className="text-4xl lg:text-5xl font-light text-gray-800 tracking-tight">
+          Competitive <span className="font-semibold text-amber-600">Edge</span>
+        </h2>
+        <p className="mt-2 text-sm italic text-gray-600">
+          Train smarter. Fence faster. Results that compound.
+        </p>
+      </div>
+
+      {/* Alternating rows */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 space-y-16">
+        {items.map((item, idx) => {
+          const odd = idx % 2 === 0;
+          const delay = 100 * (idx + 1);
+          return (
+            <div
+              key={item.id}
+              className="grid lg:grid-cols-12 gap-10 items-center"
+            >
+              {/* Detail side */}
+              <div
+                className={[
+                  "lg:col-span-5",
+                  odd ? "order-1" : "order-1 lg:order-2",
+                  "taos:opacity-0 taos:translate-y-4",
+                  `duration-700 delay-[${delay}ms]`,
+                ].join(" ")}
+              >
+                <div className="prose prose-gray max-w-none md:prose-lg prose-p:leading-relaxed prose-headings:mb-2">
+                  <p className="text-xs tracking-wide text-amber-700/90 font-semibold mb-1 uppercase">
+                    {item.eyebrow}
+                  </p>
+                  <h3 className="m-0 text-2xl font-extrabold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-gray-800">
+                    {item.blurb}
+                  </p>
+                </div>
+                <div className="mt-5 h-px w-40 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
+              </div>
+
+              {/* Card side */}
+              <div
+                className={[
+                  "lg:col-span-7",
+                  odd ? "order-2" : "order-2 lg:order-1",
+                  "taos:opacity-0 taos:translate-y-4",
+                  `duration-700 delay-[${delay + 150}ms]`,
+                ].join(" ")}
+              >
+                <div className="relative group/card rounded-2xl bg-white/60 backdrop-blur-xl border border-white/30 shadow-md ring-1 ring-black/5 transition-all duration-500">
+                  {/* Gradient edge accent */}
+                  <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent opacity-80" />
+                  {/* Hover lift + glow */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-amber-50/0 via-amber-100/10 to-amber-50/0" />
+                  <div className="motion-safe:group-hover/card:-translate-y-0.5 motion-safe:group-hover/card:scale-[1.01] transition-transform duration-300 will-change-transform">
+                    {item.card}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -939,7 +1487,7 @@ export default function CompetitiveEdgePage() {
       <Navbar />
       <CompetitiveEdgeHeroSection />
       <BlazePodTechnologySection />
-      <ProTrainingHubSection />
+      <AlternatingCardsSection skillMetrics={skillMetrics} rankingRows={rankingRows} />
       <PersonalizedTrainingSection />
       <FooterSection />
     </div>
