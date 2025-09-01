@@ -407,93 +407,78 @@ function BlazePodTechnologySection() {
   return (
     <section
       id="blazepod-technology"
-      className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
+      className="relative py-14 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
     >
       {/* Subtle background patterns */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
+        <div className="absolute top-10 sm:top-14 md:top-20 left-6 sm:left-12 md:left-20 w-44 sm:w-60 md:w-72 h-44 sm:h-60 md:h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
+        <div className="absolute bottom-10 sm:bottom-14 md:bottom-20 right-6 sm:right-12 md:right-20 w-56 sm:w-72 md:w-96 h-56 sm:h-72 md:h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
           <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
         </div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-5 md:px-6">
         {/* Section header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center space-x-4 mb-8 group">
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+        <div className="text-center mb-10 sm:mb-12 md:mb-14">
+          <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-5 sm:mb-6 group">
+            <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-10 sm:w-12 h-10 sm:h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+              <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 bg-amber-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
           </div>
-          <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-            BlazePod +{" "}
-            <span className="font-semibold text-amber-600">HAT Technology</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-3 sm:mb-4 tracking-tight">
+            BlazePod + <span className="font-semibold text-amber-600">HAT Technology</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Revolutionary training technology that combines BlazePod's dynamic
-            light system with our exclusive patent-pending High Accuracy Trigger
-            for unprecedented precision in performance tracking.
+          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-1">
+            Revolutionary training technology that combines BlazePod’s dynamic light system with our patent‑pending High Accuracy Trigger for unprecedented precision in performance tracking.
           </p>
         </div>
 
         {/* Technology Features Grid */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 mb-12 sm:mb-14 lg:mb-16">
           {/* Features content */}
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                At Texas Fencing Academy, we're taking performance training to
-                the next level. Our BlazePod system enhanced with HAT technology
-                offers unparalleled precision in tracking reaction time,
-                agility, and focus—ensuring every training session is as
-                effective as possible.
-              </p>
+          <div className="space-y-6 sm:space-y-7">
+            <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+              At Texas Fencing Academy, training is engineered for results. BlazePod enhanced with HAT tech tracks reaction time, agility, and focus with unmatched precision—so every rep counts. 
+            </p>
 
-              <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-amber-700 mb-4">
-                  Exclusive HAT System Benefits:
-                </h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>
-                      Ultra-precise reaction time measurement (patent-pending)
-                    </span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>
-                      Real-time dynamic drills that adapt to your skill level
-                    </span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>
-                      Personalized data-driven insights for targeted improvement
-                    </span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span>Only available at Texas Fencing Academy</span>
-                  </li>
-                </ul>
-              </div>
+            <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-4 sm:p-5 md:p-6">
+              <h3 className="text-lg sm:text-xl font-semibold text-amber-700 mb-3 sm:mb-4">
+                Exclusive HAT System Benefits:
+              </h3>
+              <ul className="space-y-2.5 sm:space-y-3 text-gray-700">
+                <li className="flex items-start space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Ultra‑precise reaction time measurement (patent‑pending)</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Real‑time dynamic drills that adapt to skill level</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Personalized, data‑driven insights for targeted improvement</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span>Only available at Texas Fencing Academy</span>
+                </li>
+              </ul>
             </div>
           </div>
 
           {/* Technology image/visualization */}
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
-              <img
-                src="/competitiveEdge/BlazePodTraining.png"
-                alt="BlazePod training with HAT technology"
+                <img
+                  src="/competitiveEdge/BlazePodTraining.png"
+                  alt="BlazePod training with HAT technology"
                 className="w-full h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-              />
+                  loading="lazy"
+                />
               <div className="absolute inset-0 bg-gradient-to-t from-amber-400/20 to-transparent pointer-events-none" />
 
               {/* Floating tech badge */}
@@ -502,92 +487,12 @@ function BlazePodTechnologySection() {
                   <div className="text-lg font-bold text-amber-600">HAT</div>
                   <div className="text-xs text-gray-600 font-medium">
                     Patent Pending
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function CompetitiveEdgeTextSection() {
-  return (
-    <section
-      id="competitive-edge-text"
-      className="relative py-20 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
-    >
-      {/* Themed background motif */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-16 left-16 w-64 h-64 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full" />
-        <div className="absolute bottom-16 right-16 w-80 h-80 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full" />
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent" />
-          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
         </div>
-      </div>
-
-      <div className="relative z-10 max-w-5xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center space-x-4 mb-6 group">
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
-            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse" />
-            </div>
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
-          </div>
-
-          <h2 className="text-4xl lg:text-5xl font-light text-gray-800 tracking-tight">
-            Competitive <span className="font-semibold text-amber-600">Edge</span>
-          </h2>
-          <p className="mt-2 text-sm italic text-gray-600">Klingons! Train smarter. Fence faster.</p>
-        </div>
-
-        {/* Content with refined typography */}
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Cyborg Drills */}
-          <article className="prose prose-gray max-w-none prose-p:leading-relaxed prose-li:leading-relaxed prose-headings:mb-2">
-            <h3 className="m-0 text-2xl font-extrabold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
-              Cyborg Drills
-            </h3>
-            <p className="mt-4 text-gray-800">
-              Short, repeatable blocks that sharpen timing, reaction, and footwork with crisp reps and immediate feedback—designed to make every minute count. 
-            </p>
-            <ul className="text-gray-800">
-              <li><span className="font-semibold">Daily:</span> a quick skill tune‑up that fits busy schedules and keeps progress moving.</li>
-              <li><span className="font-semibold">History:</span> a clear record of sessions and quality that reveals patterns at a glance.</li>
-              <li><span className="font-semibold">Rank:</span> an ordered snapshot of skills so strengths and priorities are obvious.</li>
-              <li><span className="font-semibold">Stats:</span> simple trends that show real gains—not just session noise.</li>
-              <li><span className="font-semibold">Effort:</span> a feel for session load that balances work and recovery.</li>
-              <li><span className="font-semibold">Standing:</span> a readiness view that blends results across drills and days.</li>
-            </ul>
-          </article>
-
-          {/* Training Plan */}
-          <article className="prose prose-gray max-w-none prose-p:leading-relaxed prose-li:leading-relaxed prose-headings:mb-2">
-            <h3 className="m-0 text-2xl font-extrabold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-              Training Plan
-            </h3>
-            <p className="mt-4 text-gray-800">
-              The roadmap that sequences sessions over time so load progresses logically, recovery is protected, and peak form lands when it matters.
-            </p>
-            <ul className="text-gray-800">
-              <li><span className="font-semibold">Day:</span> today’s purpose, drills, gear, and time—focused and actionable.</li>
-              <li><span className="font-semibold">Week:</span> a microcycle that balances stress and recovery across days.</li>
-              <li><span className="font-semibold">Blocks:</span> 2–6 week themes (strength, speed, tactics) that build toward targets.</li>
-              <li><span className="font-semibold">Season:</span> phased planning—prepare, compete, transition—to time the peak.</li>
-            </ul>
-            <p className="mt-4 text-gray-800">
-              Drills are the building blocks; the plan decides the sequence—what to do, when to do it, and how hard to go—so progress is steady without overload.
-            </p>
-          </article>
-        </div>
-
-        {/* Elegant divider */}
-        <div className="mt-12 h-px w-full bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
       </div>
     </section>
   );
@@ -724,32 +629,52 @@ function StatsCard({ skillMetrics = [], activeMetric = 0 }) {
   const safeMetrics = Array.isArray(skillMetrics) ? skillMetrics : [];
   return (
     <CardShell title="Cyborg Drills - Stats" icon="⚡">
-      <div className="space-y-3 h-full pr-1">
-        {safeMetrics.map((metric, index) => (
-          <div
-            key={metric.skill ?? index}
-            className={`bg-black/10 rounded-lg p-3 transition-all duration-500
-                        ${activeMetric === index ? "bg-black/20 scale-105" : ""}`}
-          >
-            <div className="flex items-center justify-between">
-              <span className="font-medium text-sm">{metric.skill}</span>
-              <div className="flex items-center space-x-2">
-                <span className={`text-sm ${metric.trend === "up" ? "text-green-700" : "text-red-700"}`}>
-                  {metric.percentage}
+      <div className="space-y-2.5 sm:space-y-3 h-full pr-0 sm:pr-1">
+        {safeMetrics.map((metric, index) => {
+          const isActive = activeMetric === index;
+          return (
+            <div
+              key={metric.skill ?? index}
+              className={[
+                "rounded-lg px-3 py-2.5 sm:p-3 transition-all duration-500",
+                "bg-black/10",
+                isActive ? "bg-black/20" : "",
+                // subtle lift only when motion allowed
+                isActive ? "motion-safe:translate-y-[-2px] motion-safe:scale-[1.02]" : "",
+              ].join(" ")}
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-medium text-sm sm:text-base text-gray-900">
+                  {metric.skill}
                 </span>
-                <span className="text-xs">{metric.trend === "up" ? "▲" : "▼"}</span>
-                <span className="text-xs opacity-70">{metric.score}</span>
+                <div className="flex items-center space-x-2">
+                  <span
+                    className={[
+                      "text-xs sm:text-sm",
+                      metric.trend === "up" ? "text-green-700" : "text-red-700",
+                    ].join(" ")}
+                  >
+                    {metric.percentage}
+                  </span>
+                  <span className="text-[10px] sm:text-xs">
+                    {metric.trend === "up" ? "▲" : "▼"}
+                  </span>
+                  <span className="text-[11px] sm:text-xs opacity-70 tabular-nums">
+                    {metric.score}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         {safeMetrics.length === 0 && (
-          <div className="text-sm text-gray-700">No stats available.</div>
+          <div className="text-sm sm:text-base text-gray-700">No stats available.</div>
         )}
       </div>
     </CardShell>
   );
 }
+
 // Utilities
 const rankBadge = (r) =>
   r === 1 ? "bg-amber-500 text-black" :
@@ -780,34 +705,34 @@ const sortFns = {
 };
 
 function RankingCard({ rows = [], defaultSort = "rank" }) {
-  const safeRows = Array.isArray(rows) ? rows : [];
   const [sortKey, setSortKey] = React.useState(defaultSort);
   const [asc, setAsc] = React.useState(false);
-
-  // Auto-highlight state
   const [activeRow, setActiveRow] = React.useState(0);
 
-  const ranked = React.useMemo(() => computeRanks(safeRows, "score"), [safeRows]);
+  // Optional: memoize the normalized rows so object identity is stable
+  const safeRows = React.useMemo(() => (Array.isArray(rows) ? rows : []), [rows]); // ✅ stable dep [4]
+
+  // Compute ranks from normalized rows
+  const ranked = React.useMemo(() => computeRanks(safeRows, "score"), [safeRows]); // ✅ [4]
+
   const sorted = React.useMemo(() => {
     const base = [...ranked];
     base.sort(sortFns[sortKey] ?? sortFns.rank);
     if (asc) base.reverse();
     return base;
-  }, [ranked, sortKey, asc]);
+  }, [ranked, sortKey, asc]); // ✅
 
-  // Reset activeRow when the sorted set changes
   React.useEffect(() => {
     setActiveRow(0);
-  }, [sorted.length]);
+  }, [sorted.length]); // ✅
 
-  // Auto-advance highlight every 3s
   React.useEffect(() => {
     if (sorted.length === 0) return;
     const id = setInterval(() => {
       setActiveRow((p) => (p + 1) % sorted.length);
     }, 3000);
     return () => clearInterval(id);
-  }, [sorted.length]);
+  }, [sorted.length]); // ✅
 
   const SortButton = ({ col, label, width }) => (
     <button
@@ -817,110 +742,131 @@ function RankingCard({ rows = [], defaultSort = "rank" }) {
         setSortKey(col);
       }}
       className={`inline-flex items-center gap-1 font-semibold ${width ?? ""}`}
-      aria-sort={sortKey === col ? (asc ? "ascending" : "descending") : "none"}
+      // Removed aria-sort here; set it on <th> instead per spec. [8][6]
+      aria-pressed={sortKey === col ? true : undefined} // optional affordance for toggle [8]
     >
       <span>{label}</span>
-      <span className="text-xs opacity-70">
-        {sortKey === col ? (asc ? "▲" : "▼") : "↕"}
-      </span>
+      <span className="text-xs opacity-70">{sortKey === col ? (asc ? "▲" : "▼") : "↕"}</span>
     </button>
   );
 
   return (
     <CardShell title="Cyborg Drills - Ranking" icon="🏅" accent="bg-amber-500">
-      <div className="h-full overflow-hidden">
-        <div className="rounded-2xl bg-white/70 backdrop-blur border border-gray-200 h-full">
-          <div className=" max-h-[420px]">
-            <table className="min-w-full text-sm">
+      <div className="h-full">
+        <div className="rounded-2xl bg-white/70 backdrop-blur border border-gray-200 h-full overflow-hidden relative">
+          <div className="max-h-[420px] min-h-0">
+            <table className="w-full table-auto text-[12px] sm:text-sm">
               <thead className="sticky top-0 bg-white/90 backdrop-blur z-10">
                 <tr className="text-left text-gray-700 border-b">
-                  <th className="py-3 px-4 w-16">
+                  <th
+                    scope="col"
+                    className="py-2 sm:py-3 px-2 sm:px-4 w-12 sm:w-16 break-words"
+                    aria-sort={sortKey === "rank" ? (asc ? "ascending" : "descending") : undefined} // ✅ valid on th [8][6]
+                  >
                     <SortButton col="rank" label="Rank" width="w-full" />
                   </th>
-                  <th className="py-3 px-4">
+                  <th
+                    scope="col"
+                    className="py-2 sm:py-3 px-3 sm:px-4 break-words"
+                    aria-sort={sortKey === "skill" ? (asc ? "ascending" : "descending") : undefined} // ✅ [8]
+                  >
                     <SortButton col="skill" label="Skill" />
                   </th>
-                  <th className="py-3 px-4 w-24 text-right">
+                  <th
+                    scope="col"
+                    className="py-2 sm:py-3 px-3 sm:px-4 w-20 sm:w-24 text-right break-words"
+                    aria-sort={sortKey === "score" ? (asc ? "ascending" : "descending") : undefined} // ✅ [8]
+                  >
                     <SortButton col="score" label="Score" />
                   </th>
-                  <th className="py-3 px-4 w-20 text-right">Trend</th>
+                  <th scope="col" className="py-2 sm:py-3 px-2 sm:px-4 w-12 sm:w-16 text-right break-words">
+                    Trend
+                  </th>
                 </tr>
               </thead>
-<tbody>
-  {sorted.map((r, i) => {
-    const isActive = i === activeRow;
-    return (
-      <tr
-        key={`${r.skill}-${i}`}
-        className={[
-          "border-b last:border-b-0 transition-all duration-500",
-          "hover:bg-black/5",
-          // Active row: darker bg, lift, scale, and soft shadow
-          isActive
-            ? "bg-black/10 motion-safe:-translate-y-0.5 motion-safe:scale-[1.01] shadow-sm"
-            : "",
-        ].join(" ")}
-        style={{
-          // Prevent layout shift when translating/scale by keeping transform context
-          transformOrigin: "center",
-        }}
-      >
-        <td className="py-2.5 px-4">
-          <span
-            className={[
-              "inline-flex items-center justify-center h-7 w-7 rounded-full text-xs font-bold",
-              rankBadge(r.rank),
-              isActive ? "ring-2 ring-amber-300/60 ring-offset-1" : "",
-            ].join(" ")}
-          >
-            {r.rank}
-          </span>
-        </td>
-        <td className="py-2.5 px-4">
-          <span className={["font-medium", isActive ? "text-gray-900" : ""].join(" ")}>
-            {r.skill}
-          </span>
-        </td>
-        <td className="py-2.5 px-4 text-right tabular-nums">
-          {r.score?.toFixed ? r.score.toFixed(0) : r.score}
-        </td>
-        <td className="py-2.5 px-4 text-right">
-          <span
-            className={
-              r.trend === "up"
-                ? "text-green-700"
-                : r.trend === "down"
-                ? "text-red-700"
-                : "text-gray-600"
-            }
-            aria-label={r.trend === "up" ? "Up" : r.trend === "down" ? "Down" : "Flat"}
-          >
-            {r.trend === "up" ? "▲" : r.trend === "down" ? "▼" : "•"}
-          </span>
-        </td>
-      </tr>
-    );
-  })}
-  {sorted.length === 0 && (
-    <tr>
-      <td colSpan={4} className="py-6 px-4 text-gray-700">
-        No rankings available.
-      </td>
-    </tr>
-  )}
-</tbody>
 
+              <tbody>
+                {sorted.map((r, i) => {
+                  const isActive = i === activeRow;
+                  return (
+                    <tr
+                      key={`${r.skill}-${i}`}
+                      className={[
+                        "border-b last:border-b-0 transition-all duration-300",
+                        "hover:bg-black/5",
+                        isActive ? "bg-black/10 motion-safe:-translate-y-0.5 motion-safe:scale-[1.01] shadow-sm" : "",
+                      ].join(" ")}
+                      style={{ transformOrigin: "center" }}
+                    >
+                      <td className="py-2 sm:py-2.5 px-2 sm:px-4">
+                        <span
+                          className={[
+                            "inline-flex items-center justify-center h-6 w-6 sm:h-7 sm:w-7 rounded-full text-[10px] sm:text-xs font-bold",
+                            rankBadge(r.rank),
+                            isActive ? "ring-2 ring-amber-300/60 ring-offset-1" : "",
+                          ].join(" ")}
+                        >
+                          {r.rank}
+                        </span>
+                      </td>
+
+                      <td className="py-2 sm:py-2.5 px-3 sm:px-4 align-middle">
+                        <span
+                          className={[
+                            "font-medium",
+                            "break-words md:leading-snug lg:truncate lg:max-w-[20ch]",
+                            isActive ? "text-gray-900" : "",
+                          ].join(" ")}
+                          title={r.skill}
+                        >
+                          {r.skill}
+                        </span>
+                      </td>
+
+                      <td className="py-2 sm:py-2.5 px-3 sm:px-4 text-right align-middle">
+                        <span className="tabular-nums md:whitespace-nowrap">
+                          {r.score?.toFixed ? r.score.toFixed(0) : r.score}
+                        </span>
+                      </td>
+
+                      <td className="py-2 sm:py-2.5 px-2 sm:px-4 text-right align-middle">
+                        <span
+                          className={[
+                            "inline-flex items-center justify-end",
+                            "whitespace-nowrap tabular-nums",
+                            "min-w-[1.25rem] sm:min-w-[1.5rem]",
+                          ].join(" ")}
+                          style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, monospace" }}
+                          aria-label={r.trend === "up" ? "Up" : r.trend === "down" ? "Down" : "Flat"}
+                        >
+                          <span className={r.trend === "up" ? "text-green-700" : r.trend === "down" ? "text-red-700" : "text-gray-600"}>
+                            {r.trend === "up" ? "▲" : r.trend === "down" ? "▼" : "•"}
+                          </span>
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+
+                {sorted.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="py-6 px-4 text-gray-700">
+                      No rankings available.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
             </table>
           </div>
-          <div className="px-4 py-2 text-xs text-gray-600 border-t">
-            Click headers to sort • Ties receive the same rank; next rank is offset. [11][12]
+
+          <div className="px-3 sm:px-4 py-2 text-[11px] sm:text-xs text-gray-600 border-t">
+            Click headers to sort • Ties receive the same rank; next rank is offset.
           </div>
         </div>
       </div>
     </CardShell>
   );
 }
-
 
 
 /* Small chip and tiny icon helpers */
@@ -1049,7 +995,7 @@ const TrainingSwitcher = memo(function TrainingSwitcher({
                 className={`px-3 py-1.5 text-[12px] font-medium transition ${active ? "bg-black/80 text-white" : "bg-white text-gray-800 hover:bg-black/5"}`}
                 onClick={() => onChange(id)}
               >
-                {id.toUpperCase() + id.slice(1)}
+                {id.toUpperCase() }
               </button>
             );
           })}
@@ -1115,11 +1061,11 @@ function AlternatingCardsSection({
   ];
 
   return (
-    <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
+    <section className="relative py-14 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
       {/* Background motif */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-16 left-16 w-64 h-64 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full" />
-        <div className="absolute bottom-16 right-16 w-80 h-80 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full" />
+        <div className="absolute top-10 sm:top-14 md:top-16 left-6 sm:left-10 md:left-16 w-44 sm:w-56 md:w-64 h-44 sm:h-56 md:h-64 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full" />
+        <div className="absolute bottom-10 sm:bottom-14 md:bottom-16 right-6 sm:right-10 md:right-16 w-56 sm:w-72 md:w-80 h-56 sm:h-72 md:h-80 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full" />
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent" />
           <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent" />
@@ -1127,32 +1073,29 @@ function AlternatingCardsSection({
       </div>
 
       {/* Section header */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center mb-16 taos:opacity-0 taos:translate-y-4 duration-700">
-        <div className="flex items-center justify-center space-x-4 mb-6 group">
-          <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
-          <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-            <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse" />
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-5 md:px-6 text-center mb-10 sm:mb-12 md:mb-14 taos:opacity-0 taos:translate-y-4 duration-700">
+        <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-5 sm:mb-6 group">
+          <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
+          <div className="w-10 sm:w-12 h-10 sm:h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+            <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 bg-amber-500 rounded-full animate-pulse" />
           </div>
-          <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
+          <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600" />
         </div>
-        <h2 className="text-4xl lg:text-5xl font-light text-gray-800 tracking-tight">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 tracking-tight">
           Competitive <span className="font-semibold text-amber-600">Edge</span>
         </h2>
-        <p className="mt-2 text-sm italic text-gray-600">
+        <p className="mt-2 text-xs sm:text-sm italic text-gray-600">
           Train smarter. Fence faster. Results that compound.
         </p>
       </div>
 
       {/* Alternating rows */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 space-y-16">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-5 md:px-6 space-y-12 sm:space-y-14 lg:space-y-16">
         {items.map((item, idx) => {
           const odd = idx % 2 === 0;
           const delay = 100 * (idx + 1);
           return (
-            <div
-              key={item.id}
-              className="grid lg:grid-cols-12 gap-10 items-center"
-            >
+            <div key={item.id} className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-start lg:items-center">
               {/* Detail side */}
               <div
                 className={[
@@ -1162,18 +1105,18 @@ function AlternatingCardsSection({
                   `duration-700 delay-[${delay}ms]`,
                 ].join(" ")}
               >
-                <div className="prose prose-gray max-w-none md:prose-lg prose-p:leading-relaxed prose-headings:mb-2">
-                  <p className="text-xs tracking-wide text-amber-700/90 font-semibold mb-1 uppercase">
+                <div className="prose prose-gray max-w-none prose-p:leading-relaxed prose-headings:mb-2 md:prose-lg">
+                  <p className="text-[11px] sm:text-xs tracking-wide text-amber-700/90 font-semibold mb-1 uppercase">
                     {item.eyebrow}
                   </p>
-                  <h3 className="m-0 text-2xl font-extrabold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
+                  <h3 className="m-0 text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-amber-600 to-amber-400 bg-clip-text text-transparent">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-gray-800">
+                  <p className="mt-2 sm:mt-3 text-gray-800 text-sm sm:text-base">
                     {item.blurb}
                   </p>
                 </div>
-                <div className="mt-5 h-px w-40 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
+                <div className="mt-4 sm:mt-5 h-px w-32 sm:w-40 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
               </div>
 
               {/* Card side */}
@@ -1185,11 +1128,9 @@ function AlternatingCardsSection({
                   `duration-700 delay-[${delay + 150}ms]`,
                 ].join(" ")}
               >
-                <div className="relative group/card rounded-2xl bg-white/60 backdrop-blur-xl border border-white/30 shadow-md ring-1 ring-black/5 transition-all duration-500">
-                  {/* Gradient edge accent */}
+                <div className="relative group/card rounded-xl sm:rounded-2xl bg-white/70 sm:bg-white/60 backdrop-blur-xl border border-white/30 shadow-md ring-1 ring-black/5 transition-all duration-500">
                   <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent opacity-80" />
-                  {/* Hover lift + glow */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-amber-50/0 via-amber-100/10 to-amber-50/0" />
+                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-amber-50/0 via-amber-100/10 to-amber-50/0" />
                   <div className="motion-safe:group-hover/card:-translate-y-0.5 motion-safe:group-hover/card:scale-[1.01] transition-transform duration-300 will-change-transform">
                     {item.card}
                   </div>
@@ -1203,82 +1144,80 @@ function AlternatingCardsSection({
   );
 }
 
+
 function PersonalizedTrainingSection() {
   return (
-    <section className="relative py-24 bg-gradient-to-b from-gray-50 via-gray-100 to-gray-200 overflow-hidden">
+    <section className="relative py-14 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-50 via-gray-100 to-gray-200 overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-amber-100 to-amber-200 opacity-30 rounded-full"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
+        <div className="absolute top-10 sm:top-14 md:top-20 left-6 sm:left-12 md:left-20 w-44 sm:w-60 md:w-72 h-44 sm:h-60 md:h-72 bg-gradient-to-br from-amber-100 to-amber-200 opacity-30 rounded-full"></div>
+        <div className="absolute bottom-10 sm:bottom-14 md:bottom-20 right-6 sm:right-12 md:right-20 w-56 sm:w-72 md:w-96 h-56 sm:h-72 md:h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-5 md:px-6">
         {/* Section header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center space-x-4 mb-8 group">
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+        <div className="text-center mb-10 sm:mb-12 md:mb-14">
+          <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-5 sm:mb-6 group">
+            <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-10 sm:w-12 h-10 sm:h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+              <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 bg-amber-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
           </div>
-          <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-            Personalized{" "}
-            <span className="font-semibold text-amber-600">Training Plans</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-3 sm:mb-4 tracking-tight">
+            Personalized <span className="font-semibold text-amber-600">Training Plans</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Custom conditioning programs targeting your weakest skills and
-            tournament-specific preparation aligned with your competition
-            schedule. Every focused rep gets you closer to the top.
+          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-1">
+            Custom conditioning programs targeting the weakest skills and competition‑aligned prep. Every focused rep compounds progress.
           </p>
         </div>
 
         {/* Training Plan Features */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 md:gap-8 mb-12 sm:mb-14 md:mb-16">
           {competitiveEdgeFeatures.map((feature, index) => (
             <div
               key={feature.id}
-              className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out min-h-[320px] cursor-pointer overflow-hidden"
+              className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 hover:shadow-2xl md:hover:-translate-y-3 md:hover:scale-105 transition-all duration-700 ease-out min-h-[280px] sm:min-h-[300px] cursor-pointer overflow-hidden"
             >
               {/* Subtle top accent with animation */}
-              <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
+              <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 md:group-hover:animate-pulse"></div>
 
               {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 md:group-hover:from-amber-50/20 md:group-hover:via-amber-100/30 md:group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
 
               {/* Feature content with fade and scale animations */}
-              <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
+              <div className="md:group-hover:opacity-0 md:group-hover:scale-95 transition-all duration-500 ease-out">
                 {/* Feature icon */}
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center text-3xl group-hover:scale-125 group-hover:rotate-12 group-hover:bg-gradient-to-br group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-500 ease-out">
-                      <img
-                        src={feature.icon}
-                        alt={feature.title}
-                        className="w-10 h-10 group-hover:animate-pulse object-contain"
-                      />
+                <div className="text-center mb-5 sm:mb-6">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center text-3xl md:group-hover:scale-125 md:group-hover:rotate-12 md:group-hover:bg-gradient-to-br md:group-hover:from-amber-100 md:group-hover:to-amber-200 transition-all duration-500 ease-out">
+                    <img
+                      src={feature.icon}
+                      alt={feature.title}
+                      className="w-9 h-9 sm:w-10 sm:h-10 md:group-hover:animate-pulse object-contain"
+                    />
                   </div>
                 </div>
 
-                <div className="text-center mb-6">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-amber-600 transition-colors duration-500">
+                <div className="text-center mb-5 sm:mb-6">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2.5 sm:mb-3 md:group-hover:text-amber-600 transition-colors duration-500">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                     {feature.description}
                   </p>
                 </div>
               </div>
 
               {/* Details overlay - appears on hover like a flipped card */}
-              <div className="absolute inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
-                <h5 className="text-amber-700 font-semibold text-center mb-4 text-base group-hover:animate-pulse">
+              <div className="absolute inset-5 sm:inset-6 opacity-0 md:group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-2 md:group-hover:translate-y-0 ease-out">
+                <h5 className="text-amber-700 font-semibold text-center mb-3 sm:mb-4 text-sm sm:text-base md:group-hover:animate-pulse">
                   DETAILS
                 </h5>
                 <div className="space-y-2">
                   {feature.details.map((detail, detailIndex) => (
                     <div
                       key={detailIndex}
-                      className="bg-amber-50 rounded-lg p-3 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
+                      className="bg-amber-50 rounded-lg p-3 border border-amber-100 transform translate-x-3 opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 md:hover:scale-[1.02]"
                       style={{ transitionDelay: `${detailIndex * 100}ms` }}
                     >
                       <div className="flex items-center space-x-2 text-sm text-gray-700">
@@ -1288,8 +1227,8 @@ function PersonalizedTrainingSection() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
-                  <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
+                <div className="mt-4 text-center transform translate-y-1 opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500 delay-300">
+                  <span className="text-sm text-amber-600 font-medium md:group-hover:text-amber-700 md:group-hover:animate-pulse">
                     Learn More →
                   </span>
                 </div>
@@ -1299,39 +1238,37 @@ function PersonalizedTrainingSection() {
         </div>
 
         {/* Sample Training Plan */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 mb-16 hover:shadow-2xl transition-all duration-700 group relative overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-5 sm:p-6 md:p-8 mb-12 sm:mb-14 md:mb-16 transition-all duration-700 group relative overflow-hidden">
           {/* Animated background accent */}
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/10 group-hover:to-amber-50/20 transition-all duration-1000 rounded-2xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-50/0 via-amber-100/0 to-amber-50/0 md:group-hover:from-amber-50/20 md:group-hover:via-amber-100/10 md:group-hover:to-amber-50/20 transition-all duration-1000 rounded-2xl"></div>
 
           {/* Subtle animated border glow */}
-          <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-amber-200/50 transition-all duration-700"></div>
+          <div className="absolute inset-0 rounded-2xl border-2 border-transparent md:group-hover:border-amber-200/50 transition-all duration-700"></div>
 
           <div className="relative z-10">
-            <div className="text-center mb-8">
-              {/* Animated header with glow effect */}
+            <div className="text-center mb-6 sm:mb-8">
               <div className="relative inline-block group/header">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2 group-hover:text-amber-700 transition-colors duration-500 group/header-hover:animate-pulse">
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2 md:group-hover:text-amber-700 transition-colors duration-500">
                   Sample Weekly Training Plan
                 </h3>
-                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 group-hover:w-full transition-all duration-700 ease-out"></div>
+                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 md:group-hover:w-full transition-all duration-700 ease-out"></div>
               </div>
 
-              {/* Animated subtitle with slide effect */}
               <div className="relative overflow-hidden">
-                <p className="text-gray-600 transform group-hover:translate-y-0 group-hover:text-amber-600 transition-all duration-500">
+                <p className="text-gray-600 text-sm sm:text-base md:group-hover:translate-y-0 md:group-hover:text-amber-600 transition-all duration-500">
                   Saturday - Footwork & Conditioning
                 </p>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 opacity-30"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100 to-transparent transform translate-x-[-100%] md:group-hover:translate-x-[100%] transition-transform duration-1000 opacity-30"></div>
               </div>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7 md:gap-8">
               {/* Situational Challenges */}
-              <div className="space-y-6 group/challenges">
+              <div className="space-y-5 sm:space-y-6 group/challenges">
                 <div className="relative">
-                  <h4 className="text-lg font-semibold text-amber-600 mb-4 group-hover:text-amber-700 transition-colors duration-300 relative">
+                  <h4 className="text-base sm:text-lg font-semibold text-amber-600 mb-3 sm:mb-4 md:group-hover:text-amber-700 transition-colors duration-300 relative">
                     Situational Challenges
-                    <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 group/challenges-hover:w-full transition-all duration-500 ease-out"></div>
+                    <div className="hidden md:block absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 group/challenges-hover:w-full transition-all duration-500 ease-out"></div>
                   </h4>
                 </div>
 
@@ -1343,14 +1280,13 @@ function PersonalizedTrainingSection() {
                   ].map((challenge, index) => (
                     <div
                       key={index}
-                      className="flex items-start space-x-3 p-3 bg-amber-50 rounded-lg hover:bg-amber-100 hover:shadow-md hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 cursor-pointer border border-transparent hover:border-amber-200 group/item relative overflow-hidden"
+                      className="flex items-start space-x-3 p-3 bg-amber-50 rounded-lg md:hover:bg-amber-100 md:hover:shadow-md md:hover:scale-[1.02] md:hover:-translate-y-1 transition-all duration-300 cursor-pointer border border-transparent md:hover:border-amber-200 group/item relative overflow-hidden"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      {/* Animated shine effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] group-hover/item:translate-x-[100%] transition-transform duration-700"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform translate-x-[-100%] md:group-hover/item:translate-x-[100%] transition-transform duration-700"></div>
 
-                      <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0 group-hover/item:bg-amber-600 group-hover/item:scale-125 group-hover/item:animate-pulse transition-all duration-300"></div>
-                      <span className="text-gray-700 group-hover/item:text-gray-800 group-hover/item:font-medium transition-all duration-300 relative z-10">
+                      <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0 md:group-hover/item:bg-amber-600 md:group-hover/item:scale-125 md:group-hover/item:animate-pulse transition-all duration-300"></div>
+                      <span className="text-gray-700 md:group-hover/item:text-gray-800 md:group-hover/item:font-medium transition-all duration-300 relative z-10">
                         {challenge}
                       </span>
                     </div>
@@ -1359,11 +1295,11 @@ function PersonalizedTrainingSection() {
               </div>
 
               {/* Custom Conditioning */}
-              <div className="space-y-6 group/conditioning">
+              <div className="space-y-5 sm:space-y-6 group/conditioning">
                 <div className="relative">
-                  <h4 className="text-lg font-semibold text-amber-600 mb-4 group-hover:text-amber-700 transition-colors duration-300 relative">
+                  <h4 className="text-base sm:text-lg font-semibold text-amber-600 mb-3 sm:mb-4 md:group-hover:text-amber-700 transition-colors duration-300 relative">
                     Custom Conditioning
-                    <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 group/conditioning-hover:w-full transition-all duration-500 ease-out delay-200"></div>
+                    <div className="hidden md:block absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 group/conditioning-hover:w-full transition-all duration-500 ease-out delay-200"></div>
                   </h4>
                 </div>
 
@@ -1386,26 +1322,23 @@ function PersonalizedTrainingSection() {
                   ].map((workout, index) => (
                     <div
                       key={index}
-                      className="p-4 bg-amber-50 rounded-lg border-l-4 border-amber-500 hover:bg-amber-100 hover:border-l-amber-600 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 cursor-pointer group/workout relative overflow-hidden"
+                      className="p-4 bg-amber-50 rounded-lg border-l-4 border-amber-500 md:hover:bg-amber-100 md:hover:border-l-amber-600 md:hover:shadow-lg md:hover:scale-[1.02] md:hover:-translate-y-1 transition-all duration-300 cursor-pointer group/workout relative overflow-hidden"
                       style={{ animationDelay: `${index * 150 + 300}ms` }}
                     >
-                      {/* Animated glow effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-amber-100/0 via-amber-200/20 to-amber-100/0 transform scale-x-0 group-hover/workout:scale-x-100 transition-transform duration-500 origin-left rounded-lg"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-100/0 via-amber-200/20 to-amber-100/0 transform scale-x-100 md:group-hover/workout:scale-x-100 transition-transform duration-500 origin-left rounded-lg"></div>
 
-                      {/* Animated left border expansion */}
-                      <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-amber-400 to-amber-600 transform scale-y-0 group-hover/workout:scale-y-100 transition-transform duration-400 origin-top"></div>
+                      <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-amber-400 to-amber-600 transform scale-y-100 md:group-hover/workout:scale-y-100 transition-transform duration-400 origin-top"></div>
 
                       <div className="relative z-10">
-                        <h5 className="font-medium text-gray-800 mb-1 group-hover/workout:text-amber-800 group-hover/workout:font-semibold transition-all duration-300">
+                        <h5 className="font-medium text-gray-800 mb-1 md:group-hover/workout:text-amber-800 md:group-hover/workout:font-semibold transition-all duration-300">
                           {workout.exercise}
                         </h5>
-                        <p className="text-sm text-gray-600 group-hover/workout:text-gray-700 transition-colors duration-300">
+                        <p className="text-sm text-gray-600 md:group-hover/workout:text-gray-700 transition-colors duration-300">
                           {workout.details}
                         </p>
                       </div>
 
-                      {/* Floating accent dot */}
-                      <div className="absolute top-2 right-2 w-2 h-2 bg-amber-400 rounded-full opacity-0 group-hover/workout:opacity-100 group-hover/workout:animate-pulse transition-all duration-300"></div>
+                      <div className="absolute top-2 right-2 w-2 h-2 bg-amber-400 rounded-full opacity-0 md:group-hover/workout:opacity-100 md:group-hover/workout:animate-pulse transition-all duration-300"></div>
                     </div>
                   ))}
                 </div>
@@ -1413,17 +1346,11 @@ function PersonalizedTrainingSection() {
             </div>
 
             {/* Bottom decorative element */}
-            <div className="mt-8 flex justify-center">
-              <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-300">
+            <div className="mt-6 sm:mt-8 flex justify-center">
+              <div className="flex items-center space-x-2 opacity-0 md:group-hover:opacity-100 transition-all duration-700 delay-300">
                 <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
-                <div
-                  className="w-1 h-1 bg-amber-300 rounded-full animate-pulse"
-                  style={{ animationDelay: "0.2s" }}
-                ></div>
-                <div
-                  className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"
-                  style={{ animationDelay: "0.4s" }}
-                ></div>
+                <div className="w-1 h-1 bg-amber-300 rounded-full animate-pulse" style={{ animationDelay: "0.2s" }}></div>
+                <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" style={{ animationDelay: "0.4s" }}></div>
               </div>
             </div>
           </div>
@@ -1431,44 +1358,31 @@ function PersonalizedTrainingSection() {
 
         {/* Bottom CTA */}
         <div className="text-center">
-          <div className="inline-flex items-center justify-center mb-6">
+          <div className="inline-flex items-center justify-center mb-5 sm:mb-6">
             <div className="w-8 h-px bg-amber-300"></div>
             <div className="mx-3 w-1.5 h-1.5 bg-amber-500 rounded-full"></div>
             <div className="w-8 h-px bg-amber-300"></div>
           </div>
-          <div className="max-w-2xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
-            <p className="text-gray-700 font-medium text-base mb-4">
-              <span className="text-amber-700 font-semibold">
-                Ready to unlock your competitive edge?
-              </span>{" "}
-              Join our elite training program and experience the future of
-              fencing performance enhancement.
+          <div className="max-w-2xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-5 sm:p-6">
+            <p className="text-gray-700 font-medium text-sm sm:text-base mb-4">
+              <span className="text-amber-700 font-semibold">Ready to unlock your competitive edge?</span>{" "}
+              Join our elite training program and experience the future of fencing performance enhancement.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
               <a
                 href="https://texasfencingacademy.glide.page"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-600 hover:to-amber-700 hover:scale-105 transition-all duration-500 shadow-lg"
+                className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-600 hover:to-amber-700 hover:scale-105 transition-all duration-500 shadow-lg"
               >
                 <span>Join Competitive Edge</span>
-                <svg
-                  className="ml-2 w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 5l7 7-7 7"
-                  />
+                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </a>
               <a
                 href="tel:+1-512-496-9022"
-                className="inline-flex items-center px-6 py-3 bg-transparent border-2 border-amber-500 text-amber-600 font-semibold rounded-lg hover:bg-amber-50 hover:scale-105 transition-all duration-500"
+                className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 bg-transparent border-2 border-amber-500 text-amber-600 font-semibold rounded-lg hover:bg-amber-50 hover:scale-105 transition-all duration-500"
               >
                 <span>Schedule Consultation</span>
               </a>
@@ -1479,6 +1393,7 @@ function PersonalizedTrainingSection() {
     </section>
   );
 }
+
 
 export default function CompetitiveEdgePage() {
   return (

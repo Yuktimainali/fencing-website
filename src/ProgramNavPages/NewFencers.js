@@ -133,51 +133,188 @@ function NewFencersIntroHeroSection() {
     </section>
   );
 }
-
-function NewFencersIntroInformationSection() {
-  const handleBookingClick = () => {
-    window.open("https://texasfencingacademy.glide.page", "_blank");
+function IntroInformationSection() {
+  // Static data (can be moved to props later)
+  const sectionData = {
+    sectionTitle: "Elevate Skill, Build Character",
+    sectionTitleHighlight: "Elevate",
+    headerDescription:
+      "Discover a training environment where discipline meets joy. Programs crafted to grow fundamentals, confidence, and a lasting love for movement.",
+    mainDescription:
+      "From first-timers to aspirants, coaching focuses on clear progressions, safe practice, and supportive community. Learn technique the right way while developing grit, focus, and sportsmanship.",
+    featureTitle: "What’s Inside:",
+    features: [
+      "Cohesive curriculum across age groups",
+      "Positive coaching and mentorship",
+      "Safety-first approach with quality gear",
+      "Clear goals and feedback loops",
+    ],
+    mainCtaText: "Explore Programs",
+    mainCtaUrl: "https://texasfencingacademy.glide.page",
+    secondaryCtaText: "See Schedules",
+    secondaryCtaTargetId: "programs",
+    actionImage: {
+      src: "/fencingIntroduction/fencingIntroduction.jpg",
+      alt: "Athletes training in session",
+    },
+    statsBadge: {
+      stat: "100+",
+      label: "Students Trained",
+    },
   };
+
+  const renderTitle = () => {
+    const t = sectionData.sectionTitle || "Elevate Skill, Build Character";
+    const h = sectionData.sectionTitleHighlight || "";
+    if (!h || !t.includes(h)) return t;
+    const parts = t.split(h);
+    return (
+      <>
+        {parts}
+        <span className="font-semibold text-amber-600">{h}</span>
+        {parts[12]}
+      </>
+    );
+  };
+
+  const processedActionImage = {
+    src: sectionData.actionImage.src,
+    alt: sectionData.actionImage.alt,
+  };
+
+  return (
+    <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
+      {/* Subtle background patterns */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
+          <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+        </div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        {/* Section header */}
+        <div className="text-center mb-16">
+          <div className="flex items-center justify-center space-x-4 mb-8 group">
+            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+            </div>
+            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+          </div>
+
+          <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
+            {renderTitle()}
+          </h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            {sectionData.headerDescription}
+          </p>
+        </div>
+
+        {/* Info and image grid */}
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
+          {/* Info content */}
+          <div className="space-y-8">
+            <div className="space-y-6">
+              <p className="text-lg text-gray-700 leading-relaxed">
+                {sectionData.mainDescription}
+              </p>
+
+              <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-amber-700 mb-4">
+                  {sectionData.featureTitle}
+                </h3>
+                <ul className="space-y-3 text-gray-700">
+                  {sectionData.features.map((feature, index) => (
+                    <li key={index} className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href={sectionData.mainCtaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-500 text-center overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <span className="relative z-10">{sectionData.mainCtaText}</span>
+              </a>
+
+              <button
+                onClick={() =>
+                  document
+                    .getElementById(sectionData.secondaryCtaTargetId)
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="group relative px-8 py-4 bg-transparent border-2 border-amber-500 text-amber-600 font-semibold rounded-xl hover:bg-amber-50 hover:scale-105 transition-all duration-500 text-center"
+              >
+                {sectionData.secondaryCtaText}
+              </button>
+            </div>
+          </div>
+
+          {/* Action image */}
+          <div className="relative">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
+              <img
+                src={processedActionImage.src}
+                alt={processedActionImage.alt}
+                className="w-full h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-amber-400/20 to-transparent pointer-events-none" />
+              {/* Floating stats badge (optional) */}
+              {sectionData.statsBadge && (
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-800">
+                      {sectionData.statsBadge.stat}
+                    </div>
+                    <div className="text-xs text-gray-600 font-medium">
+                      {sectionData.statsBadge.label}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Optional anchor for secondary CTA */}
+        <div id={sectionData.secondaryCtaTargetId} />
+      </div>
+    </section>
+  );
+}
+function NewFencersIntroInformationSection() {
 
   const benefits = [
     {
       iconSrc: "https://cdn.sanity.io/images/24fe96nu/production/b8916497cc507519ea7f42ed618b97523ed43667-512x512.png?w=40&h=40",
       alt: "Fencing Introduction Icon",
       title: "Complete Access",
-      description:
-        "Full access to all our Épée and Saber classes during your first month to explore both weapons.",
+      description: "Full access to all Épée and Saber classes in the first month to explore both weapons.",
     },
     {
       iconSrc: "/program/icons/Progress.png",
       alt: "Learning Progress Icon",
       title: "Beginner Friendly",
-      description:
-        "Start from the basics with patient instruction designed specifically for newcomers to fencing.",
+      description: "Patient, fundamentals-first instruction designed specifically for newcomers.",
     },
     {
       iconSrc: "/program/icons/OpenFencing.png",
       alt: "Community Icon",
       title: "Welcoming Community",
-      description:
-        "Join a supportive community of fencers and discover the joy of this elegant sport in a friendly environment.",
-    },
-  ];
-
-  const classDetails = [
-    {
-      title: "Épée Classes",
-      description:
-        "Learn the fundamentals of épée, including basic attacks, defensive moves, and proper technique.",
-    },
-    {
-      title: "Saber Classes",
-      description:
-        "Explore saber fencing with its dynamic movements and right-of-way rules in an engaging format.",
-    },
-    {
-      title: "Flexible Scheduling",
-      description:
-        "Attend classes at various times throughout the week to find what works best for your schedule.",
+      description: "Supportive peers and coaches in a safe, positive environment.",
     },
   ];
 
@@ -189,28 +326,13 @@ function NewFencersIntroInformationSection() {
   ];
 
   const whatToExpect = [
-    {
-      title: "Equipment Introduction",
-      description:
-        "Learn about fencing equipment and safety gear. All equipment is provided for your first month.",
-    },
-    {
-      title: "Basic Techniques",
-      description:
-        "Master fundamental positions, footwork, and basic attacks in both épée and saber.",
-    },
-    {
-      title: "Safe Learning Environment",
-      description:
-        "Practice in a controlled, safe environment with experienced instructors guiding every step.",
-    },
+    { title: "Equipment Introduction", description: "All safety gear is provided while learning how to wear and use it." },
+    { title: "Basic Techniques", description: "Master ready stance, movement, and essential actions for both weapons." },
+    { title: "Safe Learning Environment", description: "Train in a controlled space with experienced coaches guiding every step." },
   ];
 
   return (
-    <section
-      id="intro-class-info"
-      className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
-    >
+    <section id="intro-class-info" className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 opacity-20"></div>
@@ -223,121 +345,59 @@ function NewFencersIntroInformationSection() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Section header */}
-        <div className="text-center mb-16 animate-fadeInDown">
+        <div className="text-center mb-16 motion-safe:animate-[fadeInDown_0.8s_ease_forwards]">
           <div className="flex items-center justify-center space-x-4 mb-8 group">
             <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
             <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+              <div className="w-3 h-3 bg-amber-500 rounded-full motion-safe:animate-pulse"></div>
             </div>
             <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
           </div>
 
           <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
-            New Fencer{" "}
-            <span className="font-semibold text-amber-600">Introduction</span>{" "}
-            Program
+            New Fencer <span className="font-semibold text-amber-600">Introduction</span> Program
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Your complete introduction to the art of fencing with full access to both weapons
+            Complete introduction to fencing with access to both Épée and Saber beginner classes.
           </p>
         </div>
 
-        {/* Intro Class Card - Featured */}
-        <div className="mb-16 flex justify-center">
-          <div className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out cursor-pointer overflow-hidden max-w-lg w-full"
-               onClick={handleBookingClick}>
-            <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
-            
-            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
-              <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
-                <svg className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                </svg>
-              </div>
-            </div>
-
-            <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
-              <div className="text-center mb-4">
-                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center text-xl mb-3 border border-amber-200/50 group-hover:scale-125 group-hover:rotate-12 group-hover:bg-gradient-to-br group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-500 ease-out">
-                  <img alt="FENCING INTRODUCTION 1ST MONTH" className="w-10 h-10 group-hover:animate-pulse object-contain" src="https://cdn.sanity.io/images/24fe96nu/production/b8916497cc507519ea7f42ed618b97523ed43667-512x512.png?w=40&h=40" />
-                </div>
-                <h4 className="text-amber-700 font-semibold text-base mb-3 tracking-wide group-hover:text-amber-800 transition-colors duration-300">
-                  FENCING INTRODUCTION 1ST MONTH
-                </h4>
-              </div>
-              <p className="text-gray-600 text-base leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-300">
-                Includes access to all our Épée and Saber classes for you to discover the joy of fencing.
-              </p>
-            </div>
-
-            <div className="absolute inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
-              <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
-                PROGRAM DETAILS
-              </h5>
-              <div className="space-y-1">
-                <div className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="font-medium text-gray-800 text-xs">Access to all classes</span>
-                    <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">Both Weapons</span>
-                  </div>
-                  <p className="text-gray-600 text-xs font-medium">Various Times Available</p>
-                </div>
-              </div>
-              <div className="mt-2 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
-                <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
-                  Click to Register →
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
           {benefits.map(({ iconSrc, alt, title, description }, idx) => (
             <div
               key={idx}
-              className="group bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center
-                 transform transition-transform duration-500 ease-in-out hover:shadow-xl hover:-translate-y-3 hover:scale-105 cursor-pointer animate-slideUp"
-              style={{
-                animationDelay: `${idx * 150}ms`,
-                willChange: "transform",
-              }}
+              className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8 text-center transition-transform duration-300 hover:shadow-lg hover:-translate-y-1.5"
             >
-              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <img
-                  src={iconSrc}
-                  alt={alt}
-                  className="w-14 h-14 object-contain"
-                />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center mb-5 sm:mb-6 transition-transform duration-300 group-hover:scale-105">
+                <img src={iconSrc} alt={alt} className="w-10 h-10 sm:w-14 sm:h-14 object-contain" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-amber-600 transition-colors duration-300">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-3 group-hover:text-amber-600 transition-colors">
                 {title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">{description}</p>
+              <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{description}</p>
             </div>
           ))}
         </div>
 
-        {/* What to Expect / Class Details two-column grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+        {/* Two-column: What to Expect + Program Details */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-20">
           {/* What to Expect */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow transition-transform duration-500 ease-in-out hover:scale-[1.025] hover:-translate-y-[6px] hover:shadow-lg cursor-default">
-            <div className="p-10">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-8 flex items-center gap-3">
-                <svg className="w-6 h-6 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition hover:-translate-y-[3px]">
+            <div className="p-6 sm:p-8 lg:p-10">
+              <h3 className="text-xl lg:text-2xl font-semibold text-gray-800 mb-6 lg:mb-8 flex items-center gap-3">
+                <svg className="w-5 h-5 lg:w-6 lg:h-6 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
                 What to Expect
               </h3>
-              <div className="space-y-8">
+              <div className="space-y-6 lg:space-y-8">
                 {whatToExpect.map(({ title, description }, idx) => (
-                  <div key={idx} className="flex items-start gap-6">
-                    <span className="mt-2 block w-4 h-4 bg-amber-500 rounded-full shrink-0"></span>
+                  <div key={idx} className="flex items-start gap-4 lg:gap-6">
+                    <span className="mt-1.5 lg:mt-2 block w-3.5 h-3.5 bg-amber-500 rounded-full shrink-0"></span>
                     <div>
-                      <h4 className="font-medium text-gray-800 text-lg">{title}</h4>
-                      <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
+                      <h4 className="font-medium text-gray-800 text-base lg:text-lg">{title}</h4>
+                      <p className="text-gray-600 text-sm lg:text-base leading-relaxed">{description}</p>
                     </div>
                   </div>
                 ))}
@@ -346,124 +406,72 @@ function NewFencersIntroInformationSection() {
           </div>
 
           {/* Program Details */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow transition-transform duration-500 ease-in-out hover:scale-[1.025] hover:-translate-y-[6px] hover:shadow-lg cursor-default">
-            <div className="p-10">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-8 flex items-center gap-3">
-                <svg className="w-6 h-6 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition hover:-translate-y-[3px]">
+            <div className="p-6 sm:p-8 lg:p-10">
+              <h3 className="text-xl lg:text-2xl font-semibold text-gray-800 mb-6 lg:mb-8 flex items-center gap-3">
+                <svg className="w-5 h-5 lg:w-6 lg:h-6 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Program Details
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-4 lg:space-y-6">
                 {logistics.map(({ label, value }, idx) => (
                   <div
                     key={idx}
-                    className={`flex items-center justify-between py-3 border-b border-gray-100 rounded hover:bg-amber-50 transition-colors cursor-default ${
+                    className={`flex items-center justify-between py-3 border-b border-gray-100 rounded hover:bg-amber-50 transition-colors ${
                       idx === logistics.length - 1 ? "border-b-0" : ""
                     }`}
                   >
                     <span className="font-medium text-gray-700">{label}</span>
-                    <span className="text-amber-600 font-semibold">{value}</span>
+                    <span className="text-amber-700 font-semibold">{value}</span>
                   </div>
                 ))}
               </div>
-              <div className="mt-8 p-5 bg-amber-50 rounded-lg border border-amber-200 transition-colors hover:bg-amber-100 cursor-default">
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  <strong>Perfect Start:</strong> This program is designed specifically for newcomers to experience fencing with no prior experience required.
+              <div className="mt-6 lg:mt-8 p-4 lg:p-5 bg-amber-50 rounded-lg border border-amber-200">
+                <p className="text-gray-700 text-sm lg:text-base leading-relaxed">
+                  <strong>Perfect Start:</strong> Designed specifically for newcomers—no prior experience required.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Class Types */}
-        <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-8 mt-12 mb-16 animate-fadeIn delay-900">
-          <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Class Access Included</h3>
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              Your introduction program includes access to all beginner-friendly classes in both weapons. 
-              Explore different class times and find what works best for your schedule.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              {classDetails.map(({ title, description }, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-lg p-6 border border-amber-200 shadow-sm hover:shadow-md transition-shadow duration-300 cursor-default transform hover:-translate-y-1 hover:scale-[1.03]"
-                >
-                  <h4 className="font-semibold text-amber-700 mb-2">{title}</h4>
-                  <p className="text-gray-600 text-sm">{description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center animate-fadeIn delay-1000">
+        {/* CTA */}
+        <div className="text-center">
           <div className="inline-flex items-center justify-center mb-6">
             <div className="w-8 h-px bg-amber-300"></div>
             <div className="mx-3 w-1.5 h-1.5 bg-amber-500 rounded-full"></div>
             <div className="w-8 h-px bg-amber-300"></div>
           </div>
           <h3 className="text-3xl font-light text-gray-800 mb-6">
-            Ready to{" "}
-            <span className="font-semibold text-amber-600">Begin</span>{" "}
-            Your Fencing Journey?
+            Ready to <span className="font-semibold text-amber-600">Begin</span> Your Fencing Journey?
           </h3>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Start your fencing adventure with complete access to all our beginner classes. 
-            Discover the elegance and excitement of this timeless sport.
+            Start your fencing adventure with complete access to all our beginner classes.
           </p>
-          <button
-            onClick={handleBookingClick}
-            className="group relative px-12 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg
-                       hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg overflow-hidden"
+          <a
+            href="https://texasfencingacademy.glide.page"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center gap-2 px-8 sm:px-12 py-3.5 sm:py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-300"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            <span className="relative z-10">Register for Introduction Program</span>
-          </button>
+            <span>Register for Introduction Program</span>
+            <svg className="w-4 h-4 opacity-90" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
         </div>
       </div>
 
-      {/* Custom Animations */}
+      {/* Keyframes with motion-safe defaults */}
       <style>{`
-        @keyframes fadeInDown {
-          0% { opacity: 0; transform: translateY(-20px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-          0% { opacity: 0; }
-          100% { opacity: 1; }
-        }
-        @keyframes slideUp {
-          0% { opacity: 0; transform: translateY(30px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fadeInDown {
-          animation: fadeInDown 0.8s ease forwards;
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.8s ease forwards;
-        }
-        .animate-slideUp {
-          animation: slideUp 0.6s ease forwards;
-        }
-
-        /* Delay helpers */
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .delay-500 { animation-delay: 0.5s; }
-        .delay-600 { animation-delay: 0.6s; }
-        .delay-700 { animation-delay: 0.7s; }
-        .delay-900 { animation-delay: 0.9s; }
-        .delay-1000 { animation-delay: 1s; }
+        @keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-20px) } 100% { opacity: 1; transform: translateY(0) } }
       `}</style>
     </section>
   );
 }
+
 
 function NewFencersIntroPage() {
   return (
@@ -473,6 +481,7 @@ function NewFencersIntroPage() {
       {/* Hero Section */}
       <NewFencersIntroHeroSection />
       {/* New Fencers Introduction Information Section */}
+      <IntroInformationSection/>
       <NewFencersIntroInformationSection />
       <FooterSection />
     </>
