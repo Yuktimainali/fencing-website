@@ -887,9 +887,6 @@ const TrainingDayPanel = memo(function TrainingDayPanel({ data }) {
         <Chip>{d.athlete}</Chip>
       </div>
 
-      <div className="flex justify-center">
-        <img src="/assets/mark.png" alt="" className="h-12 opacity-90" />
-      </div>
 
       <div className="font-semibold">{d.subtitle}</div>
       <p className="text-gray-800">{d.description}</p>
@@ -933,9 +930,6 @@ const TrainingWeekPanel = memo(function TrainingWeekPanel({ data }) {
         <Chip>Week {d.weekNumber}</Chip>
       </div>
 
-      <div className="flex justify-center">
-        <img src="/assets/mark.png" alt="" className="h-12 opacity-90" />
-      </div>
 
       {d.nextTournaments && <p className="text-gray-800">{d.nextTournaments}</p>}
       <div className="text-[11px] text-gray-600">{d.athlete}</div>
