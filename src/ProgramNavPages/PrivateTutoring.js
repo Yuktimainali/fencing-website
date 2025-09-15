@@ -394,95 +394,73 @@ function PrivateLessonInformationSection() {
   return (
     <section
       id="private-lessons-info"
-      className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
+      className="relative py-8 sm:py-16 md:py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
     >
-      {/* Background decorations */}
+      {/* Background decorations - scaled for mobile */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 opacity-20"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15"></div>
+        <div className="absolute top-10 left-6 sm:top-20 sm:left-20 w-32 h-32 sm:w-72 sm:h-72 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 opacity-20"></div>
+        <div className="absolute bottom-10 right-6 sm:bottom-20 sm:right-20 w-48 h-48 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15"></div>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
           <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
         </div>
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        {/* Section header */}
-        <div className="text-center mb-16 animate-fadeInDown">
-          <div className="flex items-center justify-center space-x-4 mb-8 group">
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-            <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-              <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Section header - mobile optimized */}
+        <div className="text-center mb-8 sm:mb-12 md:mb-16 animate-fadeInDown">
+          <div className="flex items-center justify-center gap-2 sm:gap-4 mb-6 sm:mb-8 group">
+            <div className="w-8 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-8 sm:w-12 h-8 sm:h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+              <div className="w-2 sm:w-3 h-2 sm:h-3 bg-amber-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-8 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
           </div>
 
-          <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
+          <h2 className="text-[clamp(1.8rem,5vw,3rem)] lg:text-5xl font-light text-gray-800 mb-4 tracking-tight px-2">
             Why Choose{" "}
             <span className="font-semibold text-amber-600">Private</span>{" "}
             Lessons
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Personalized instruction designed to accelerate your fencing
-            development
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed px-4">
+            Personalized instruction designed to accelerate your fencing development
           </p>
         </div>
 
-        {/* Benefits Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        {/* Benefits Grid - mobile responsive */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
           {benefits.map(({ iconSrc, alt, title, description }, idx) => (
             <div
               key={idx}
-              className="group bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center
-                 transform transition-transform duration-500 ease-in-out hover:shadow-xl hover:-translate-y-3 hover:scale-105 cursor-pointer animate-slideUp"
+              className="group bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6 md:p-8 text-center transform transition-transform duration-500 ease-in-out hover:shadow-xl hover:-translate-y-2 hover:scale-[1.02] cursor-pointer animate-slideUp"
               style={{
                 animationDelay: `${idx * 150}ms`,
                 willChange: "transform",
               }}
             >
-              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
                 <img
                   src={iconSrc}
                   alt={alt}
-                  className="w-14 h-14 object-contain"
+                  className="w-10 h-10 sm:w-14 sm:h-14 object-contain"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3 group-hover:text-amber-600 transition-colors duration-300">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2 sm:mb-3 group-hover:text-amber-600 transition-colors duration-300">
                 {title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">{description}</p>
+              <p className="text-sm sm:text-base text-gray-600 leading-relaxed">{description}</p>
             </div>
           ))}
         </div>
 
-        {/* What to Expect / Logistics two-column grid with proper spacing */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+        {/* What to Expect / Logistics - mobile stacked layout */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 sm:gap-12 mb-16 sm:mb-24">
           {/* What to Expect */}
-          <div
-            className="bg-white rounded-xl border border-gray-200 shadow transition-transform duration-500 ease-in-out
-           hover:scale-[1.025] hover:-translate-y-[6px] hover:shadow-lg cursor-default"
-            style={{ perspective: "900px" }}
-          >
-            <div
-              className="p-10 transform-gpu will-change-transform transition-transform duration-500 ease-in-out"
-              style={{ transformStyle: "preserve-3d" }}
-              onMouseMove={(e) => {
-                const el = e.currentTarget;
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = rect.height / 2 - (e.clientY - rect.top);
-                const rotX = (y / rect.height) * 5; // max 5deg
-                const rotY = (x / rect.width) * 5;
-                el.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "perspective(900px) rotateX(0deg) rotateY(0deg)";
-              }}
-            >
-              <h3 className="text-2xl font-semibold text-gray-800 mb-8 flex items-center gap-3">
+          <div className="bg-white rounded-lg sm:rounded-xl border border-gray-200 shadow transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-lg cursor-default">
+            <div className="p-6 sm:p-8 md:p-10">
+              <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6 sm:mb-8 flex items-center gap-3">
                 <svg
-                  className="w-6 h-6 text-amber-600 flex-shrink-0"
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -497,15 +475,15 @@ function PrivateLessonInformationSection() {
                 </svg>
                 What to Expect
               </h3>
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 {whatToExpected.map(({ title, description }, idx) => (
-                  <div key={idx} className="flex items-start gap-6">
-                    <span className="mt-2 block w-4 h-4 bg-amber-500 rounded-full shrink-0"></span>
+                  <div key={idx} className="flex items-start gap-4 sm:gap-6">
+                    <span className="mt-2 block w-3 h-3 sm:w-4 sm:h-4 bg-amber-500 rounded-full shrink-0"></span>
                     <div>
-                      <h4 className="font-medium text-gray-800 text-lg">
+                      <h4 className="font-medium text-gray-800 text-base sm:text-lg mb-1">
                         {title}
                       </h4>
-                      <p className="text-gray-600 text-sm leading-relaxed">
+                      <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
                         {description}
                       </p>
                     </div>
@@ -516,31 +494,11 @@ function PrivateLessonInformationSection() {
           </div>
 
           {/* Scheduling & Logistics */}
-          <div
-            className="bg-white rounded-xl border border-gray-200 shadow transition-transform duration-500 ease-in-out
-           hover:scale-[1.025] hover:-translate-y-[6px] hover:shadow-lg cursor-default"
-            style={{ perspective: "900px" }}
-          >
-            <div
-              className="p-10 transform-gpu will-change-transform transition-transform duration-500 ease-in-out"
-              style={{ transformStyle: "preserve-3d" }}
-              onMouseMove={(e) => {
-                const el = e.currentTarget;
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = rect.height / 2 - (e.clientY - rect.top);
-                const rotX = (y / rect.height) * 5;
-                const rotY = (x / rect.width) * 5;
-                el.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "perspective(900px) rotateX(0deg) rotateY(0deg)";
-              }}
-            >
-              <h3 className="text-2xl font-semibold text-gray-800 mb-8 flex items-center gap-3">
+          <div className="bg-white rounded-lg sm:rounded-xl border border-gray-200 shadow transition-transform duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:shadow-lg cursor-default">
+            <div className="p-6 sm:p-8 md:p-10">
+              <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6 sm:mb-8 flex items-center gap-3">
                 <svg
-                  className="w-6 h-6 text-amber-600 flex-shrink-0"
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -555,79 +513,72 @@ function PrivateLessonInformationSection() {
                 </svg>
                 Scheduling &amp; Logistics
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {logistics.map(({ label, value }, idx) => (
                   <div
                     key={idx}
-                    className={`flex items-center justify-between py-3 border-b border-gray-100 rounded hover:bg-amber-50 transition-colors cursor-default ${
+                    className={`flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 sm:py-3 border-b border-gray-100 rounded hover:bg-amber-50 transition-colors cursor-default ${
                       idx === logistics.length - 1 ? "border-b-0" : ""
                     }`}
                   >
-                    <span className="font-medium text-gray-700">{label}</span>
-                    <span className="text-amber-600 font-semibold">
+                    <span className="font-medium text-gray-700 mb-1 sm:mb-0">{label}</span>
+                    <span className="text-amber-600 font-semibold text-sm sm:text-base">
                       {value}
                     </span>
                   </div>
                 ))}
               </div>
-              <div className="mt-8 p-5 bg-amber-50 rounded-lg border border-amber-200 transition-colors hover:bg-amber-100 cursor-default">
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  <strong>Priority Scheduling:</strong> Competitive fencers
-                  preparing for tournaments receive priority for lesson scheduling.
+              <div className="mt-6 sm:mt-8 p-4 sm:p-5 bg-amber-50 rounded-lg border border-amber-200 transition-colors hover:bg-amber-100 cursor-default">
+                <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                  <strong>Priority Scheduling:</strong> Competitive fencers preparing for tournaments receive priority for lesson scheduling.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Program Integration - with proper top margin */}
-        <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-8 mt-12 mb-16 animate-fadeIn delay-900">
+        {/* Program Integration - mobile optimized */}
+        <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6 sm:p-8 mb-12 sm:mb-16 animate-fadeIn delay-900">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-3 sm:mb-4">
               Program Integration
             </h3>
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              Our training programs include recommended minimum private lesson
-              requirements based on your skill level. As you advance, we
-              encourage more frequent private instruction to support your
-              development.
+            <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 leading-relaxed px-2">
+              Our training programs include recommended minimum private lesson requirements based on your skill level. As you advance, we encourage more frequent private instruction to support your development.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 text-center">
               {programIntegration.map(({ title, description }, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-lg p-6 border border-amber-200 shadow-sm 
-                             hover:shadow-md transition-shadow duration-300 cursor-default transform hover:-translate-y-1 hover:scale-[1.03]"
+                  className="bg-white rounded-lg p-4 sm:p-6 border border-amber-200 shadow-sm hover:shadow-md transition-all duration-300 cursor-default transform hover:-translate-y-1 hover:scale-[1.02]"
                   style={{ willChange: "transform" }}
                 >
-                  <h4 className="font-semibold text-amber-700 mb-2">{title}</h4>
-                  <p className="text-gray-600 text-sm">{description}</p>
+                  <h4 className="font-semibold text-amber-700 mb-2 text-sm sm:text-base">{title}</h4>
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{description}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Call to Action */}
+        {/* Call to Action - mobile optimized */}
         <div className="text-center animate-fadeIn delay-1000">
-          <div className="inline-flex items-center justify-center mb-6">
-            <div className="w-8 h-px bg-amber-300"></div>
-            <div className="mx-3 w-1.5 h-1.5 bg-amber-500 rounded-full"></div>
-            <div className="w-8 h-px bg-amber-300"></div>
+          <div className="inline-flex items-center justify-center mb-4 sm:mb-6">
+            <div className="w-6 sm:w-8 h-px bg-amber-300"></div>
+            <div className="mx-2 sm:mx-3 w-1 sm:w-1.5 h-1 sm:h-1.5 bg-amber-500 rounded-full"></div>
+            <div className="w-6 sm:w-8 h-px bg-amber-300"></div>
           </div>
-          <h3 className="text-3xl font-light text-gray-800 mb-6">
+          <h3 className="text-[clamp(1.5rem,4vw,2rem)] lg:text-3xl font-light text-gray-800 mb-4 sm:mb-6 px-2">
             Ready to{" "}
             <span className="font-semibold text-amber-600">Accelerate</span>{" "}
             Your Progress?
           </h3>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Take your fencing to the next level with personalized one-on-one
-            instruction from our experienced coaches.
+          <p className="text-base sm:text-lg text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto px-4 leading-relaxed">
+            Take your fencing to the next level with personalized one-on-one instruction from our experienced coaches.
           </p>
           <button
             onClick={handleBookingClick}
-            className="group relative px-12 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold rounded-xl shadow-lg
-                       hover:shadow-xl hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-500 text-lg overflow-hidden"
+            className="group relative px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl active:scale-95 hover:scale-105 hover:from-amber-600 hover:to-amber-700 transition-all duration-300 text-base sm:text-lg overflow-hidden w-full sm:w-auto"
             style={{ willChange: "transform" }}
           >
             {/* Button shine effect */}
@@ -638,7 +589,7 @@ function PrivateLessonInformationSection() {
       </div>
 
       {/* Custom Animations */}
-      <style>{`
+      <style jsx>{`
         @keyframes fadeInDown {
           0% { opacity: 0; transform: translateY(-20px); }
           100% { opacity: 1; transform: translateY(0); }

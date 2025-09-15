@@ -419,12 +419,12 @@ function BlazePodTechnologySection() {
   return (
     <section
       id="blazepod-technology"
-      className="relative py-14 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
+      className="relative py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden"
     >
-      {/* Subtle background patterns */}
+      {/* Background patterns - scaled for mobile */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 sm:top-14 md:top-20 left-6 sm:left-12 md:left-20 w-44 sm:w-60 md:w-72 h-44 sm:h-60 md:h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
-        <div className="absolute bottom-10 sm:bottom-14 md:bottom-20 right-6 sm:right-12 md:right-20 w-56 sm:w-72 md:w-96 h-56 sm:h-72 md:h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
+        <div className="absolute top-6 sm:top-10 md:top-14 lg:top-20 left-4 sm:left-6 md:left-12 lg:left-20 w-24 h-24 sm:w-44 sm:h-44 md:w-60 md:h-60 lg:w-72 lg:h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
+        <div className="absolute bottom-6 sm:bottom-10 md:bottom-14 lg:bottom-20 right-4 sm:right-6 md:right-12 lg:right-20 w-32 h-32 sm:w-56 sm:h-56 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
           <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
@@ -432,84 +432,94 @@ function BlazePodTechnologySection() {
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-5 md:px-6">
-        {/* Section header */}
-        <div className="text-center mb-10 sm:mb-12 md:mb-14">
-          <div className="flex items-center justify-center space-x-3 sm:space-x-4 mb-5 sm:mb-6 group">
-            <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
-            <div className="w-10 sm:w-12 h-10 sm:h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
-              <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 bg-amber-500 rounded-full animate-pulse"></div>
+        {/* Section header - mobile optimized */}
+        <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-14">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-5 md:mb-6 group">
+            <div className="w-8 sm:w-12 md:w-14 lg:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 bg-amber-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="w-14 sm:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+            <div className="w-8 sm:w-12 md:w-14 lg:w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-3 sm:mb-4 tracking-tight">
+          
+          <h2 className="text-[clamp(1.75rem,5vw,3rem)] lg:text-5xl font-light text-gray-800 mb-3 sm:mb-4 tracking-tight px-2">
             BlazePod + <span className="font-semibold text-amber-600">HAT Technology</span>
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-1">
-            Revolutionary training technology that combines BlazePod’s dynamic light system with our patent‑pending High Accuracy Trigger for unprecedented precision in performance tracking.
+          
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4">
+            Revolutionary training technology that combines BlazePod's dynamic light system with our patent‑pending High Accuracy Trigger for unprecedented precision in performance tracking.
           </p>
         </div>
 
-        {/* Technology Features Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 mb-12 sm:mb-14 lg:mb-16">
-          {/* Features content */}
-          <div className="space-y-6 sm:space-y-7">
-            <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
-              At Texas Fencing Academy, training is engineered for results. BlazePod enhanced with HAT tech tracks reaction time, agility, and focus with unmatched precision—so every rep counts. 
-            </p>
-
-            <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-4 sm:p-5 md:p-6">
-              <h3 className="text-lg sm:text-xl font-semibold text-amber-700 mb-3 sm:mb-4">
-                Exclusive HAT System Benefits:
-              </h3>
-              <ul className="space-y-2.5 sm:space-y-3 text-gray-700">
-                <li className="flex items-start space-x-3">
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Ultra‑precise reaction time measurement (patent‑pending)</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Real‑time dynamic drills that adapt to skill level</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Personalized, data‑driven insights for targeted improvement</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Only available at Texas Fencing Academy</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Technology image/visualization */}
-          <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
-                <img
-                  src="/competitiveEdge/BlazePodTraining.png"
-                  alt="BlazePod training with HAT technology"
-                className="w-full h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
+        {/* Technology Features - mobile responsive layout */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-16 mb-8 sm:mb-10 md:mb-12 lg:mb-16">
+          
+          {/* Technology image/visualization - First on mobile */}
+          <div className="relative order-1 lg:order-2">
+            <div className="relative rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl md:shadow-2xl group">
+              <img
+                src="/competitiveEdge/BlazePodTraining.png"
+                alt="BlazePod training with HAT technology"
+                className="w-full h-48 sm:h-64 md:h-72 lg:h-80 xl:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-amber-400/20 to-transparent pointer-events-none" />
 
-              {/* Floating tech badge */}
-              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform -translate-x-2 group-hover:translate-x-0">
+              {/* Floating tech badge - responsive */}
+              <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4 bg-white/90 backdrop-blur-sm rounded-md sm:rounded-lg p-2 sm:p-2.5 md:p-3 shadow-md sm:shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform -translate-x-1 sm:-translate-x-2 group-hover:translate-x-0">
                 <div className="text-center">
-                  <div className="text-lg font-bold text-amber-600">HAT</div>
+                  <div className="text-sm sm:text-base md:text-lg font-bold text-amber-600">HAT</div>
                   <div className="text-xs text-gray-600 font-medium">
                     Patent Pending
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+
+          {/* Features content - Second on mobile */}
+          <div className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-7 order-2 lg:order-1">
+            <p className="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed">
+              At Texas Fencing Academy, training is engineered for results. BlazePod enhanced with HAT tech tracks reaction time, agility, and focus with unmatched precision—so every rep counts.
+            </p>
+
+            <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-4 sm:p-5 md:p-6">
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-amber-700 mb-3 sm:mb-4">
+                Exclusive HAT System Benefits:
+              </h3>
+              <ul className="space-y-2 sm:space-y-2.5 md:space-y-3 text-gray-700">
+                <li className="flex items-start space-x-2 sm:space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                  <span className="text-sm sm:text-base leading-relaxed">
+                    Ultra‑precise reaction time measurement (patent‑pending)
+                  </span>
+                </li>
+                <li className="flex items-start space-x-2 sm:space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                  <span className="text-sm sm:text-base leading-relaxed">
+                    Real‑time dynamic drills that adapt to skill level
+                  </span>
+                </li>
+                <li className="flex items-start space-x-2 sm:space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                  <span className="text-sm sm:text-base leading-relaxed">
+                    Personalized, data‑driven insights for targeted improvement
+                  </span>
+                </li>
+                <li className="flex items-start space-x-2 sm:space-x-3">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                  <span className="text-sm sm:text-base leading-relaxed font-medium text-amber-700">
+                    Only available at Texas Fencing Academy
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
 const CardShell = ({ title, icon, children, accent = "bg-amber-500" }) => (
   <div className="h-full flex flex-col">
     <div className="bg-gray-800 rounded-3xl p-8 shadow-2xl h-full">

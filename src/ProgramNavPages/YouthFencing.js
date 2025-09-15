@@ -524,6 +524,7 @@ function YouthFencingInfoSection() {
 function YouthProgramsSection() {
   const [loaded, setLoaded] = useState(false);
   const [sectionData, setSectionData] = useState(null);
+  const [pricingSchedule, setPricingSchedule] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 150);
@@ -544,6 +545,97 @@ function YouthProgramsSection() {
     fetchSectionData();
   }, []);
 
+  useEffect(() => {
+    const fetchPricingData = async () => {
+      try {
+        const query = `*[_type == "programsectionAllPrograms" && title in [
+          "OPEN FENCING",
+          "COMPETITIVE FENCERS",
+          "FENCING INTRODUCTION 1ST MONTH",
+          "MINNOW FENCERS"
+        ]]{
+          title,
+          schedule,
+          pricing
+        }`;
+        const data = await sanityClient.fetch(query);
+        setPricingSchedule(data);
+      } catch (error) {
+        console.error("Error fetching pricing data:", error);
+        setPricingSchedule([]);
+      }
+    };
+    fetchPricingData();
+  }, []);
+
+  // Helper function to get pricing from Sanity data
+  const getPricingFromSanity = (programTitle) => {
+    if (!pricingSchedule) return null;
+    
+    // Map program titles to Sanity titles based on your requirements
+    const programToSanityMap = {
+      "Fencing Introduction 1st month": "FENCING INTRODUCTION 1ST MONTH",
+      "Minnow Fencing Program": "MINNOW FENCERS",
+      "Full Subscription (Monthly Recurring)": "MINNOW FENCERS", // Use MINNOW FENCERS data
+      "Competition Youth Program": "COMPETITIVE FENCERS",
+      "Youth Open Fencing": "OPEN FENCING"
+    };
+    
+    const sanityTitle = programToSanityMap[programTitle];
+    if (!sanityTitle) return null;
+    
+    const sanityProgram = pricingSchedule.find(p => p.title === sanityTitle);
+    if (!sanityProgram || !sanityProgram.pricing) return null;
+    
+    // Get the primary pricing based on program type
+    let primaryPrice;
+    
+    if (sanityTitle === "MINNOW FENCERS") {
+      // For MINNOW FENCERS, use "Subsequent Months" price if available, otherwise "First Month"
+      primaryPrice = sanityProgram.pricing.find(p => 
+        p.label.includes("Subsequent") || p.label.includes("Monthly")
+      ) || sanityProgram.pricing.find(p => p.label.includes("First Month"));
+    } else if (sanityTitle === "OPEN FENCING") {
+      // For OPEN FENCING, use "Members" price if available, otherwise "Non Members"
+      primaryPrice = sanityProgram.pricing.find(p => p.label.includes("Members") && !p.label.includes("Non")) || 
+                   sanityProgram.pricing.find(p => p.label.includes("Non Members"));
+    } else {
+      // For others, use the first pricing item
+      primaryPrice = sanityProgram.pricing[0];
+    }
+    
+    if (!primaryPrice) return null;
+    
+    // Format the price - if it doesn't start with $, add it
+    const price = primaryPrice.price;
+    return price.startsWith('$') ? price : `$${price}`;
+  };
+
+  // Helper function to get schedule from Sanity data
+  const getScheduleFromSanity = (programTitle) => {
+    if (!pricingSchedule) return null;
+    
+    const programToSanityMap = {
+      "Fencing Introduction 1st month": "FENCING INTRODUCTION 1ST MONTH",
+      "Minnow Fencing Program": "MINNOW FENCERS",
+      "Full Subscription (Monthly Recurring)": "MINNOW FENCERS", 
+      "Competition Youth Program": "COMPETITIVE FENCERS",
+      "Youth Open Fencing": "OPEN FENCING"
+    };
+    
+    const sanityTitle = programToSanityMap[programTitle];
+    if (!sanityTitle) return null;
+    
+    const sanityProgram = pricingSchedule.find(p => p.title === sanityTitle);
+    if (!sanityProgram || !sanityProgram.schedule) return null;
+    
+    return sanityProgram.schedule.map(item => ({
+      day: item.day,
+      time: item.time,
+      weapon: item.weapon
+    }));
+  };
+
   const getDefaultData = () => ({
     sectionTitle: "Youth Program Options",
     sectionSubtitle:
@@ -557,11 +649,23 @@ function YouthProgramsSection() {
     chooseInstructions: "Click any card to register through our portal",
     programs: [
       {
-        title: "Monthly Subscription",
+        title: "Fencing Introduction 1st month",
+        description:
+          "Includes access to all our Epee and Saber classes for you to discover the joy of fencing.",
+        price: "$85.00",
+        image: { src: "/youthFencing/MonthlySubscription.jpg", alt: "Fencing Introduction Program" },
+        href: "https://texasfencingacademy.org/?page_id=881",
+        badge: "Beginner Friendly",
+        schedule: [
+          { day: "Access to all classes", time: "Various times", weapon: "Both" },
+        ],
+      },
+      {
+        title: "Minnow Fencing Program",
         description:
           "Perfect for youth fencers who want consistent training with flexible scheduling. Includes access to age-appropriate classes and equipment.",
         price: "$95.00",
-        image: { src: "/youthFencing/MonthlySubscription.jpg", alt: "Monthly Subscription Program" },
+        image: { src: "/youthFencing/YearlySubscription.jpg", alt: "Minnow Fencing Program" },
         href: "https://texasfencingacademy.org/?page_id=881",
         badge: null,
         schedule: [
@@ -575,7 +679,7 @@ function YouthProgramsSection() {
         description:
           "Comprehensive program for serious youth fencers. Includes all classes, private lessons, and competition preparation.",
         price: "$195.00",
-        image: { src: "/youthFencing/YearlySubscription.jpg", alt: "Full Subscription Program" },
+        image: { src: "/youthFencing/FullSubscription.jpg", alt: "Full Subscription Program" },
         href: "https://texasfencingacademy.org/?page_id=881",
         badge: "Most Popular",
         schedule: [
@@ -585,10 +689,10 @@ function YouthProgramsSection() {
         ],
       },
       {
-        title: "Competition Team",
+        title: "Competition Youth Program",
         description:
           "Elite training program for youth competitors. Team membership, tournament preparation, and advanced coaching included.",
-        price: "$0.00",
+        price: "$160.00",
         image: { src: "/youthFencing/YouthTeam.jpg", alt: "Competition Team Program" },
         href: "https://texasfencingacademy.org/?page_id=881",
         badge: "Team Member",
@@ -596,6 +700,19 @@ function YouthProgramsSection() {
           { day: "Monday - Friday", time: "5:00 pm to 7:00 pm", weapon: "All" },
           { day: "Saturday", time: "8:00 am to 12:00 pm", weapon: "Competition" },
           { day: "Tournament Days", time: "As Scheduled", weapon: "Specialized" },
+        ],
+      },
+      {
+        title: "Youth Open Fencing",
+        description:
+          "For youth and competitive TFA fencers to fence at our salle. Contact the coach or staff to determine which nights you'd like to attend.",
+        price: "$135.00",
+        image: { src: "/youthFencing/OpenFencing.jpg", alt: "Youth Open Fencing Program" },
+        href: "https://texasfencingacademy.org/?page_id=881",
+        badge: null,
+        schedule: [
+          { day: "Monday, Tuesday, Wednesday, Thursday", time: "7:00 pm to 9:00 pm", weapon: "Both" },
+          { day: "Saturday", time: "10:30 am to 12:30 pm", weapon: "Both" },
         ],
       },
     ],
@@ -609,16 +726,26 @@ function YouthProgramsSection() {
 
   const processedPrograms = useMemo(() => {
     return (
-      sectionData?.programs?.map((program, index) => ({
-        ...program,
-        id: index + 1,
-        image: program.image?.asset
-          ? urlFor(program.image.asset).format("webp").quality(85).url()
-          : program.image?.src || `/youthFencing/program${index + 1}.jpg`,
-        alt: program.image?.alt || program.title,
-      })) || []
+      sectionData?.programs?.map((program, index) => {
+        // Get updated pricing and schedule from Sanity data
+        const sanityPrice = getPricingFromSanity(program.title);
+        const sanitySchedule = getScheduleFromSanity(program.title);
+        
+        return {
+          ...program,
+          id: index + 1,
+          // Use Sanity price if available, otherwise use default
+          price: sanityPrice || "Contact for Pricing",
+          // Use Sanity schedule if available, otherwise use default
+          schedule: sanitySchedule || program.schedule,
+          image: program.image?.asset
+            ? urlFor(program.image.asset).format("webp").quality(85).url()
+            : program.image?.src || `/youthFencing/program${index + 1}.jpg`,
+          alt: program.image?.alt || program.title,
+        };
+      }) || []
     );
-  }, [sectionData]); // precompute to avoid repeated work [1]
+  }, [sectionData, pricingSchedule]);
 
   const handleCardClick = (href) => {
     window.open(href, "_blank");
@@ -629,7 +756,7 @@ function YouthProgramsSection() {
       const parts = title.split("Options");
       return (
         <>
-          {parts}
+          {parts[0]}
           <span className="font-semibold text-amber-600">Options</span>
         </>
       );
@@ -642,7 +769,7 @@ function YouthProgramsSection() {
       const parts = title.split("Youth Path");
       return (
         <>
-          {parts}
+          {parts[0]}
           <span className="font-semibold text-amber-600">Youth Path</span>
         </>
       );
@@ -659,7 +786,7 @@ function YouthProgramsSection() {
       id="youth-programs"
       className="relative py-16 sm:py-20 md:py-24 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-50 overflow-hidden"
     >
-      {/* Background elements (scaled down on mobile) */}
+      {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-6 sm:top-20 sm:left-20 w-40 h-40 sm:w-72 sm:h-72 bg-gradient-to-br from-amber-100 to-amber-200 opacity-30 rounded-full"></div>
         <div className="absolute bottom-10 right-6 sm:bottom-20 sm:right-20 w-56 h-56 sm:w-96 sm:h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
@@ -679,14 +806,12 @@ function YouthProgramsSection() {
             </div>
             <div className="w-12 sm:w-16 h-px bg-amber-500 transition-colors duration-300 group-hover:bg-amber-600"></div>
           </div>
-
           <h2 className="text-[clamp(1.6rem,5.5vw,2.75rem)] lg:text-5xl font-light text-gray-800 mb-3 sm:mb-4 tracking-tight">
             {renderTitle(sectionData.sectionTitle)}
           </h2>
           <p className="text-[clamp(1rem,3.2vw,1.125rem)] text-gray-700 max-w-[60ch] sm:max-w-[65ch] mx-auto leading-relaxed">
             {sectionData.sectionSubtitle}
           </p>
-
           <div className="mt-6 sm:mt-8 max-w-3xl mx-auto bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/60 rounded-lg p-4 sm:p-5">
             <p className="text-gray-700 text-[clamp(0.98rem,3vw,1.05rem)] mb-2">
               <strong>Ready to begin?</strong>{" "}
@@ -696,7 +821,7 @@ function YouthProgramsSection() {
           </div>
         </div>
 
-        {/* Programs grid: 1 col on mobile, 2 on md, 3 on lg */}
+        {/* Programs grid */}
         <div className="mb-12 md:mb-16">
           <h3 className="text-[clamp(1.3rem,4.5vw,1.75rem)] font-light text-gray-800 mb-2 text-center">
             {renderChooseTitle(sectionData.chooseTitle)}
@@ -708,29 +833,40 @@ function YouthProgramsSection() {
             {sectionData.chooseInstructions}
           </p>
 
-          <div
-            className={`
-              grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
-              gap-6 sm:gap-8
-            `}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {processedPrograms.map((program, index) => (
               <div
                 key={program.id}
                 onClick={() => handleCardClick(program.href)}
-                className={`
-                  group relative bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6
-                  hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.01]
-                  transition-transform duration-300 ease-out
-                  cursor-pointer overflow-hidden
-                  ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
-                `}
+                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out cursor-pointer overflow-hidden min-h-[400px] sm:min-h-[420px] opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]"
                 style={{
-                  transitionDelay: loaded ? `${index * 90}ms` : "0ms",
+                  animationDelay: loaded ? `${index * 90}ms` : "0ms",
                 }}
               >
-                {/* Top accent */}
-                <div className="absolute top-0 left-5 right-5 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                {/* Subtle top accent */}
+                <div className="absolute top-0 left-5 right-5 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
+                
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
+                
+                {/* Click indicator */}
+                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
+                  <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
+                    <svg
+                      className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </div>
+                </div>
 
                 {/* Badge */}
                 {program.badge && (
@@ -739,55 +875,58 @@ function YouthProgramsSection() {
                   </div>
                 )}
 
-                {/* Image */}
-                <div className="relative h-44 sm:h-48 overflow-hidden rounded-lg mb-4">
-                  <img
-                    src={program.image}
-                    alt={program.alt}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent"></div>
-                </div>
-
-                {/* Program info */}
-                <div className="text-center mb-3">
-                  <h4 className="text-amber-700 font-semibold text-[clamp(1.05rem,3.4vw,1.2rem)] mb-2 tracking-wide group-hover:text-amber-800 transition-colors duration-200">
-                    {program.title}
-                  </h4>
-                </div>
-                <p className="text-gray-600 text-sm leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-200 mb-4">
-                  {program.description}
-                </p>
-
-                <div className="text-center mb-2">
-                  <span className="text-xl sm:text-2xl font-bold text-amber-600">{program.price}</span>
-                  {program.price !== "$0.00" && (
-                    <span className="text-xs sm:text-sm text-gray-500 block">per month</span>
-                  )}
-                </div>
-
-                {/* Schedule overlay: show on hover for desktop, show block on mobile below card */}
-                <div className="hidden md:block absolute inset-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h5 className="text-amber-700 font-semibold text-center mb-2 text-sm">
-                    SCHEDULE & PRICING
-                  </h5>
-                  <div className="text-center mb-3">
-                    <span className="text-xl font-bold text-amber-600">{program.price}</span>
-                    {program.price !== "$0.00" && (
-                      <span className="text-xs text-gray-500 block">monthly recurring</span>
+                {/* Program info - fades out on hover */}
+                <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
+                  {/* Image */}
+                  <div className="relative h-44 sm:h-48 overflow-hidden rounded-lg mb-4">
+                    <img
+                      src={program.image}
+                      alt={program.alt}
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent"></div>
+                  </div>
+                  <div className="text-center mb-4">
+                    <h4 className="text-amber-700 font-semibold text-[clamp(1.05rem,3.4vw,1.2rem)] mb-2 tracking-wide group-hover:text-amber-800 transition-colors duration-200">
+                      {program.title}
+                    </h4>
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-200 mb-4">
+                    {program.description}
+                  </p>
+                  <div className="text-center mb-2">
+                    <span className="text-xl sm:text-2xl font-bold text-amber-600">{program.price}</span>
+                    {program.price !== "$0.00" && program.price !== "Free" && (
+                      <span className="text-xs sm:text-sm text-gray-500 block">per month</span>
                     )}
                   </div>
-                  <div className="space-y-2 max-h-40 overflow-auto pr-1">
+                </div>
+
+                {/* Schedule overlay - slides in on hover */}
+                <div className="absolute inset-5 sm:inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
+                  <h5 className="text-amber-700 font-semibold text-center mb-3 text-base group-hover:animate-pulse">
+                    SCHEDULE & PRICING
+                  </h5>
+                  
+                  <div className="text-center mb-4">
+                    <span className="text-2xl font-bold text-amber-600">{program.price}</span>
+                    {program.price !== "$0.00" && program.price !== "Free" && (
+                      <span className="text-sm text-gray-500 block">monthly recurring</span>
+                    )}
+                  </div>
+
+                  <div className="space-y-2 max-h-48 pr-1">
                     {program.schedule?.map((s, i) => (
                       <div
                         key={i}
-                        className="bg-amber-50 rounded-lg p-2 border border-amber-100"
+                        className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
+                        style={{ transitionDelay: `${i * 100}ms` }}
                       >
                         <div className="flex justify-between items-center mb-1">
                           <span className="font-medium text-gray-800 text-xs">{s.day}</span>
-                          <span className="text-[11px] bg-amber-200 text-amber-800 px-2 py-0.5 rounded">
+                          <span className="text-[11px] bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">
                             {s.weapon}
                           </span>
                         </div>
@@ -795,31 +934,12 @@ function YouthProgramsSection() {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-3 text-center">
-                    <span className="text-sm text-amber-600 font-medium">Click to Register →</span>
+                  
+                  <div className="mt-3 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
+                    <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
+                      Click to Register &rarr;
+                    </span>
                   </div>
-                </div>
-
-                {/* Mobile schedule block (always visible under card for accessibility) */}
-                <div className="md:hidden mt-4">
-                  <details className="group">
-                    <summary className="cursor-pointer text-amber-700 font-semibold text-sm">
-                      Schedule & Pricing
-                    </summary>
-                    <div className="mt-2 space-y-2">
-                      {program.schedule?.map((s, i) => (
-                        <div key={i} className="bg-amber-50 rounded-lg p-2 border border-amber-100">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="font-medium text-gray-800 text-xs">{s.day}</span>
-                            <span className="text-[11px] bg-amber-200 text-amber-800 px-2 py-0.5 rounded">
-                              {s.weapon}
-                            </span>
-                          </div>
-                          <p className="text-gray-600 text-xs font-medium">{s.time}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </details>
                 </div>
               </div>
             ))}
