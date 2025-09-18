@@ -225,6 +225,22 @@ function AdultFencingHeroSection() {
 
 function AdultFencingInfoSection() {
   const [sectionData, setSectionData] = useState(null);
+  
+  // Fetch data from Sanity
+  useEffect(() => {
+    const fetchSectionData = async () => {
+      try {
+        const query = PROGRAM_QUERIES.PROGRAM_ADULT_FENCING_INFO_SECTION;
+        const data = await sanityClient.fetch(query);
+        setSectionData(data);
+      } catch (error) {
+        console.error("Error fetching section data:", error);
+        // Fallback to default data if Sanity fetch fails
+        setSectionData(getDefaultData());
+      }
+    };
+    fetchSectionData();
+  }, []);
 
   // Fallback default data
   const getDefaultData = () => ({
@@ -256,164 +272,169 @@ function AdultFencingInfoSection() {
     },
   });
 
-  // Fetch data from Sanity
-  useEffect(() => {
-    const fetchSectionData = async () => {
-      try {
-        const query = PROGRAM_QUERIES.PROGRAM_ADULT_FENCING_INFO_SECTION;
-        const data = await sanityClient.fetch(query);
-        setSectionData(data || getDefaultData());
-      } catch (error) {
-        console.error("Error fetching section data:", error);
-        setSectionData(getDefaultData());
-      }
-    };
-    fetchSectionData();
-  }, []);
-
   // Process action image for WebP format
-  const processedActionImage = useMemo(() => {
-    if (sectionData?.actionImage?.asset) {
-      return {
-        src: urlFor(sectionData.actionImage.asset).format("webp").quality(85).url(),
+  const processedActionImage = sectionData?.actionImage?.asset
+    ? {
+        src: urlFor(sectionData.actionImage.asset)
+          .format("webp")
+          .quality(85)
+          .url(),
         alt: sectionData.actionImage.alt,
+      }
+    : {
+        src: sectionData?.actionImage?.src || "/adultFencing/AdultFencing1.jpg",
+        alt: sectionData?.actionImage?.alt || "Adult fencers in training",
       };
-    }
-    return {
-      src: sectionData?.actionImage?.src || "/adultFencing/AdultFencing1.jpg",
-      alt: sectionData?.actionImage?.alt || "Adult fencers in training",
-    };
-  }, [sectionData]); // precompute image URL once per data change [10]
 
   // Render title with highlight
   const renderTitle = () => {
     if (!sectionData?.sectionTitle || !sectionData?.sectionTitleHighlight) {
       return sectionData?.sectionTitle || "Precision, Strategy & Excellence";
     }
-    const parts = sectionData.sectionTitle.split(sectionData.sectionTitleHighlight);
+    const parts = sectionData.sectionTitle.split(
+      sectionData.sectionTitleHighlight
+    );
     return (
       <>
-        {parts}
-        <span className="font-semibold text-amber-600">{sectionData.sectionTitleHighlight}</span>
-        {parts[11]}
+        {parts[0]}
+        <span className="font-semibold text-amber-600">
+          {sectionData.sectionTitleHighlight}
+        </span>
+        {parts[1]}
       </>
     );
   };
 
   if (!sectionData) {
-    return <div className="py-16 text-center text-gray-600">Loading…</div>;
+    return <div>Loading...</div>; // Loading state
   }
 
   return (
-    <section className="relative py-16 sm:py-20 md:py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
-      {/* Subtle background patterns (smaller on mobile) */}
+    <section className="relative py-24 bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 overflow-hidden">
+      {/* Subtle background patterns */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 left-6 sm:top-20 sm:left-20 w-40 h-40 sm:w-72 sm:h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
-        <div className="absolute bottom-10 right-6 sm:bottom-20 sm:right-20 w-56 h-56 sm:w-96 sm:h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-gray-300 to-gray-400 opacity-20 rounded-full"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-tl from-gray-300 to-gray-400 opacity-15 rounded-full"></div>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent"></div>
           <div className="absolute bottom-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
         </div>
       </div>
+      
+<div className="relative z-10 max-w-6xl mx-auto px-6">
+  {/* Section header */}
+  <div className="text-center mb-16">
+    <div className="flex items-center justify-center space-x-4 mb-8 group">
+      <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+      <div className="w-12 h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-500">
+        <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+      </div>
+      <div className="w-16 h-px bg-amber-500 transition-colors duration-500 group-hover:bg-amber-600"></div>
+    </div>
+    <h2 className="text-4xl lg:text-5xl font-light text-gray-800 mb-4 tracking-tight">
+      {renderTitle()}
+    </h2>
+    <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+      {sectionData.headerDescription}
+    </p>
+  </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Section header */}
-        <div className="text-center mb-12 sm:mb-14 md:mb-16">
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 group">
-            <div className="w-12 sm:w-16 h-px bg-amber-500 transition-colors duration-300 group-hover:bg-amber-600"></div>
-            <div className="w-10 sm:w-12 h-10 sm:h-12 border-2 border-amber-500 rounded-full flex items-center justify-center shadow-lg bg-gray-200/70 backdrop-blur-lg relative group-hover:border-amber-600 transition-all duration-300">
-              <div className="w-2.5 sm:w-3 h-2.5 sm:h-3 bg-amber-500 rounded-full motion-safe:animate-pulse"></div>
-            </div>
-            <div className="w-12 sm:w-16 h-px bg-amber-500 transition-colors duration-300 group-hover:bg-amber-600"></div>
-          </div>
-
-          <h2 className="text-[clamp(1.6rem,5.5vw,2.75rem)] lg:text-5xl font-light text-gray-800 mb-3 sm:mb-4 tracking-tight">
-            {renderTitle()}
-          </h2>
-          <p className="text-[clamp(1rem,3.2vw,1.125rem)] text-gray-700 max-w-[60ch] sm:max-w-[65ch] mx-auto leading-relaxed">
-            {sectionData.headerDescription}
-          </p>
-        </div>
-
-        {/* Info and image grid: single column on mobile, two columns on lg+ */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 md:gap-16 items-center mb-12 md:mb-16">
-          {/* Info content */}
-          <div className="space-y-6 sm:space-y-8">
-            <div className="space-y-4 sm:space-y-6">
-              <p className="text-[clamp(1rem,3.2vw,1.125rem)] text-gray-700 leading-relaxed max-w-[65ch]">
-                {sectionData.mainDescription}
-              </p>
-
-              <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/60 rounded-lg p-5 sm:p-6">
-                <h3 className="text-[clamp(1.1rem,3.4vw,1.25rem)] font-semibold text-amber-700 mb-3 sm:mb-4">
-                  {sectionData.featureTitle}
-                </h3>
-                <ul className="space-y-3 text-gray-700">
-                  {sectionData.features?.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-[clamp(0.98rem,3vw,1.05rem)] leading-relaxed">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+  {/* Info and image grid */}
+  <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
+    {/* Info content */}
+    <div className="space-y-8">
+      <div className="space-y-6">
+        <p className="text-lg text-gray-700 leading-relaxed">
+          {sectionData.mainDescription}
+        </p>
+        
+        <div className="bg-gradient-to-r from-amber-50 to-amber-50 border border-amber-200/50 rounded-lg p-6">
+          <h3 className="text-xl font-semibold text-amber-700 mb-4">
+            {sectionData.featureTitle}
+          </h3>
+          
+          {/* Completely separate row containers - no nesting */}
+          {/* First row - items 1-3 */}
+          <div className="flex justify-start gap-6 mb-4">
+            {sectionData.features?.slice(0, 3).map((feature, index) => (
+              <div key={index} className="flex items-start space-x-3 flex-1">
+                <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                <span className="text-gray-700 text-sm">{feature}</span>
               </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <a
-                href={sectionData.mainCtaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-300 text-center overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                <span className="relative z-10">{sectionData.mainCtaText}</span>
-              </a>
-
-              <button
-                onClick={() =>
-                  document.getElementById(sectionData.secondaryCtaTargetId)?.scrollIntoView({ behavior: "smooth" })
-                }
-                className="group relative px-6 sm:px-8 py-3.5 sm:py-4 bg-transparent border-2 border-amber-500 text-amber-600 font-semibold rounded-xl hover:bg-amber-50 hover:scale-[1.03] transition-all duration-300 text-center"
-              >
-                {sectionData.secondaryCtaText}
-              </button>
-            </div>
+            ))}
           </div>
-
-          {/* Action image */}
-          <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
-              <img
-                src={processedActionImage.src}
-                alt={processedActionImage.alt}
-                className="w-full h-72 sm:h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-                fetchpriority="low"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-amber-400/20 to-transparent pointer-events-none" />
-
-              {/* Floating stats badge */}
-              {sectionData.statsBadge && (
-                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm rounded-lg p-2.5 sm:p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
-                  <div className="text-center">
-                    <div className="text-lg sm:text-2xl font-bold text-gray-800">
-                      {sectionData.statsBadge.stat}
-                    </div>
-                    <div className="text-[11px] sm:text-xs text-gray-600 font-medium">
-                      {sectionData.statsBadge.label}
-                    </div>
-                  </div>
+          
+          {/* Second row - items 4-5 (centered) */}
+          {sectionData.features?.length > 3 && (
+            <div className="flex justify-center gap-6">
+              {sectionData.features?.slice(3).map((feature, index) => (
+                <div key={index + 3} className="flex items-start space-x-3 w-64">
+                  <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-gray-700 text-sm">{feature}</span>
                 </div>
-              )}
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
+      
+      <div className="flex flex-col sm:flex-row gap-4">
+        <a
+          href={sectionData.mainCtaUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group relative px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-500 text-center overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          <span className="relative z-10">{sectionData.mainCtaText}</span>
+        </a>
+        
+        <button
+          onClick={() =>
+            document
+              .getElementById(sectionData.secondaryCtaTargetId)
+              ?.scrollIntoView({ behavior: "smooth" })
+          }
+          className="group relative px-8 py-4 bg-transparent border-2 border-amber-500 text-amber-600 font-semibold rounded-xl hover:bg-amber-50 hover:scale-105 transition-all duration-500 text-center"
+        >
+          {sectionData.secondaryCtaText}
+        </button>
+      </div>
+    </div>
+
+    {/* Action image */}
+    <div className="relative">
+      <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
+        <img
+          src={processedActionImage.src}
+          alt={processedActionImage.alt}
+          className="w-full h-80 lg:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-amber-400/20 to-transparent pointer-events-none" />
+        
+        {/* Floating stats badge */}
+        {sectionData.statsBadge && (
+          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-800">
+                {sectionData.statsBadge.stat}
+              </div>
+              <div className="text-xs text-gray-600 font-medium">
+                {sectionData.statsBadge.label}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
     </section>
   );
 }
+
 
 function AdultProgramsSection() {
   const [loaded, setLoaded] = useState(false);
@@ -672,6 +693,12 @@ function AdultProgramsSection() {
     return <div className="py-16 text-center text-gray-600">Loading…</div>;
   }
 
+  // Split programs into rows of 3 for proper centering
+  const programRows = [];
+  for (let i = 0; i < processedPrograms.length; i += 3) {
+    programRows.push(processedPrograms.slice(i, i + 3));
+  }
+
   return (
     <section
       id="adult-programs"
@@ -726,126 +753,136 @@ function AdultProgramsSection() {
             {sectionData.chooseInstructions}
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {processedPrograms.map((program, index) => (
-              <div
-                key={program.id}
-                onClick={() => handleCardClick(program.href)}
-                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out cursor-pointer overflow-hidden min-h-[400px] sm:min-h-[420px] opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]"
-                style={{
-                  animationDelay: loaded ? `${index * 0.1}s` : "0ms",
-                }}
+          {/* Row-based layout for proper centering */}
+          <div className="space-y-6 sm:space-y-8">
+            {programRows.map((row, rowIndex) => (
+              <div 
+                key={rowIndex}
+                className={`flex flex-wrap gap-6 sm:gap-8 ${
+                  row.length === 3 ? 'justify-start' : 'justify-center'
+                }`}
               >
-                {/* Subtle top accent */}
-                <div className="absolute top-0 left-5 sm:left-6 right-5 sm:right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
-                
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
-                
-                {/* Click indicator */}
-                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
-                  <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
-                    <svg
-                      className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Badges */}
-                {program.badge && (
-                  <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
-                    {program.badge}
-                  </div>
-                )}
-                {!program.badge && program.recurring && (
-                  <div className="absolute top-3 left-3 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
-                    Monthly
-                  </div>
-                )}
-
-                {/* Program info - fades out on hover */}
-                <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
-                  {/* Image */}
-                  <div className="relative h-44 sm:h-48 overflow-hidden rounded-lg mb-4">
-                    <img
-                      src={program.image}
-                      alt={program.alt}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent"></div>
-                  </div>
-
-                  <div className="text-center mb-3">
-                    <h4 className="text-amber-700 font-semibold text-[clamp(1.05rem,3.4vw,1.2rem)] mb-2 tracking-wide group-hover:text-amber-800 transition-colors duration-300">
-                      {program.title}
-                    </h4>
-                  </div>
-
-                  <p className="text-gray-600 text-sm leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-300 mb-4">
-                    {program.description}
-                  </p>
-
-                  <div className="text-center mb-2">
-                    <span className="text-xl sm:text-2xl font-bold text-amber-600">{program.price}</span>
-                    {program.recurring && program.price !== "Contact for Pricing" && (
-                      <span className="text-xs sm:text-sm text-gray-500 block">per month</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Schedule overlay - slides in on hover */}
-                <div className="absolute inset-5 sm:inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
-                  <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
-                    SCHEDULE & PRICING
-                  </h5>
-                  
-                  <div className="text-center mb-3">
-                    <span className="text-xl font-bold text-amber-600">{program.price}</span>
-                    {program.recurring && program.price !== "Contact for Pricing" && (
-                      <span className="text-xs text-gray-500 block">monthly recurring</span>
-                    )}
-                  </div>
-
-                  <div className="space-y-1">
-                    {program.schedule?.map((schedule, scheduleIndex) => (
-                      <div
-                        key={scheduleIndex}
-                        className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
-                        style={{ transitionDelay: `${scheduleIndex * 100}ms` }}
-                      >
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="font-medium text-gray-800 text-xs">
-                            {schedule.day}
-                          </span>
-                          <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">
-                            {schedule.weapon}
-                          </span>
-                        </div>
-                        <p className="text-gray-600 text-xs font-medium">
-                          {schedule.time}
-                        </p>
+                {row.map((program, cardIndex) => (
+                  <div
+                    key={program.id}
+                    onClick={() => handleCardClick(program.href)}
+                    className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out cursor-pointer overflow-hidden min-h-[400px] sm:min-h-[420px] opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards] flex-1 min-w-[300px] max-w-[350px]"
+                    style={{
+                      animationDelay: loaded ? `${(rowIndex * 3 + cardIndex) * 0.1}s` : "0ms",
+                    }}
+                  >
+                    {/* Subtle top accent */}
+                    <div className="absolute top-0 left-5 sm:left-6 right-5 sm:right-6 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
+                    
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
+                    
+                    {/* Click indicator */}
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
+                      <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
+                        <svg
+                          className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* Badges */}
+                    {program.badge && (
+                      <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+                        {program.badge}
+                      </div>
+                    )}
+                    {!program.badge && program.recurring && (
+                      <div className="absolute top-3 left-3 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+                        Monthly
+                      </div>
+                    )}
+
+                    {/* Program info - fades out on hover */}
+                    <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
+                      {/* Image */}
+                      <div className="relative h-44 sm:h-48 overflow-hidden rounded-lg mb-4">
+                        <img
+                          src={program.image}
+                          alt={program.alt}
+                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent"></div>
+                      </div>
+
+                      <div className="text-center mb-3">
+                        <h4 className="text-amber-700 font-semibold text-[clamp(1.05rem,3.4vw,1.2rem)] mb-2 tracking-wide group-hover:text-amber-800 transition-colors duration-300">
+                          {program.title}
+                        </h4>
+                      </div>
+
+                      <p className="text-gray-600 text-sm leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-300 mb-4">
+                        {program.description}
+                      </p>
+
+                      <div className="text-center mb-2">
+                        <span className="text-xl sm:text-2xl font-bold text-amber-600">{program.price}</span>
+                        {program.recurring && program.price !== "Contact for Pricing" && (
+                          <span className="text-xs sm:text-sm text-gray-500 block">per month</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Schedule overlay - slides in on hover */}
+                    <div className="absolute inset-5 sm:inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
+                      <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
+                        SCHEDULE & PRICING
+                      </h5>
+                      
+                      <div className="text-center mb-3">
+                        <span className="text-xl font-bold text-amber-600">{program.price}</span>
+                        {program.recurring && program.price !== "Contact for Pricing" && (
+                          <span className="text-xs text-gray-500 block">monthly recurring</span>
+                        )}
+                      </div>
+
+                      <div className="space-y-1">
+                        {program.schedule?.map((schedule, scheduleIndex) => (
+                          <div
+                            key={scheduleIndex}
+                            className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
+                            style={{ transitionDelay: `${scheduleIndex * 100}ms` }}
+                          >
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="font-medium text-gray-800 text-xs">
+                                {schedule.day}
+                              </span>
+                              <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">
+                                {schedule.weapon}
+                              </span>
+                            </div>
+                            <p className="text-gray-600 text-xs font-medium">
+                              {schedule.time}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="mt-2 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
+                        <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
+                          Click to Register &rarr;
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  
-                  <div className="mt-2 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
-                    <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
-                      Click to Register &rarr;
-                    </span>
-                  </div>
-                </div>
+                ))}
               </div>
             ))}
           </div>
@@ -887,6 +924,7 @@ function AdultProgramsSection() {
     </section>
   );
 }
+
 
 export default function AdultFencingPage() {
   return (

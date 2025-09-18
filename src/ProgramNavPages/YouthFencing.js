@@ -781,6 +781,12 @@ function YouthProgramsSection() {
     return <div className="py-16 text-center text-gray-600">Loading…</div>;
   }
 
+  // Split programs into rows of 3 for proper centering
+  const programRows = [];
+  for (let i = 0; i < processedPrograms.length; i += 3) {
+    programRows.push(processedPrograms.slice(i, i + 3));
+  }
+
   return (
     <section
       id="youth-programs"
@@ -833,114 +839,131 @@ function YouthProgramsSection() {
             {sectionData.chooseInstructions}
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {processedPrograms.map((program, index) => (
-              <div
-                key={program.id}
-                onClick={() => handleCardClick(program.href)}
-                className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out cursor-pointer overflow-hidden min-h-[400px] sm:min-h-[420px] opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]"
-                style={{
-                  animationDelay: loaded ? `${index * 90}ms` : "0ms",
-                }}
+          {/* Row-based layout for proper centering */}
+          <div className="space-y-6 sm:space-y-8">
+            {programRows.map((row, rowIndex) => (
+              <div 
+                key={rowIndex}
+                className={`flex flex-wrap gap-6 sm:gap-8 ${
+                  row.length === 3 ? 'justify-start' : 'justify-center'
+                }`}
               >
-                {/* Subtle top accent */}
-                <div className="absolute top-0 left-5 right-5 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
-                
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
-                
-                {/* Click indicator */}
-                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
-                  <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
-                    <svg
-                      className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </div>
-                </div>
+                {row.map((program, cardIndex) => (
+<div
+  key={program.id}
+  onClick={() => handleCardClick(program.href)}
+  className="group relative bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6 hover:shadow-2xl hover:-translate-y-3 hover:scale-105 transition-all duration-700 ease-out cursor-pointer overflow-hidden min-h-[480px] sm:min-h-[500px] opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards] flex-1 min-w-[300px] max-w-[350px]"
+  style={{
+    animationDelay: loaded ? `${(rowIndex * 3 + cardIndex) * 90}ms` : "0ms",
+  }}
+>
+  {/* Subtle top accent */}
+  <div className="absolute top-0 left-5 right-5 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-pulse"></div>
+  
+  {/* Hover glow effect */}
+  <div className="absolute inset-0 bg-gradient-to-r from-amber-50/0 via-amber-100/0 to-amber-50/0 group-hover:from-amber-50/20 group-hover:via-amber-100/30 group-hover:to-amber-50/20 transition-all duration-700 rounded-xl"></div>
+  
+  {/* Click indicator */}
+  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:animate-bounce">
+    <div className="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors duration-300">
+      <svg
+        className="w-3 h-3 text-amber-600 group-hover:text-amber-700 transition-colors duration-300"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+        />
+      </svg>
+    </div>
+  </div>
 
-                {/* Badge */}
-                {program.badge && (
-                  <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
-                    {program.badge}
-                  </div>
-                )}
+  {/* Badge */}
+  {program.badge && (
+    <div className="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+      {program.badge}
+    </div>
+  )}
 
-                {/* Program info - fades out on hover */}
-                <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
-                  {/* Image */}
-                  <div className="relative h-44 sm:h-48 overflow-hidden rounded-lg mb-4">
-                    <img
-                      src={program.image}
-                      alt={program.alt}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent"></div>
-                  </div>
-                  <div className="text-center mb-4">
-                    <h4 className="text-amber-700 font-semibold text-[clamp(1.05rem,3.4vw,1.2rem)] mb-2 tracking-wide group-hover:text-amber-800 transition-colors duration-200">
-                      {program.title}
-                    </h4>
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-200 mb-4">
-                    {program.description}
-                  </p>
-                  <div className="text-center mb-2">
-                    <span className="text-xl sm:text-2xl font-bold text-amber-600">{program.price}</span>
-                    {program.price !== "$0.00" && program.price !== "Free" && (
-                      <span className="text-xs sm:text-sm text-gray-500 block">per month</span>
-                    )}
-                  </div>
-                </div>
+  {/* Program info - fades out on hover */}
+  <div className="group-hover:opacity-0 group-hover:scale-95 transition-all duration-500 ease-out">
+    {/* Image */}
+    <div className="relative h-44 sm:h-48 overflow-hidden rounded-lg mb-4">
+      <img
+        src={program.image}
+        alt={program.alt}
+        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+        decoding="async"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent"></div>
+    </div>
+    <div className="text-center mb-4">
+      <h4 className="text-amber-700 font-semibold text-[clamp(1.05rem,3.4vw,1.2rem)] mb-2 tracking-wide group-hover:text-amber-800 transition-colors duration-200">
+        {program.title}
+      </h4>
+    </div>
+    <p className="text-gray-600 text-sm leading-relaxed text-center group-hover:text-gray-700 transition-colors duration-200 mb-4">
+      {program.description}
+    </p>
+    <div className="text-center mb-2">
+      <span className="text-xl sm:text-2xl font-bold text-amber-600">{program.price}</span>
+      {program.price !== "$0.00" && program.price !== "Free" && (
+        <span className="text-xs sm:text-sm text-gray-500 block">per month</span>
+      )}
+    </div>
+  </div>
 
-                {/* Schedule overlay - slides in on hover */}
-                <div className="absolute inset-5 sm:inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
-                  <h5 className="text-amber-700 font-semibold text-center mb-3 text-base group-hover:animate-pulse">
-                    SCHEDULE & PRICING
-                  </h5>
-                  
-                  <div className="text-center mb-4">
-                    <span className="text-2xl font-bold text-amber-600">{program.price}</span>
-                    {program.price !== "$0.00" && program.price !== "Free" && (
-                      <span className="text-sm text-gray-500 block">monthly recurring</span>
-                    )}
-                  </div>
+  {/* Schedule overlay - slides in on hover */}
+  <div className="absolute inset-5 sm:inset-6 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-center transform translate-y-4 group-hover:translate-y-0 ease-out">
+    <h5 className="text-amber-700 font-semibold text-center mb-2 text-base group-hover:animate-pulse">
+      SCHEDULE & PRICING
+    </h5>
+    
+    <div className="text-center mb-3">
+      <span className="text-xl font-bold text-amber-600">{program.price}</span>
+      {program.price !== "$0.00" && program.price !== "Free" && (
+        <span className="text-xs text-gray-500 block">monthly recurring</span>
+      )}
+    </div>
 
-                  <div className="space-y-2 max-h-48 pr-1">
-                    {program.schedule?.map((s, i) => (
-                      <div
-                        key={i}
-                        className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
-                        style={{ transitionDelay: `${i * 100}ms` }}
-                      >
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="font-medium text-gray-800 text-xs">{s.day}</span>
-                          <span className="text-[11px] bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">
-                            {s.weapon}
-                          </span>
-                        </div>
-                        <p className="text-gray-600 text-xs font-medium">{s.time}</p>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="mt-3 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
-                    <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
-                      Click to Register &rarr;
-                    </span>
-                  </div>
-                </div>
+    <div className="space-y-1">
+      {program.schedule?.map((schedule, scheduleIndex) => (
+        <div
+          key={scheduleIndex}
+          className="bg-amber-50 rounded-lg p-2 border border-amber-100 transform translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out hover:bg-amber-100 hover:scale-102"
+          style={{ transitionDelay: `${scheduleIndex * 100}ms` }}
+        >
+          <div className="flex justify-between items-center mb-1">
+            <span className="font-medium text-gray-800 text-xs">
+              {schedule.day}
+            </span>
+            <span className="text-xs bg-amber-200 text-amber-800 px-2 py-0.5 rounded group-hover:bg-amber-300 transition-colors duration-300">
+              {schedule.weapon}
+            </span>
+          </div>
+          <p className="text-gray-600 text-xs font-medium">
+            {schedule.time}
+          </p>
+        </div>
+      ))}
+    </div>
+    
+    <div className="mt-2 text-center transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-300">
+      <span className="text-sm text-amber-600 font-medium group-hover:text-amber-700 group-hover:animate-pulse">
+        Click to Register &rarr;
+      </span>
+    </div>
+  </div>
+</div>
+
+
+
+                ))}
               </div>
             ))}
           </div>
