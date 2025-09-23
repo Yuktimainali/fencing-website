@@ -13,11 +13,18 @@ function HeroFounderSection({ posterSrc, videoSrc }) {
   const sectionRef = useRef(null);
   const [enableVideo, setEnableVideo] = useState(false);
 
-  // Stable viewport height fallback for iOS toolbar changes
+  // Stable viewport height fallback for iOS toolbar changes with zoom prevention
   useEffect(() => {
     const setVh = () => {
       const vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty("--vh", `${vh}px`);
+      
+      // Fix the height once calculated to prevent jumping on mobile
+      const heroSection = sectionRef.current;
+      if (heroSection && window.innerWidth < 768) {
+        heroSection.style.height = `${window.innerHeight}px`;
+        heroSection.style.minHeight = `${window.innerHeight}px`;
+      }
     };
     
     setVh();
@@ -38,10 +45,20 @@ function HeroFounderSection({ posterSrc, videoSrc }) {
       }
     };
 
+    const preventDoubleTab = (e) => {
+      e.preventDefault();
+    };
+
     document.addEventListener('touchmove', preventZoomOnScroll, { passive: false });
+    document.addEventListener('gesturestart', preventDoubleTab);
+    document.addEventListener('gesturechange', preventDoubleTab);
+    document.addEventListener('gestureend', preventDoubleTab);
     
     return () => {
       document.removeEventListener('touchmove', preventZoomOnScroll);
+      document.removeEventListener('gesturestart', preventDoubleTab);
+      document.removeEventListener('gesturechange', preventDoubleTab);
+      document.removeEventListener('gestureend', preventDoubleTab);
     };
   }, []);
 
@@ -97,8 +114,9 @@ function HeroFounderSection({ posterSrc, videoSrc }) {
         WebkitOverflowScrolling: "touch",
         touchAction: "manipulation",
         WebkitTextSizeAdjust: "100%",
-        height: "100vh", // Use regular vh for better compatibility
-        minHeight: "100vh"
+        WebkitTouchCallout: "none",
+        WebkitUserSelect: "none",
+        userSelect: "none"
       }}
     >
       {/* Background */}
@@ -215,9 +233,32 @@ function HeroFounderSection({ posterSrc, videoSrc }) {
           </p>
         </div>
       </div>
+
+      {/* Additional CSS to prevent zoom issues */}
+      <style jsx>{`
+        @media (max-width: 767px) {
+          [data-hero-founder] {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh !important;
+            min-height: 100vh !important;
+            overflow: hidden;
+          }
+        }
+        
+        [data-hero-founder] * {
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+          -webkit-perspective: 1000;
+          perspective: 1000;
+        }
+      `}</style>
     </section>
   );
 }
+
 
 function FoundersProfileSection() {
     return (
